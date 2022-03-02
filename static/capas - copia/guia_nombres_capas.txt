@@ -1,0 +1,14 @@
+basedatos_variable_periodo_tiempo
+base de datos:
+1= powernasa
+2=smn
+3=ign
+
+variable siempre primer letra mayuscula
+
+periodo:
+1= anual
+2= semestral
+3= estacion
+4= trimestral
+5= mensual
