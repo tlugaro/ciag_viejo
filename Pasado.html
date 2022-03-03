@@ -8,12 +8,12 @@
 
     <title>CIAg - Mapa Interactivo</title>
     <!-- Favicons -->
-  <link href="/static/img/icono.ico')}}" rel="icon">
-  <link href="/static/img/icono.png')}}"  rel="apple-touch-icon" alt="Anemoi">
+  <link href="static/img/icono.ico" rel="icon">
+  <link href="static/img/icono.png"  rel="apple-touch-icon" alt="Anemoi">
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="/static/css/style3.css')}}">
+    <link rel="stylesheet" href="static/css/style3.css">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <!-- Popper.JS -->
@@ -32,9 +32,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
-    <link rel="stylesheet" href="/static/css/style3.css">
-    <script type="text/javascript" src="/static/js/mapa.js')}}"></script>
-    <script type="text/javascript" src="/static/capas/provincias.js')}}"></script>
+    <link rel="stylesheet" href="static/css/style3.css">
+    <script type="text/javascript" src="static/js/mapa.js"></script>
+    <script type="text/javascript" src="static/capas/provincias.js"></script>
 
 
 </head>
@@ -140,7 +140,7 @@
              
             <ul class="list-unstyled CTAs">
 
-                <a href="index.html"><img src="/static/img/icon.png", class="img-fluid"></a>
+                <a href="index.html"><img src="static/img/icon.png", class="img-fluid"></a>
             </ul>
 
         </nav>
@@ -161,7 +161,7 @@
     </div>
     </div>
     <a href="index.html"><img id="IMAGEN_FLOT" alt="CIAg"
-                 src="/static/img/icon.png"
+                 src="static/img/icon.png"
                  style="z-index: 999999">
     </img></a>
     <!-- Bootstrap JS -->
@@ -407,7 +407,7 @@ $('#downloaderLayer').on("click",function(event) {
     }
     var based = "/"+($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#variable option:selected").val()) +"_"+($("#tp option:selected").text())+".geojson";
     const down  = document.createElement('a');
-    down.href= "/static/capas" + based ;
+    down.href= "static/capas" + based ;
     document.body.appendChild(down);
     down.click();
 
@@ -447,7 +447,7 @@ $('#newLayer').on("click",function(event) {
     if (($("#var option:selected").text())=="Temperatura Media" ||($("#var option:selected").text())=="Temperatura Máxima" || ($("#var option:selected").text())=="Temperatura Mínima"){
     $.ajax({
 
-        url: "/static/capas" + base2 ,
+        url: "static/capas" + base2 ,
 
         success: function (data) {
 
@@ -511,7 +511,7 @@ prov.bringToFront();
 }
     else if (($("#var option:selected").text())=="Precipitación"){$.ajax({
 
-        url: "/static/capas" + base2 ,
+        url: "static/capas" + base2 ,
 
         success: function (data) {
 
@@ -574,7 +574,7 @@ prov.bringToFront();
 }
 else if (($("#var option:selected").text())=="Radiación"){$.ajax({
 
-        url: "/static/capas"+ base2 ,
+        url: "static/capas"+ base2 ,
 
         success: function (data) {
 
@@ -637,7 +637,7 @@ prov.bringToFront();
 }
 else if (($("#var option:selected").text())=="Humedad"){$.ajax({
 
-        url: "/static/capas" + base2 ,
+        url: "static/capas" + base2 ,
 
         success: function (data) {
 
