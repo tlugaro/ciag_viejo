@@ -192,6 +192,7 @@ a.article:hover {
                         position:absolute;
                         bottom:10%;
                         left:77%;
+                        z-index:9998;
                         }
 }
 /* ---------------------------------------------------
