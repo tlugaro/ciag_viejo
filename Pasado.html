@@ -451,7 +451,7 @@ $('#newLayer').on("click",function(event) {
 
         success: function (data) {
 
-            var geojson = new L.geoJson(jQuery.parseJSON(data), {
+            var geojson = new L.geoJson((data), {
                     style: style1,
                     onEachFeature: onEachFeature
 
@@ -515,7 +515,7 @@ prov.bringToFront();
 
         success: function (data) {
 
-            var geojson = new L.geoJson(jQuery.parseJSON(data), {
+            var geojson = new L.geoJson((data), {
                     style: style2,
                     onEachFeature: onEachFeature
 
@@ -578,7 +578,7 @@ else if (($("#var option:selected").text())=="Radiación"){$.ajax({
 
         success: function (data) {
 
-            var geojson = new L.geoJson(jQuery.parseJSON(data), {
+            var geojson = new L.geoJson((data), {
                     style: style3,
                     onEachFeature: onEachFeature
 
@@ -641,7 +641,7 @@ else if (($("#var option:selected").text())=="Humedad"){$.ajax({
 
         success: function (data) {
 
-            var geojson = new L.geoJson(jQuery.parseJSON(data), {
+            var geojson = new L.geoJson((data), {
                     style: style4,
                     onEachFeature: onEachFeature
 
