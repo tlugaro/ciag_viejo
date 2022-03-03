@@ -190,8 +190,8 @@ a.article:hover {
     }
     #IMAGEN_FLOT {
                         position:absolute;
-                        bottom:-80%;
-                        left:-77%;
+                        bottom:10%;
+                        left:77%;
                         }
 }
 /* ---------------------------------------------------
