@@ -188,6 +188,11 @@ a.article:hover {
     #sidebar{
         width:40vh;
     }
+    #IMAGEN_FLOT {
+                        position:absolute;
+                        bottom:-80%;
+                        left:-77%;
+                        }
 }
 /* ---------------------------------------------------
     CONTENT STYLE
