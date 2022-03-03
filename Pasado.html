@@ -515,7 +515,7 @@ prov.bringToFront();
 
         success: function (data) {
 
-            var geojson = new L.geoJson(jQuery.parseJSON(data), {
+            var geojson = new L.geoJson((data), {
                     style: style2,
                     onEachFeature: onEachFeature
 
