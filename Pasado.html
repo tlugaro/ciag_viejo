@@ -451,7 +451,7 @@ $('#newLayer').on("click",function(event) {
 
         success: function (data) {
 
-            var geojson = new L.geoJson(jQuery.parseJSON(data), {
+            var geojson = new L.geoJson((data), {
                     style: style1,
                     onEachFeature: onEachFeature
 
