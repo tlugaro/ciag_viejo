@@ -408,6 +408,7 @@ $('#downloaderLayer').on("click",function(event) {
     var based = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#variable option:selected").val()) +"_"+($("#tp option:selected").text());
     const down  = document.createElement('a');
     down.href= "static/capas/" + based +".geojson";
+    down.download= based+".geojson";
     document.body.appendChild(down);
     down.click();
 

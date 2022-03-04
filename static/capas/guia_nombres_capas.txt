@@ -9,8 +9,7 @@ variable siempre primer letra mayuscula
 periodo:
 1= anual
 2= semestral
-3= estacion
-4= trimestral
+3= estacion ("", "Enero-Marzo","Marzo-Mayo","Junio-Agosto","Septiembre-Diciembre")
 5= mensual
 
 
