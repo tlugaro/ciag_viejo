@@ -618,7 +618,7 @@ prov.bringToFront();
 
     });
 }
-    else if ((($("#var option:selected").text())=="Precipitación" && ((($("#variable option:selected").val())==1)||($("#variable option:selected").val())==3)||($("#variable option:selected").val())==2)){$.ajax({
+    else if (((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==1)) || ((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==3)) || ((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==2))){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
