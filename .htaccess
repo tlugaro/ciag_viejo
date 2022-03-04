@@ -1,0 +1,7 @@
+<!-- wp:paragraph -->
+<p>RewriteBase /<br>RewriteEngine On<br>RewriteCond %{REQUEST_FILENAME} !-d<br>RewriteCond %{REQUEST_FILENAME}.html -f<br>RewriteRule ^(.*)$ $1.html</p>
+<!-- /wp:paragraph -->
+ 
+<!-- wp:paragraph -->
+<p>RewriteCond %{REQUEST_FILENAME} !-d<br>RewriteCond %{REQUEST_FILENAME}.php -f<br>RewriteRule ^(.*)$ $1.php</p>
+<!-- /wp:paragraph -->
