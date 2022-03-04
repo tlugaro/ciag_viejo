@@ -263,7 +263,7 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                     fillColor: getColor3(feature3.properties.DN)
                 };
             }
-            //Precipitacion
+            //Precipitacion media anual
         function getColor2(d) {
                 return d > 2200.0? '#08314C' :
                         d > 2100.0 ? '#093756' :
@@ -288,7 +288,33 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                          '#814609';
 
             }
+            //Precipitación mensual
+            function getColorppmensual(d) {
+                return d > 230.0? '#08314C' :
+                            d > 220.0 ? '#0D4266' :
+                        d > 200.0  ? '#1B689C' :
+                        d > 180.0  ? '#2276AF' :
+                        d > 160.0  ? '#4084B2' :
+                        d > 140.0  ? '#649EC6' :
+                        d > 120.0  ? '#CAE7FC' :
+                        d > 100.0  ? '#FFEC9D' :
+                        d > 80.0  ? '#D7AB68' :
+                        d > 60.0  ? '#B98959' :
+                        d > 40.0  ? '#AF6E2E' :
+                        d > 20.0  ? '#A55809' :
+                         '#814609';
 
+            }
+            function styleppmens(feature2) {
+                return {
+                    weight: 1,
+                    opacity: 1,
+                    color: getColorppmensual(feature2.properties.DN),
+                    dashArray: '1',
+                    fillOpacity: 0.8,
+                    fillColor: getColorppmensual(feature2.properties.DN)
+                };
+            }
             function style2(feature2) {
                 return {
                     weight: 1,
@@ -300,47 +326,65 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                 };
             }
             //Temperatura
+
             function getColor1(d) {
-                return d > 30.0 ? '#ca0020' :
-                        d > 29.0 ? '#cd0921' :
-                            d > 28.0 ? '#d01322' :
-                        d > 27.0 ? '#d31d24' :
-                        d > 26.0  ? '#d62725' :
-                        d > 25.0  ? '#d93126' :
-                        d > 24.0  ? '#dc3a28' :
-                        d > 23.0  ? '#df4429' :
-                        d > 22.0  ? '#e24e2a' :
-                        d > 21.0  ? '#e5582c' :
-                        d > 20.0  ? '#e8622d' :
-                        d > 19.0  ? '#eb6b2e' :
-                        d > 18.0  ? '#ee7530' :
-                        d > 17.0  ? '#f17f31' :
-                        d > 16.0  ? '#f48932' :
-                        d > 15.0  ? '#f79334' :
-                        d > 14.0  ? '#f89a3c' :
-                        d > 13.0  ? '#f8a149' :
-                        d > 12.0  ? '#f8a756' :
-                        d > 11.0  ? '#f8ad62' :
-                        d > 10.0  ? '#f8b46f' :
-                        d > 9.0  ? '#f8ba7c' :
-                        d > 8.0  ? '#f8c088' :
-                        d > 7.0  ? '#f8c795' :
-                        d > 6.0  ? '#f8cda2' :
-                        d > 5.0  ? '#f8d3ae' :
-                            d > 4.0  ? '#f8d9bb' :
-                        d > 3.0  ? '#f8e0c8' :
-                        d > 2.0  ? '#f8e6d5' :
-                        d > 1.0  ? '#f8ece1' :
-                        d > 0  ? '#f8f3ee' :
-                        d > -1.0  ? '#ffffff' :
-                        d > -2.0  ? '#e1eef6' :
-                        d > -3.0  ? '#c8e0ee' :
-                        d > -4.0  ? '#b0d2e6' :
-                        d > -5  ? '#97c4df' :
-                        d > -6.0  ? '#4e9bc7' :
-                        d > -7.0  ? '#358dc0' :
-                        d > -8.0  ? '#1d7fb8' :
-                                    '#0571b0';
+                return d > 40.0 ? '#8d0017' :
+                		d > 39.0 ? '#950018' :
+                		d > 38.0 ? '#9c0019' :
+                		d > 37.0 ? '#a4001a' :
+                		d > 36.0 ? '#ab001b' :
+                		d > 35.0 ? '#b3001c' :
+                		d > 34.0 ? '#ba001d' :
+                		d > 33.0 ? '#c2001e' :
+                		d > 32.0 ? '#ca0020' :
+                		d > 31.0 ? '#cd0721' :
+                		d > 30.0 ? '#cf0f22' :
+                        d > 29.0 ? '#d11723' :
+                        d > 28.0 ? '#d41f24' :
+                        d > 27.0 ? '#d62725' :
+                        d > 26.0 ? '#d92f26' :
+                        d > 25.0 ? '#db3727' :
+                        d > 24.0 ? '#de3f28' :
+                        d > 23.0 ? '#e04729' :
+                        d > 22.0 ? '#e34f2a' :
+                        d > 21.0 ? '#e5562b' :
+                        d > 20.0 ? '#e75d2c' :
+                        d > 19.0 ? '#e9642d' :
+                        d > 18.0 ? '#eb6c2e' :
+                        d > 17.0 ? '#ee732f' :
+                        d > 16.0 ? '#f07a30' :
+                        d > 15.0 ? '#f28131' :
+                        d > 14.0 ? '#f48832' :
+                        d > 13.0 ? '#f68f33' :
+                        d > 12.0 ? '#f89634' :
+                        d > 11.0 ? '#f89b37' :
+                        d > 10.0 ? '#f79f3b' :
+                        d > 9.0 ? '#f7a43e' :
+                        d > 8.0 ? '#f6a841' :
+                        d > 7.0 ? '#f5ad45' :
+                        d > 6.0 ? '#f5b148' :
+                        d > 5.0 ? '#f4b64c' :
+                        d > 4.0 ? '#f4bb53' :
+                        d > 3.0 ? '#f7cc7e' :
+                        d > 2.0 ? '#fadea9' :
+                        d > 1.0 ? '#fdefd5' :
+                        d > 0.0 ? '#ffffff' :
+                        d > -1.0 ? '#dbebf4' :
+                        d > -2.0 ? '#b8d7e9' :
+                        d > -3.0 ? '#94c2de' :
+                        d > -4.0 ? '#70aed2' :
+                        d > -5.0 ? '#4d9ac7' :
+                        d > -6.0 ? '#2986bc' :
+                        d > -7.0 ? '#0571b0' :
+                        d > -8.0 ? '#046eab' :
+                        d > -9.0 ? '#046ba6' :
+                        d > -10.0 ? '#0468a2' :
+                        d > -11.0 ? '#04659d' :
+                        d > -12.0 ? '#046198' :
+                        d > -13.0 ? '#045e93' :
+                        d > -14.0 ? '#035b8e' :
+                        d > -15.0 ? '#035889' :
+                                    '#035889';
             }
 
             function style1(feature1) {
@@ -510,7 +554,70 @@ prov.bringToFront();
 
     });
 }
-    else if (($("#var option:selected").text())=="Precipitación"){$.ajax({
+    else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==5){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleppmens,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0,40,80,120,160,200,240],
+        labels = ['<strong></strong>']
+        title= ["mm"];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColorppmensual(grades[i]) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+prov.bringToFront();
+                }
+
+
+    });
+}
+    else if ((($("#var option:selected").text())=="Precipitación" && (($("#variable option:selected").val())==1||($("#variable option:selected").val())==3)||$("#variable option:selected").val())==2){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
