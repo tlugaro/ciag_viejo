@@ -288,6 +288,17 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                          '#814609';
 
             }
+
+            function style2(feature2) {
+                return {
+                    weight: 1,
+                    opacity: 1,
+                    color: getColor2(feature2.properties.DN),
+                    dashArray: '1',
+                    fillOpacity: 0.8,
+                    fillColor: getColor2(feature2.properties.DN)
+                };
+            }
             //Precipitación mensual
             function getColorppmensual(d) {
                 return d > 230.0? '#08314C' :
@@ -313,16 +324,6 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                     dashArray: '1',
                     fillOpacity: 0.8,
                     fillColor: getColorppmensual(feature2.properties.DN)
-                };
-            }
-            function style2(feature2) {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: getColor2(feature2.properties.DN),
-                    dashArray: '1',
-                    fillOpacity: 0.8,
-                    fillColor: getColor2(feature2.properties.DN)
                 };
             }
             //Temperatura
@@ -617,7 +618,7 @@ prov.bringToFront();
 
     });
 }
-    else if ((($("#var option:selected").text())=="Precipitación" && (($("#variable option:selected").val())==1||($("#variable option:selected").val())==3)||$("#variable option:selected").val())==2){$.ajax({
+    else if ((($("#var option:selected").text())=="Precipitación" && ((($("#variable option:selected").val())==1)||($("#variable option:selected").val())==3)||($("#variable option:selected").val())==2)){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
