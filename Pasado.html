@@ -132,7 +132,7 @@
         </select>
       </div>
 
-      <button class="btn btn-primary" id="newLayer"  > Añadir Capa</button>
+      <button class="btn btn-primary" id="newLayer"  > Ver Capa</button>
       <button class="btn btn-primary" id="downloaderLayer"  >Descargar Capa</button>
     </form>
 
@@ -265,27 +265,26 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
             }
             //Precipitacion media anual
         function getColor2(d) {
-                return d > 2200.0? '#08314C' :
-                        d > 2100.0 ? '#093756' :
-                            d > 2000 ? '#0D4266' :
-                        d > 1900.0 ? '#0D4B75' :
-                        d > 1800.0  ? '#0D5483' :
-                        d > 1700.0  ? '#155F90' :
-                        d > 1600.0  ? '#1B689C' :
-                        d > 1500.0  ? '#2071A7' :
-                        d > 1400.0  ? '#2276AF' :
-                        d > 1300.0  ? '#3079AB' :
-                        d > 1200.0  ? '#4084B2' :
-                        d > 900.0  ? '#649EC6' :
-                        d > 800.0  ? '#7AAACD' :
-                        d > 700.0  ? '#A5C9E3' :
-                        d > 600.0  ? '#CAE7FC' :
-                        d > 500.0  ? '#FFEC9D' :
-                        d > 400.0  ? '#D7AB68' :
-                        d > 300.0  ? '#B98959' :
-                        d > 200.0  ? '#AF6E2E' :
-                        d > 100.0  ? '#A55809' :
-                         '#814609';
+                return d > 2100.0? '#08314C' :
+                        d > 2000.0 ? '#093756' :
+                            d > 1900 ? '#0D4266' :
+                        d > 1800.0 ? '#0D4B75' :
+                        d > 1700.0  ? '#0D5483' :
+                        d > 1600.0  ? '#155F90' :
+                        d > 1500.0  ? '#1B689C' :
+                        d > 1400.0  ? '#2071A7' :
+                        d > 1300.0  ? '#2276AF' :
+                        d > 1200.0  ? '#3079AB' :
+                        d > 900.0  ? '#4084B2' :
+                        d > 800.0  ? '#649EC6' :
+                        d > 700.0  ? '#7AAACD' :
+                        d > 600.0  ? '#A5C9E3' :
+                        d > 500.0  ? '#CAE7FC' :
+                        d > 400.0  ? '#FFEC9D' :
+                        d > 300.0  ? '#D7AB68' :
+                        d > 200.0  ? '#B98959' :
+                        d > 100.0  ? '#AF6E2E' :
+                         '#A55809';
 
             }
 
