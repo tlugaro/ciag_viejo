@@ -327,6 +327,33 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                     fillColor: getColorppmensual(feature2.properties.DN)
                 };
             }
+	    //Precipitación trim
+            function getColorpptrim(d) {
+                return d > 600.0? '#08314C' :
+                        d > 550.0 ? '#0D4266' :
+                        d > 500.0 ? '#0D4B75' :
+                        d > 450.0  ? '#1B689C' :
+                        d > 400.0  ? '#2276AF' :
+                        d > 350.0  ? '#4084B2' :
+                        d > 300.0  ? '#649EC6' :
+                        d > 250.0  ? '#CAE7FC' :
+                        d > 200.0  ? '#FFEC9D' :
+                        d > 150.0  ? '#D7AB68' :
+                        d > 100.0  ? '#AF6E2E' :
+                        d > 50.0  ? '#A55809' :
+                         '#814609';
+
+            }
+            function stylepptrim(feature2) {
+                return {
+                    weight: 1,
+                    opacity: 1,
+                    color: getColorpptrim(feature2.properties.DN),
+                    dashArray: '1',
+                    fillOpacity: 0.8,
+                    fillColor: getColorpptrim(feature2.properties.DN)
+                };
+            }
             //Temperatura
 
             function getColor1(d) {
@@ -619,7 +646,70 @@ prov.bringToFront();
 
     });
 }
-    else if (((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==1)) || ((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==3)) || ((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==2))){$.ajax({
+	    else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==3){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: stylepptrim
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0,100,200,300,400,500,600],
+        labels = ['<strong></strong>']
+        title= ["mm"];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColorpptrim(grades[i]) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+prov.bringToFront();
+                }
+
+
+    });
+}
+    else if (((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==1)) || ((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==2))){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
