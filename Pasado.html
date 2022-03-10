@@ -646,14 +646,14 @@ prov.bringToFront();
 
     });
 }
-	    else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==3){$.ajax({
+	else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==3){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
         success: function (data) {
 
             var geojson = new L.geoJson((data), {
-                    style: stylepptrim
+                    style: stylepptrim,
                     onEachFeature: onEachFeature
 
                 }
