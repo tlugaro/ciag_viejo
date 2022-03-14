@@ -985,6 +985,70 @@ section {
     margin-bottom: 110px;
   }
 }
+.portfolio .icon-box {
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 29px 0 rgba(15,67,30, 0.12);
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.portfolio .icon-box::before {
+  content: '';
+  position: absolute;
+  background: white;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 100%;
+  transition: all 0.3s;
+  z-index: -1;
+}
+
+.portfolio .icon-box:hover::before {
+  background:rgb(15,67, 30);
+  top: 0;
+  border-radius: 0px;
+}
+
+.portfolio .icon {
+  margin-bottom: 15px;
+}
+
+.portfolio .icon i {
+  font-size: 48px;
+  line-height: 1;
+  color: rgb(15,67,30);
+
+  transition: all 0.3s ease-in-out;
+}
+
+.portfolio .title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.portfolio .title a {
+  color: #111;
+}
+
+.portfolio .description {
+  font-size: 15px;
+  line-height: 28px;
+  margin-bottom: 0;
+}
+
+.portfolio .icon-box:hover .title a, .portfolio .icon-box:hover .description {
+  color: #fff;
+}
+
+.portfolio .icon-box:hover .icon i {
+  color: #fff;
+}
 
 /*--------------------------------------------------------------
 # Portfolio Details
