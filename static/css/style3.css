@@ -245,4 +245,10 @@ a.article:hover {
 #sidebarCollapse:hover{
     background: #148F77;
 }
+#volver{
+    background: rgba(15,67, 30, 0.8);
+}
+#volver:hover{
+    background: #148F77;
+}
 
