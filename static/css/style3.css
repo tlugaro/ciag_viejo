@@ -241,7 +241,6 @@ a.article:hover {
 
 #sidebarCollapse{
     background: rgba(15,67, 30, 0.8);
-    border:none ;
 }
 #sidebarCollapse:hover{
     background: #148F77;
@@ -250,7 +249,6 @@ a.article:hover {
     background: rgba(15,67, 30, 0.8);
     border:none ;
     margin-top:2px;
-    
 }
 #volver:hover{
     background: #148F77;
