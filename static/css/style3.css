@@ -63,7 +63,7 @@ a:focus {
     left: -80vh;
     height: 100vh;
     z-index: 9999;
-    background: rgba(15,67,30, 0.7);
+    background: #417261;
     color: #fff;
     transition: all 0.3s;
     overflow-y: scroll;
@@ -105,12 +105,13 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background:  rgba(15,67,30, 0.9);
+    padding-bottom: 50px;
+    background:  rgba(15,67,30, 1);
     text-align:center;
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
+    padding: 20px ;
     border-bottom: 1px solid #6f8282;
 
 }
@@ -252,5 +253,21 @@ a.article:hover {
 }
 #volver:hover{
     background: #148F77;
+}
+
+#volveralinicio{
+    color: #232323;
+    background-color: #fff;
+    align-content: center;
+    border: none;
+    margin-top:10px;
+    margin-left: 62px;
+    margin-right: 62px;
+}
+#volveralinicio:hover{
+    background-color: #004735;
+    position: relative;
+    border:none ;
+    color: #fff;
 }
 

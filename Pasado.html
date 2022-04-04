@@ -1,995 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>CIAg - Mapa Interactivo</title>
-    <!-- Favicons -->
-  <link href="static/img/icono.ico" rel="icon">
-  <link href="static/img/icono.png"  rel="apple-touch-icon" alt="Ciag">
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="static/css/style3.css">
-    <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-<!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <title>CIAg</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-    <!-- LEAFLET -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js" integrity="sha512-GBlVVqOnLycKN+z49gDABUY6RxEQjOw/GHFbpboxpTxAPJQ78C6pAjT08S/1fT9pWOy9PeyDqipC7cBwrfX2cA==" crossorigin=""></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <!-- Favicons -->
+  <link href="static/img/icon.ico" rel="icon">
+  <link href="static/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
-
-    <script type="text/javascript" src="static/capas/provincias.js"></script>
+  <!-- Vendor CSS Files -->
 
 
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css"  rel="stylesheet">
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css"  rel="stylesheet">
+  <link href="static/vendor/boxicons/css/boxicons.min.css"  rel="stylesheet">
+  <link href="static/vendor/glightbox/css/glightbox.min.css"  rel="stylesheet">
+  <link href="static/vendor/swiper/swiper-bundle.min.css"  rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="static/css/style.css" rel="stylesheet" type="text/css" >
+
+
+  <!-- =======================================================
+  * Template Name: Squadfree - v4.1.0
+  * Template URL: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
-<style>
-                        .foliumtooltip {
-                            background-color: grey; color: white;
-                        }
-                       .foliumtooltip table{
-                            margin: auto;
-                        }
-                        .foliumtooltip tr{
-                            text-align: left;
-                        }
-                        .foliumtooltip th{
-                            padding: 2px; padding-right: 8px;
-                        }
-                    </style>
-            
-    
-                    <style>
-                        .foliumtooltip {
-                            background-color: grey; color: white;
-                        }
-                       .foliumtooltip table{
-                            margin: auto;
-                        }
-                        .foliumtooltip tr{
-                            text-align: left;
-                        }
-                        .foliumtooltip th{
-                            padding: 2px; padding-right: 8px;
-                        }
-                        .legend {
-                            line-height: 20px;
-                            color: #232323;
-                            border-radius: 5px;
-                            background-color: rgba(222,222,222,0.6);
 
-                        }
-                        .legend i {
-                            width: 20px;
-                            height: 18px;
-                            float: left;
-                            margin-right: 8px;
-			    margin-bottom: 2px;
-                            opacity: 0.7;
-                        }
-                    </style>
 <body>
 
-    <div class="wrapper">
-        <!-- Sidebar  -->
-        <nav id="sidebar">
-            <div id="dismiss" >
-                <i class="fas fa-arrow-left"></i>
-            </div>
+  <!-- ======= Header ======= -->
+  <header id="header2" class="fixed-top header">
+    <div class="container d-flex align-items-center justify-content-between">
 
-            <div class="sidebar-header">
-                <h2>Control de capas</h2>
-            </div>
+      <div class="logo">
+        <a href="/"><img src="static/img/icon.png" class="img-fluid"></a>
 
-            <ul class="list-unstyled components">
-                    <form id="capas" name= "formulario1">
-            <div class="form-group" >
-        <label for="var">Variable</label>
-        <select class="form-control" id="var" name="cosa" onchange="cambia()" required aria-required="true">
-            <option value="" disabled selected>Elija una variable</option>
-          <option value="1">Precipitación</option>
-            <option value="2">Temperatura Media</option>
-            <option value="2">Temperatura Máxima</option>
-            <option value="2">Temperatura Mínima</option>
-            <option value="3">Radiación</option>
-            <option value="4">Humedad</option>
-        </select>
-      </div>
-                        <div class="form-group">
-        <label for="bd">Base de Datos</label>
-        <select class="form-control" id="bd" name="opt"  required aria-required="true">
-            <option value="-" disabled selected>Elija una base de datos</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="variable">Escala Temporal</label>
-        <select class="form-control" id="variable" name="periodo" onchange="cambio()"  required aria-required="true">
-            <option value="" disabled selected>Elija una escala temporal</option>
-            <option value="1">Anual</option>
-            <option value="2">Semestral</option>
-            <option value="3">Trimestral</option>
-            <option value="5">Mensual</option>
-        </select>
-      </div>
-          <div class="form-group">
-        <label for="tp">Tiempo</label>
-        <select class="form-control" id="tp" name="options" required aria-required="true">
-            <option value="-" disabled selected>Elija un período de tiempo</option>
-        </select>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index"><img src="/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
-      <button class="btn btn-primary" id="newLayer"  > Ver Capa</button>
-      <button class="btn btn-primary" id="downloaderLayer"  >Descargar Capa</button>
-    </form>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="index">Inicio</a></li>
 
-</ul>
-             
-            <ul class="list-unstyled CTAs">
+          <li class="dropdown"><a href="#services"><span>Contenidos</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+                <li><a href="Pasado">Pasado</a></li>
 
-                <a href="index"><img src="static/img/icon.png", class="img-fluid"></a>
+                <li><a href="Presente">Presente</a></li>
+                <li><a href="Futuro">Futuro</a></li>
             </ul>
 
-        </nav>
+          </li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
 
-        <!-- Page Content  -->
-        <div id="content">
-
-            <nav class="navbar">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="bi-layers-half"></i>
-                        <span>Control de Capas</span>
-                    </button>
-			<a href="index"><button id="volver" class="btn btn-info">
-                        <span>Volver al inicio</span>
-				</button></a>
-                </div>
-
-            </nav>
     </div>
+  </header><!-- End Header -->
+<section id="space">
+          <div>
+          </div>
+        </section>
+<section id="services" class="services">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+          <h2>Tiempo Actual</h2>
+          <p>tiempo en un momento y lugar determinado, aca podrian ir enlaces a los radares del smn  en tiempo real, imagenes satelitales, y el tiempo en cada localidad, siempre poniendo primero los productos de la cátedra  (informe de sequías actual, BHOA, etc)</p>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 col-lg-4 .d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up">
+              <div class="icon"><a href="Atlas_Interactivo" target="_blank"><i class="bi bi-globe2"></i></a></div>
+              <h4 class="title"><a href="Atlas_Interactivo" target="_blank">Atlas Interactivo</a></h4>
+              <p class="description"> <i><b>  (1990-2021) </b></i> </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 .d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><a href="Atlas_Interactivo" target="_blank"><i class="bi bi-globe2"></i></a></div>
+              <h4 class="title"><a href="Atlas_Interactivo" target="_blank">Atlas Agroclimático </a></h4>
+              <p class="description"> <i><b> (1990-2010) </b></i>
+			   </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 .d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><a href="Atlas_Interactivo" target="_blank"><i class="bi bi-globe2"></i></a></div>
+              <h4 class="title"><a href="Atlas_Interactivo" target="_blank">Atlas Agroclimático</a></h4>
+              <p class="description"> <i><b> 1980-2000</b></i></div>
+          </div>
+
+
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; <strong><span>CIAg</span></strong>. Cátedra de Climatología y Fenología Agrícolas, Facultad de Agronomía de la Universidad de Buenos Aires.
+      </div>
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
     </div>
-    <a href="index"><img id="IMAGEN_FLOT" alt="CIAg"
-                 src="static/img/icon.png"
-                 style="z-index: 999999">
-    </img></a>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <!-- jQuery Custom Scroller CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+   </footer><!-- End Footer -->
 
-    <script type="text/javascript" charset="UTF-8" >
-        $('#sidebar').addClass('active');
-        $(document).ready(function () {
-            $("#sidebar").mCustomScrollbar({
-                theme: "minimal"
-            });
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-            $('#dismiss, .overlay').on('click', function () {
-                $('#sidebar').removeClass('active');
-                $('.overlay').removeClass('active');
-            });
+  <!-- Vendor JS Files -->
+  <script src="static/vendor/aos/aos.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/vendor/php-email-form/validate.js"></script>
+  <script src="static/vendor/purecounter/purecounter.js"></script>
+  <script src="static/vendor/swiper/swiper-bundle.min.js"></script>
 
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').addClass('active');
-                $('.overlay').addClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
-        });
+  <!-- Template Main JS File -->
+  <script src="static/js/main.js"></script>
 
-
-
-var map = L.map('content', { zoomControl:false, minZoom: 4, zoomSnap: 0.25 }).setView([-38.86, -64.33], 4.5);
-
-var all = L.layerGroup().addTo(map)
-
-
-
-L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png",
-                {"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map);
-
-
-
-            function onEachFeature(feature, layer) {
-            layer.on({
-            });
-            };
-
-            //Humedad
-            function getColor4(d) {
-                return d > 90.0? '#08306b' :
-                        d > 80.0 ? '#105ca5' :
-                        d > 70.0 ? '#3182be' :
-                        d > 60.0 ? '#5ba3d0' :
-                        d > 50.0  ? '#8fc2de' :
-                        d > 40.0  ? '#bed8ed' :
-                        d > 30.0  ? '#dceaf7' :
-                         '#f7fbff';
-
-            }
-
-            function style4(feature4) {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: getColor4(feature4.properties.HR),
-                    dashArray: '1',
-                    fillOpacity: 0.8,
-                    fillColor: getColor4(feature4.properties.HR)
-                };
-            }
-            //Radiacion
-             function getColor3(d) {
-                return d > 30.0? '#7f2704' :
-                        d > 28.0 ? '#993103' :
-                            d > 26 ? '#b43b02' :
-                        d > 24.0 ? '#d14501' :
-                        d > 22.0  ? '#e25407' :
-                        d > 20.0  ? '#ee6510' :
-                        d > 18.0  ? '#f67722' :
-                        d > 16.0  ? '#fc8938' :
-                        d > 14.0  ? '#fd9b4f' :
-                        d > 12.0  ? '#fdac67' :
-                        d > 10.0  ? '#fdbd83' :
-                        d > 8.0  ? '#fdcf9f' :
-                        d > 6.0  ? '#fedbb7' :
-                        d > 4.0  ? '#fee6cd' :
-                        d > 2.0  ? '#ffeedc' :
-                        d > 0.0  ? '#fff5eb' :
-                         '#fff5eb';
-
-            }
-
-            function style3(feature3) {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: getColor3(feature3.properties.DN),
-                    dashArray: '1',
-                    fillOpacity: 0.8,
-                    fillColor: getColor3(feature3.properties.DN)
-                };
-            }
-            //Precipitacion media anual
-        function getColor2(d) {
-                return d > 2100.0? '#08314C' :
-                        d > 2000.0 ? '#093756' :
-                            d > 1900 ? '#0D4266' :
-                        d > 1800.0 ? '#0D4B75' :
-                        d > 1700.0  ? '#125987' :
-                        d > 1600.0  ? '#1A5F8D' :
-                        d > 1500.0  ? '#226693' :
-                        d > 1400.0  ? '#2A6D99' :
-                        d > 1300.0  ? '#3375A1' :
-                        d > 1200.0  ? '#407FAA' :
-			d > 1100.0 ? '#4583AE':
-			d > 1000.0 ? '#4A88B2':
-                        d > 900.0  ? '#5491BA' :
-                        d > 800.0  ? '#649EC6' :
-                        d > 700.0  ? '#7AAACD' :
-                        d > 600.0  ? '#A5C9E3' :
-                        d > 500.0  ? '#CAE7FC' :
-                        d > 400.0  ? '#FFEC9D' :
-                        d > 300.0  ? '#D7AB68' :
-                        d > 200.0  ? '#B98959' :
-                        d > 100.0  ? '#AF6E2E' :
-                         '#A55809';
-
-            }
-
-            function style2(feature2) {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: getColor2(feature2.properties.DN),
-                    dashArray: '1',
-                    fillOpacity: 0.8,
-                    fillColor: getColor2(feature2.properties.DN)
-                };
-            }
-            //Precipitación mensual
-            function getColorppmensual(d) {
-                return d > 230.0? '#08314C' :
-                        d > 220.0 ? '#0D4266' :
-                        d > 200.0 ? '#0D4B75' :
-                        d > 180.0  ? '#1B689C' :
-                        d > 160.0  ? '#2276AF' :
-                        d > 140.0  ? '#4084B2' :
-                        d > 120.0  ? '#649EC6' :
-                        d > 100.0  ? '#CAE7FC' :
-                        d > 80.0  ? '#FFEC9D' :
-                        d > 60.0  ? '#D7AB68' :
-                        d > 40.0  ? '#AF6E2E' :
-                        d > 20.0  ? '#A55809' :
-                         '#814609';
-
-            }
-            function styleppmens(feature2) {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: getColorppmensual(feature2.properties.DN),
-                    dashArray: '1',
-                    fillOpacity: 0.8,
-                    fillColor: getColorppmensual(feature2.properties.DN)
-                };
-            }
-	    //Precipitación trim
-            function getColorpptrim(d) {
-                return d > 600.0? '#08314C' :
-                        d > 550.0 ? '#0D4266' :
-                        d > 500.0 ? '#0D4B75' :
-                        d > 450.0  ? '#1B689C' :
-                        d > 400.0  ? '#2276AF' :
-                        d > 350.0  ? '#4084B2' :
-                        d > 300.0  ? '#649EC6' :
-                        d > 250.0  ? '#CAE7FC' :
-                        d > 200.0  ? '#FFEC9D' :
-                        d > 150.0  ? '#D7AB68' :
-                        d > 100.0  ? '#AF6E2E' :
-                        d > 50.0  ? '#A55809' :
-                         '#814609';
-
-            }
-            function stylepptrim(feature2) {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: getColorpptrim(feature2.properties.DN),
-                    dashArray: '1',
-                    fillOpacity: 0.8,
-                    fillColor: getColorpptrim(feature2.properties.DN)
-                };
-            }
-            //Temperatura
-
-            function getColor1(d) {
-                return d > 40.0 ? '#8d0017' :
-                		d > 39.0 ? '#950018' :
-                		d > 38.0 ? '#9c0019' :
-                		d > 37.0 ? '#a4001a' :
-                		d > 36.0 ? '#ab001b' :
-                		d > 35.0 ? '#b3001c' :
-                		d > 34.0 ? '#ba001d' :
-                		d > 33.0 ? '#c2001e' :
-                		d > 32.0 ? '#ca0020' :
-                		d > 31.0 ? '#cd0721' :
-                		d > 30.0 ? '#cf0f22' :
-                        d > 29.0 ? '#d11723' :
-                        d > 28.0 ? '#d41f24' :
-                        d > 27.0 ? '#d62725' :
-                        d > 26.0 ? '#d92f26' :
-                        d > 25.0 ? '#db3727' :
-                        d > 24.0 ? '#de3f28' :
-                        d > 23.0 ? '#e04729' :
-                        d > 22.0 ? '#e34f2a' :
-                        d > 21.0 ? '#e5562b' :
-                        d > 20.0 ? '#e75d2c' :
-                        d > 19.0 ? '#e9642d' :
-                        d > 18.0 ? '#eb6c2e' :
-                        d > 17.0 ? '#ee732f' :
-                        d > 16.0 ? '#f07a30' :
-                        d > 15.0 ? '#f28131' :
-                        d > 14.0 ? '#f48832' :
-                        d > 13.0 ? '#f68f33' :
-                        d > 12.0 ? '#f89634' :
-                        d > 11.0 ? '#f89b37' :
-                        d > 10.0 ? '#f79f3b' :
-                        d > 9.0 ? '#f7a43e' :
-                        d > 8.0 ? '#f6a841' :
-                        d > 7.0 ? '#f5ad45' :
-                        d > 6.0 ? '#f5b148' :
-                        d > 5.0 ? '#f4b64c' :
-                        d > 4.0 ? '#f4bb53' :
-                        d > 3.0 ? '#f7cc7e' :
-                        d > 2.0 ? '#fadea9' :
-                        d > 1.0 ? '#fdefd5' :
-                        d > 0.0 ? '#ffffff' :
-                        d > -1.0 ? '#dbebf4' :
-                        d > -2.0 ? '#b8d7e9' :
-                        d > -3.0 ? '#94c2de' :
-                        d > -4.0 ? '#70aed2' :
-                        d > -5.0 ? '#4d9ac7' :
-                        d > -6.0 ? '#2986bc' :
-                        d > -7.0 ? '#0571b0' :
-                        d > -8.0 ? '#046eab' :
-                        d > -9.0 ? '#046ba6' :
-                        d > -10.0 ? '#0468a2' :
-                        d > -11.0 ? '#04659d' :
-                        d > -12.0 ? '#046198' :
-                        d > -13.0 ? '#045e93' :
-                        d > -14.0 ? '#035b8e' :
-                        d > -15.0 ? '#035889' :
-                                    '#035889';
-            }
-
-            function style1(feature1) {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: getColor1(feature1.properties.DN),
-                    dashArray: '1',
-                    fillOpacity: 0.8,
-                    fillColor: getColor1(feature1.properties.DN)
-                };
-            }
-            function styleprov() {
-                return {
-                    weight: 1,
-                    opacity: 1,
-                    color: 	"#ffffff",
-                    dashArray: '1',
-                    fillOpacity: 0,
-                    fillColor: 	"#00FF00"
-                };
-            }
-var layerGroup = L.layerGroup();
-var legend = L.control({position: 'bottomright'});
-
-var prov= new L.geoJson( provincias, {
-                    style: styleprov,
-                    onEachFeature: onEachFeature
-
-                })
-
-
-var baseMaps = {
-
-};
-
-var overlayMaps = {
-    "Limites Provinciales": prov
-};
-
-
-$('#downloaderLayer').on("click",function(event) {
-
-    event.preventDefault();
-    var elemento = document.getElementById("bd").value
-    if (elemento == "") {
-        alert("Elije una base de datos!")
-        return false
-    }
-    var elemento2 = document.getElementById("var").value
-    if (elemento2 == "") {
-        alert("Elije una variable!")
-        return false
-    }
-    var elemento3 = document.getElementById("variable").value
-    if (elemento3 == "") {
-        alert("Elije una escala temporal!")
-        return false
-    }
-    var elemento4 = document.getElementById("tp").value
-    if (elemento4 == "") {
-        alert("Elije un período de tiempo!")
-        return false
-    }
-    var based = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#variable option:selected").val()) +"_"+($("#tp option:selected").text());
-    const down  = document.createElement('a');
-    down.href= "static/capas/" + based +".geojson";
-    down.download= based+".geojson";
-    document.body.appendChild(down);
-    down.click();
-
-        });
-
-$('#newLayer').on("click",function(event) {
-    event.preventDefault();
-    var elemento = document.getElementById("bd").value
-    if (elemento == "") {
-        alert("Elije una base de datos!")
-        return false
-    }
-    var elemento2 = document.getElementById("var").value
-    if (elemento2 == "") {
-        alert("Elije una variable!")
-        return false
-    }
-    var elemento3 = document.getElementById("variable").value
-    if (elemento3 == "") {
-        alert("Elije una escala temporal!")
-        return false
-    }
-    var elemento4 = document.getElementById("tp").value
-    if (elemento4 == "") {
-        alert("Elije un período de tiempo!")
-        return false
-    }
-    layerGroup.clearLayers();
-    map.removeControl(legend);
-
-    // 1 es powernasa, 2 es SMN, 3 es IGN
-    // 1 es anual,2 es semtral, 3 es estacion, 4 es trimestral, 5 es mensual
-    var base = ($("#bd").val()) +"_"+ ($("#var").val()) +"_"+($("#variable").val()) +"_"+($("#tp").val());
-    var base2 = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#variable option:selected").val()) +"_"+($("#tp option:selected").text());
-
-
-    if (($("#var option:selected").text())=="Temperatura Media" ||($("#var option:selected").text())=="Temperatura Máxima" || ($("#var option:selected").text())=="Temperatura Mínima"){
-    $.ajax({
-
-        url: "static/capas/" + base2 +".geojson",
-
-        success: function (data) {
-
-            var geojson = new L.geoJson((data), {
-                    style: style1,
-                    onEachFeature: onEachFeature
-
-                }
-            ).addTo(layerGroup);
-
-            map.addLayer(layerGroup);
-            geojson.bindTooltip(
-                function (layer) {
-                    let div = L.DomUtil.create('div');
-
-                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                    let fields = ["DN"];
-                    let aliases = ["ºC"];
-                    let table = '<table>' +
-                        String(
-                            fields.map(
-                                (v, i) =>
-                                    `<tr>
-
-
-            <td>${handleObject(layer.feature.properties[v])}</td>
-            <th>${aliases[i]}</th>
-        </tr>`).join(''))
-                        + '</table>';
-                    div.innerHTML = table;
-
-                    return div
-                }
-                , {"className": "foliumtooltip", "sticky": true});
-
-
-            legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [-15,-10,-5,0,5,10,15,20,25,30,35,40],
-        labels = ['<strong></strong>']
-        title= ["Temperatura"];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColor1(grades[i]) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? ' ºC' + '<br>' : ' ºC' + '<br>');
-    }
-
-    return div;
-};
-
-legend.addTo(map);
-prov.bringToFront();
-                }
-
-
-
-    });
-}
-    else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==5){$.ajax({
-
-        url: "static/capas/" + base2 +".geojson",
-
-        success: function (data) {
-
-            var geojson = new L.geoJson((data), {
-                    style: styleppmens,
-                    onEachFeature: onEachFeature
-
-                }
-            ).addTo(layerGroup);
-
-            map.addLayer(layerGroup);
-            geojson.bindTooltip(
-                function (layer) {
-                    let div = L.DomUtil.create('div');
-
-                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                    let fields = ["DN"];
-                    let aliases = ["mm"];
-                    let table = '<table>' +
-                        String(
-                            fields.map(
-                                (v, i) =>
-                                    `<tr>
-
-
-            <td>${handleObject(layer.feature.properties[v])}</td>
-            <th>${aliases[i]}</th>
-        </tr>`).join(''))
-                        + '</table>';
-                    div.innerHTML = table;
-
-                    return div
-                }
-                , {"className": "foliumtooltip", "sticky": true});
-
-
-            legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0,40,80,100,120,160,200,240],
-        labels = ['<strong></strong>']
-        title= ["mm"];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColorppmensual(grades[i]) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
-    }
-
-    return div;
-};
-
-legend.addTo(map);
-prov.bringToFront();
-                }
-
-
-    });
-}
-	else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==3){$.ajax({
-
-        url: "static/capas/" + base2 +".geojson",
-
-        success: function (data) {
-
-            var geojson = new L.geoJson((data), {
-                    style: stylepptrim,
-                    onEachFeature: onEachFeature
-
-                }
-            ).addTo(layerGroup);
-
-            map.addLayer(layerGroup);
-            geojson.bindTooltip(
-                function (layer) {
-                    let div = L.DomUtil.create('div');
-
-                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                    let fields = ["DN"];
-                    let aliases = ["mm"];
-                    let table = '<table>' +
-                        String(
-                            fields.map(
-                                (v, i) =>
-                                    `<tr>
-
-
-            <td>${handleObject(layer.feature.properties[v])}</td>
-            <th>${aliases[i]}</th>
-        </tr>`).join(''))
-                        + '</table>';
-                    div.innerHTML = table;
-
-                    return div
-                }
-                , {"className": "foliumtooltip", "sticky": true});
-
-
-            legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0,100,200,300,400,500,600],
-        labels = ['<strong></strong>']
-        title= ["mm"];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColorpptrim(grades[i]) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
-    }
-
-    return div;
-};
-
-legend.addTo(map);
-prov.bringToFront();
-                }
-
-
-    });
-}
-    else if (((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==1)) || ((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==2))){$.ajax({
-
-        url: "static/capas/" + base2 +".geojson",
-
-        success: function (data) {
-
-            var geojson = new L.geoJson((data), {
-                    style: style2,
-                    onEachFeature: onEachFeature
-
-                }
-            ).addTo(layerGroup);
-
-            map.addLayer(layerGroup);
-            geojson.bindTooltip(
-                function (layer) {
-                    let div = L.DomUtil.create('div');
-
-                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                    let fields = ["DN"];
-                    let aliases = ["mm"];
-                    let table = '<table>' +
-                        String(
-                            fields.map(
-                                (v, i) =>
-                                    `<tr>
-
-
-            <td>${handleObject(layer.feature.properties[v])}</td>
-            <th>${aliases[i]}</th>
-        </tr>`).join(''))
-                        + '</table>';
-                    div.innerHTML = table;
-
-                    return div
-                }
-                , {"className": "foliumtooltip", "sticky": true});
-
-
-            legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0,300,500,600,900,1200,1500,1800,2100],
-        labels = ['<strong></strong>']
-        title= ["mm"];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColor2(grades[i]) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
-    }
-
-    return div;
-};
-
-legend.addTo(map);
-prov.bringToFront();
-                }
-
-
-    });
-}
-else if (($("#var option:selected").text())=="Radiación"){$.ajax({
-
-        url: "static/capas/" + base2 +".geojson",
-
-        success: function (data) {
-
-            var geojson = new L.geoJson((data), {
-                    style: style3,
-                    onEachFeature: onEachFeature
-
-                }
-            ).addTo(layerGroup);
-
-            map.addLayer(layerGroup);
-            geojson.bindTooltip(
-                function (layer) {
-                    let div = L.DomUtil.create('div');
-
-                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                    let fields = ["DN"];
-                    let aliases = ["W/m2"];
-                    let table = '<table>' +
-                        String(
-                            fields.map(
-                                (v, i) =>
-                                    `<tr>
-
-
-            <td>${handleObject(layer.feature.properties[v])}</td>
-            <th>${aliases[i]}</th>
-        </tr>`).join(''))
-                        + '</table>';
-                    div.innerHTML = table;
-
-                    return div
-                }
-                , {"className": "foliumtooltip", "sticky": true});
-
-
-            legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0,4,8,12,16,20,24,28,32],
-        labels = ['<strong></strong>']
-        title= ["mm"];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColor3(grades[i]) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? ' W/m2' + '<br>' : ' W/m2 +');
-    }
-
-    return div;
-};
-
-legend.addTo(map);
-prov.bringToFront();
-                }
-
-
-    });
-}
-else if (($("#var option:selected").text())=="Humedad"){$.ajax({
-
-        url: "static/capas/" + base2 +".geojson",
-
-        success: function (data) {
-
-            var geojson = new L.geoJson((data), {
-                    style: style4,
-                    onEachFeature: onEachFeature
-
-                }
-            ).addTo(layerGroup);
-
-            map.addLayer(layerGroup);
-            geojson.bindTooltip(
-                function (layer) {
-                    let div = L.DomUtil.create('div');
-
-                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                    let fields = ["HR"];
-                    let aliases = ["%"];
-                    let table = '<table>' +
-                        String(
-                            fields.map(
-                                (v, i) =>
-                                    `<tr>
-
-
-            <td>${handleObject(layer.feature.properties[v])}</td>
-            <th>${aliases[i]}</th>
-        </tr>`).join(''))
-                        + '</table>';
-                    div.innerHTML = table;
-
-                    return div
-                }
-                , {"className": "foliumtooltip", "sticky": true});
-
-
-            legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0,30,40,50,60,70,80,90,100],
-        labels = ['<strong></strong>']
-        title= ["%"];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColor4(grades[i]) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' %');
-    }
-
-    return div;
-};
-
-legend.addTo(map);
-prov.bringToFront();
-                }
-
-
-    });
-}
-});
-
-new L.Control.Zoom({ position: 'topright' }).addTo(map);
-var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
-                {position:"topright"}
-            ).addTo(map);
-
-
-			//1) Definir Las Variables Correspondintes
-        //1 precipitacion
-			var opt_1 = new Array ("", "POWERNASA","SMN","INTA");
-        //2 temp med, temp max temp min
-            var opt_2 = new Array ("", "POWERNASA", "SMN");
-        //3 radiacion
-			var opt_3 = new Array ("", "POWERNASA", "SMN");
-        //4 humedad
-			var opt_4 = new Array ("", "POWERNASA", "SMN");
-			// 2) crear una funcion que permita ejecutar el cambio dinamico
-
-			function cambia(){
-				var cosa;
-				//Se toma el vamor de la "cosa seleccionada"
-				cosa = document.formulario1.cosa[document.formulario1.cosa.selectedIndex].value;
-				//se chequea si la "cosa" esta definida
-				if(cosa!=0){
-					//selecionamos las cosas Correctas
-					mis_opts=eval("opt_" + cosa);
-					//se calcula el numero de cosas
-					num_opts=mis_opts.length;
-					//marco el numero de opt en el select
-					document.formulario1.opt.length = num_opts;
-					//para cada opt del array, la pongo en el select
-					for(i=0; i<num_opts; i++){
-						document.formulario1.opt.options[i].value=mis_opts[i];
-						document.formulario1.opt.options[i].text=mis_opts[i];
-					}
-					}else{
-						//si no habia ninguna opt seleccionada, elimino las cosas del select
-						document.formulario1.opt.length = 1;
-						//ponemos un guion en la unica opt que he dejado
-						document.formulario1.opt.options[0].value="-";
-						document.formulario1.opt.options[0].text="-";
-					}
-					//hacer un reset de las opts
-					document.formulario1.opt.options[0].selected = true;
-
-				}
-				//1) Definir Las Variables Correspondintes
-			var options_1 = new Array ("", "Media Anual");
-			var options_2 = new Array ("", "Frío", "Cálido");
-			var options_3 = new Array ("", "Diciembre-Febrero","Marzo-Mayo","Junio-Agosto","Septiembre-Noviembre");
-			var options_5 = new Array ("", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-			// 2) crear una funcion que permita ejecutar el cambio dinamico
-
-			function cambio(){
-				var periodo;
-				//Se toma el vamor de la "cosa seleccionada"
-				periodo = document.formulario1.periodo[document.formulario1.periodo.selectedIndex].value;
-				//se chequea si la "cosa" esta definida
-				if(periodo!=0){
-					//selecionamos las cosas Correctas
-					mis_options=eval("options_" + periodo);
-					//se calcula el numero de cosas
-					num_options=mis_options.length;
-					//marco el numero de opt en el select
-					document.formulario1.options.length = num_options;
-					//para cada opt del array, la pongo en el select
-					for(i=0; i<num_options; i++){
-						document.formulario1.options.options[i].value=mis_options[i];
-						document.formulario1.options.options[i].text=mis_options[i];
-					}
-					}else{
-						//si no habia ninguna opt seleccionada, elimino las cosas del select
-						document.formulario1.options.length = 1;
-						//ponemos un guion en la unica opt que he dejado
-						document.formulario1.options.options[0].value="-";
-						document.formulario1.options.options[0].text="-";
-					}
-					//hacer un reset de las opts
-					document.formulario1.options.options[0].selected = true;
-
-				}
-
-var control_capas=    L.control.layers(baseMaps, overlayMaps,{
-	position: 'topright', // 'topleft', 'bottomleft', 'bottomright'
-	collapsed: false // true
-}).addTo(map);
-
-    </script>
 </body>
 
 </html>
