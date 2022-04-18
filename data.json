@@ -1,107 +1,107 @@
 [
     {
-        "id": 0,
-        "name": "test0",
-        "price": "$0"
+        "year": 0,
+        "titulo": "test0",
+        "autores": "$0"
     },
     {
-        "id": 1,
-        "name": "test1",
-        "price": "$1"
+        "year": 1,
+        "titulo": "test1",
+        "autores": "$1"
     },
     {
-        "id": 2,
-        "name": "test2",
-        "price": "$2"
+        "year": 2,
+        "titulo": "test2",
+        "autores": "$2"
     },
     {
-        "id": 3,
-        "name": "test3",
-        "price": "$3"
+        "year": 3,
+        "titulo": "test3",
+        "autores": "$3"
     },
     {
-        "id": 4,
-        "name": "test4",
-        "price": "$4"
+        "year": 4,
+        "titulo": "test4",
+        "autores": "$4"
     },
     {
-        "id": 5,
-        "name": "test5",
-        "price": "$5"
+        "year": 5,
+        "titulo": "test5",
+        "autores": "$5"
     },
     {
-        "id": 6,
-        "name": "test6",
-        "price": "$6"
+        "year": 6,
+        "titulo": "test6",
+        "autores": "$6"
     },
     {
-        "id": 7,
-        "name": "test7",
-        "price": "$7"
+        "year": 7,
+        "titulo": "test7",
+        "autores": "$7"
     },
     {
-        "id": 8,
-        "name": "test8",
-        "price": "$8"
+        "year": 8,
+        "titulo": "test8",
+        "autores": "$8"
     },
     {
-        "id": 9,
-        "name": "test9",
-        "price": "$9"
+        "year": 9,
+        "titulo": "test9",
+        "autores": "$9"
     },
     {
-        "id": 10,
-        "name": "test10",
-        "price": "$10"
+        "year": 10,
+        "titulo": "test10",
+        "autores": "$10"
     },
     {
-        "id": 11,
-        "name": "test11",
-        "price": "$11"
+        "year": 11,
+        "titulo": "test11",
+        "autores": "$11"
     },
     {
-        "id": 12,
-        "name": "test12",
-        "price": "$12"
+        "year": 12,
+        "titulo": "test12",
+        "autores": "$12"
     },
     {
-        "id": 13,
-        "name": "test13",
-        "price": "$13"
+        "year": 13,
+        "titulo": "test13",
+        "autores": "$13"
     },
     {
-        "id": 14,
-        "name": "test14",
-        "price": "$14"
+        "year": 14,
+        "titulo": "test14",
+        "autores": "$14"
     },
     {
-        "id": 15,
-        "name": "test15",
-        "price": "$15"
+        "year": 15,
+        "titulo": "test15",
+        "autores": "$15"
     },
     {
-        "id": 16,
-        "name": "test16",
-        "price": "$16"
+        "year": 16,
+        "titulo": "test16",
+        "autores": "$16"
     },
     {
-        "id": 17,
-        "name": "test17",
-        "price": "$17"
+        "year": 17,
+        "titulo": "test17",
+        "autores": "$17"
     },
     {
-        "id": 18,
-        "name": "test18",
-        "price": "$18"
+        "year": 18,
+        "titulo": "test18",
+        "autores": "$18"
     },
     {
-        "id": 19,
-        "name": "test19",
-        "price": "$19"
+        "year": 19,
+        "titulo": "test19",
+        "autores": "$19"
     },
     {
-        "id": 20,
-        "name": "test20",
-        "price": "$20"
+        "year": 20,
+        "titulo": "test20",
+        "autores": "$20"
     }
 ]
