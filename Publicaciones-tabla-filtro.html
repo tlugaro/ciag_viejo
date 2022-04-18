@@ -81,85 +81,26 @@
           <h2>Publicaciones</h2>
           <p>Publicaciones de docentes e investigadores de la Cátedra de Climatología y Fenología Agricolas</p>
         </div>
-          <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 
 
-          <div class="collapse" id="tabla-col">
-        <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Año</th>
-      <th scope="col">Título</th>
-      <th scope="col">Autores</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">2005</th>
-      <td><a href="http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf" target="_blank">Caracterización de las heladas en la Región Pampeana y su variabilidad en los últimos 10 años</a></td>
-      <td>M. E. Fernández Long, I. E. Barnatan, L. Spescha</td>
+<input class="btn btn-primary" value="ver tabla" onclick="vertabla()" type="button">
+<div id="tabla"></div>
 
-    </tr>
-    <tr>
-      <th scope="row">2022</th>
-      <td>El titulo del trabajo</td>
-      <td>Autores</td>
-    </tr>
-  </tbody>
-</table>
-      </div>
-        <button class="btn btn-primary btn-lg btn-block" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse-2021" aria-expanded="false" aria-controls="tabla-col2021">2021</button>
-
-          <div class="collapse" id="tabla-col2021">
-        <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Año</th>
-      <th scope="col">Título</th>
-      <th scope="col">Autores</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">2005</th>
-      <td><a href="http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf" target="_blank">Caracterización de las heladas en la Región Pampeana y su variabilidad en los últimos 10 años</a></td>
-      <td>M. E. Fernández Long, I. E. Barnatan, L. Spescha</td>
-
-    </tr>
-    <tr>
-      <th scope="row">2022</th>
-      <td>El titulo del trabajo</td>
-      <td>Autores</td>
-    </tr>
-  </tbody>
-</table>
-      </div>
-        <button class="btn btn-primary btn-lg btn-block" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="tabla-col2020">2020</button>
-
-          <div class="collapse" id="tabla-col2020">
-        <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Año</th>
-      <th scope="col">Título</th>
-      <th scope="col">Autores</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">2005</th>
-      <td><a href="http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf" target="_blank">Caracterización de las heladas en la Región Pampeana y su variabilidad en los últimos 10 años</a></td>
-      <td>M. E. Fernández Long, I. E. Barnatan, L. Spescha</td>
-
-    </tr>
-    <tr>
-      <th scope="row">2022</th>
-      <td>El titulo del trabajo</td>
-      <td>Autores</td>
-    </tr>
-  </tbody>
-</table>
-      </div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+d3.text("csv.csv", function vertabla(data) {
+var parsedCSV = d3.csv.parseRows(data);
+var container = d3.select("#tabla")
+.append("table")
+.selectAll("tr")
+.data(parsedCSV).enter()
+.append("tr")
+.selectAll("td")
+.data(function(d) {return d;}).enter()
+.append("td")
+.text(function(d) {return d;});
+});
+</script>
 
       </div>
     </section><!-- End Services Section -->
