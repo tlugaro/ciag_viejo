@@ -1,0 +1,25 @@
+[
+  {
+    "year": 2022,
+    "titulo": "<a href=\"https://agro.uba.ar\">el titulo </a>",
+    "autores": "autores",
+    "tipo": "congreso"
+  },
+{
+    "year": 2022,
+    "titulo": "<a href=\"https://agro.uba.ar\">otro titulo</a>",
+    "autores": "autores",
+    "tipo": "revista"
+  },
+{
+    "year": 2021,
+    "titulo": "<a href=\"https://agro.uba.ar\">la titulo</a>",
+    "autores": "autores",
+    "tipo": "revista"
+  },{
+    "year": 1970,
+    "titulo": "<a href=\"https://agro.uba.ar\">clima titulo</a>",
+    "autores": "autores",
+    "tipo": "revista"
+  }
+]

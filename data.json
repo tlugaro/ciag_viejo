@@ -1,25 +1,164 @@
 [
   {
-    "year": 2022,
-    "titulo": "<a href=\"https://agro.uba.ar\">el titulo </a>",
-    "autores": "autores",
-    "tipo": "congreso"
+    "": 0,
+    "year": 2005,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
   },
-{
-    "year": 2022,
-    "titulo": "<a href=\"https://agro.uba.ar\">otro titulo</a>",
-    "autores": "autores",
-    "tipo": "revista"
+  {
+    "": 1,
+    "year": 2006,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Congreso",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
   },
-{
+  {
+    "": 2,
+    "year": 2007,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Congreso",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 3,
+    "year": 2008,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Congreso",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 4,
+    "year": 2009,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 5,
+    "year": 2010,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 6,
+    "year": 2011,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Juanito",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 7,
+    "year": 2012,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Mer",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 8,
+    "year": 2013,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., tomy",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 9,
+    "year": 2014,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 10,
+    "year": 2015,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 11,
+    "year": 2016,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 12,
+    "year": 2017,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Congreso",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 13,
+    "year": 2018,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Congreso",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 14,
+    "year": 2019,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Congreso",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 15,
+    "year": 2020,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 16,
     "year": 2021,
-    "titulo": "<a href=\"https://agro.uba.ar\">la titulo</a>",
-    "autores": "autores",
-    "tipo": "revista"
-  },{
-    "year": 1970,
-    "titulo": "<a href=\"https://agro.uba.ar\">clima titulo</a>",
-    "autores": "autores",
-    "tipo": "revista"
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
+  },
+  {
+    "": 17,
+    "year": 2022,
+    "titulo": "Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os",
+    "autores": "Fern�ndez Long M. E.,  Barnatan I. E., Spescha L.",
+    "tipo": "Revista",
+    "link": "http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf",
+    "titulo_link": "<a> href=\"http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf\" target=\"_blank\">Caracterizaci�n de las heladas en la Regi�n Pampeana y su variabilidad en los �ltimos 10 a�os</a>"
   }
 ]
