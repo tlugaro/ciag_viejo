@@ -314,7 +314,7 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                     fillColor: getColorep(feature2.properties.DN)
                 };
             }
-            //EP media anual
+            //EP media mensual
         function getColorepmen(d) {
                 return d > 230.0 ? '#00441b' :
                 		d > 220.0 ? '#0e612c' :
@@ -354,6 +354,49 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                     fillColor: getColorepmen(feature2.properties.DN)
                 };
             }
+            //tension de vapor media anual
+        function getColortvp(d) {
+                return d > 26.0 ? '#013968' :
+                		d > 25.0 ? '#053f70' :
+                		d > 24.0 ? '#094478' :
+                		d > 23.0 ? '#0e4a80' :
+                		d > 22.0 ? '#125087' :
+                		d > 21.0 ? '#16568f' :
+                		d > 20.0 ? '#1b5b97' :
+                		d > 19.0 ? '#2566a0' :
+                		d > 18.0 ? '#3172a8' :
+                		d > 17.0 ? '#3d7eb1' :
+                        d > 16.0 ? '#498bba' :
+                        d > 15.0 ? '#5597c2' :
+                        d > 14.0 ? '#61a3cb' :
+                        d > 13.0 ? '#6bafc9' :
+                        d > 12.0 ? '#75bcbe' :
+                        d > 11.0 ? '#7ec8b2' :
+                        d > 10.0 ? '#87d5a6' :
+                        d > 9.0 ? '#90e29b' :
+                        d > 8.0 ? '#99ee8f' :
+                        d > 7.0 ? '#a2f885' :
+                        d > 6.0 ? '#aaf982' :
+                        d > 5.0 ? '#b1fa7f' :
+                        d > 4.0 ? '#b9fc7c' :
+                        d > 3.0 ? '#c1fd79' :
+                        d > 2.0 ? '#c9fe76' :
+                        d > 1.0 ? '#d0ff73' :
+                         '#d0ff73';
+
+            }
+
+            function styletvp(feature2) {
+                return {
+                    weight: 1.5,
+                    opacity: 0.8,
+                    color: getColortvp(feature2.properties.DN),
+                    dashArray: '1',
+                    fillOpacity: 0.8,
+                    fillColor: getColortvp(feature2.properties.DN)
+                };
+            }
+
             //Precipitacion media anual
         function getColor2(d) {
                 return d > 2100.0? '#08314C' :
@@ -1044,6 +1087,70 @@ else if (($("#var option:selected").text())=="Radiación"){$.ajax({
         div.innerHTML +=
             '<i style="background:' + getColor3(grades[i]) + '"></i> ' +
             grades[i] + (grades[i + 1] ? ' W/m2' + '<br>' : ' W/m2 +');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+prov.bringToFront();
+                }
+
+
+    });
+}
+
+else if (($("#var option:selected").text())=="Tensión de Vapor"){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styletvp,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["hpa"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0,5,10,15,20,25],
+        labels = ['<strong></strong>']
+        title= ["hpa"];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColortvp(grades[i]) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? ' hpa' + '<br>' : ' hpa +');
     }
 
     return div;
