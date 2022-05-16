@@ -105,7 +105,7 @@
         <select class="form-control" id="var" name="cosa" onchange="cambia()" required aria-required="true">
             <option value="" disabled selected>Elija una variable</option>
           <option value="2">Precipitación</option>
-            <option value="1">Evapotranspiración</option>
+            <option value="1">Evapotranspiración Potencial (Penman Fao)</option>
             <option value="1">Temperatura Media</option>
             <option value="1">Temperatura Máxima</option>
             <option value="1">Temperatura Mínima</option>
@@ -887,8 +887,8 @@ prov.bringToFront();
     });
 }
 
-    //Evapotranspiración
-        else if ((($("#var option:selected").text())=="Evapotranspiración") && ($("#variable option:selected").val())==1){$.ajax({
+    //Evapotranspiración Potencial (Penman Fao)
+        else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Media Anual")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -952,8 +952,8 @@ prov.bringToFront();
     });
 }
 
-    //Evapotranspiración mensual
-        else if ((($("#var option:selected").text())=="Evapotranspiración") && ($("#variable option:selected").val())==5){$.ajax({
+    //Evapotranspiración Potencial (Penman Fao) mensual
+  else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
