@@ -104,32 +104,21 @@
 
         <select class="form-control" id="var" name="cosa" onchange="cambia()" required aria-required="true">
             <option value="" disabled selected>Elija una variable</option>
-          <option value="1">Precipitación</option>
-            <option value="4">Evapotranspiración</option>
-            <option value="2">Temperatura Media</option>
-            <option value="2">Temperatura Máxima</option>
-            <option value="2">Temperatura Mínima</option>
-            <option value="3">Radiación</option>
-
-            <option value="4">Humedad</option>
-            <option value="5">Déficit de presión de vapor</option>
-            <option value="5">Tensión de Vapor</option>
+          <option value="2">Precipitación</option>
+            <option value="1">Evapotranspiración</option>
+            <option value="1">Temperatura Media</option>
+            <option value="1">Temperatura Máxima</option>
+            <option value="1">Temperatura Mínima</option>
+            <option value="1">Radiación</option>
+            <option value="1">Humedad</option>
+            <option value="1">Déficit de Presión de Vapor</option>
+            <option value="1">Tensión de Vapor</option>
         </select>
       </div>
                         <div class="form-group">
         <label for="bd">Fuente de Datos</label>
         <select class="form-control" id="bd" name="opt"  required aria-required="true">
             <option value="-" disabled selected>Elija una base de datos</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="variable">Escala Temporal</label>
-        <select class="form-control" id="variable" name="periodo" onchange="cambio()"  required aria-required="true">
-            <option value="" disabled selected>Elija una escala temporal</option>
-            <option value="1">Anual</option>
-            <option value="2">Semestral</option>
-            <option value="3">Trimestral</option>
-            <option value="5">Mensual</option>
         </select>
       </div>
           <div class="form-group">
@@ -602,17 +591,13 @@ $('#downloaderLayer').on("click",function(event) {
         alert("Elije una variable!")
         return false
     }
-    var elemento3 = document.getElementById("variable").value
-    if (elemento3 == "") {
-        alert("Elije una escala temporal!")
-        return false
-    }
+
     var elemento4 = document.getElementById("tp").value
     if (elemento4 == "") {
         alert("Elije un período de tiempo!")
         return false
     }
-    var based = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#variable option:selected").val()) +"_"+($("#tp option:selected").text());
+    var based = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#tp option:selected").text());
     const down  = document.createElement('a');
     down.href= "static/capas/" + based +".geojson";
     down.download= based+".geojson";
@@ -633,11 +618,6 @@ $('#newLayer').on("click",function(event) {
         alert("Elije una variable!")
         return false
     }
-    var elemento3 = document.getElementById("variable").value
-    if (elemento3 == "") {
-        alert("Elije una escala temporal!")
-        return false
-    }
     var elemento4 = document.getElementById("tp").value
     if (elemento4 == "") {
         alert("Elije un período de tiempo!")
@@ -649,7 +629,7 @@ $('#newLayer').on("click",function(event) {
     // 1 es powernasa, 2 es SMN, 3 es IGN
     // 1 es anual,2 es semtral, 3 es estacion, 4 es trimestral, 5 es mensual
     var base = ($("#bd").val()) +"_"+ ($("#var").val()) +"_"+($("#variable").val()) +"_"+($("#tp").val());
-    var base2 = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#variable option:selected").val()) +"_"+($("#tp option:selected").text());
+    var base2 = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#tp option:selected").text());
 
 
     if (($("#var option:selected").text())=="Temperatura Media" ||($("#var option:selected").text())=="Temperatura Máxima" || ($("#var option:selected").text())=="Temperatura Mínima"){
@@ -717,7 +697,7 @@ prov.bringToFront();
 
     });
 }
-    else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==5){$.ajax({
+    else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Enero"|| ($("#tp option:selected").text())== "Febrero" ||($("#tp option:selected").text())=="Marzo"||($("#tp option:selected").text())=="Abril"||($("#tp option:selected").text())=="Mayo"||($("#tp option:selected").text())=="Junio"||($("#tp option:selected").text())=="Julio"||($("#tp option:selected").text())=="Agosto"||($("#tp option:selected").text())=="Septiembre"||($("#tp option:selected").text())=="Octubre"||($("#tp option:selected").text())=="Noviembre"||($("#tp option:selected").text())=="Diciembre")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -780,7 +760,7 @@ prov.bringToFront();
 
     });
 }
-	else if ((($("#var option:selected").text())=="Precipitación") && ($("#variable option:selected").val())==3){$.ajax({
+	else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Verano"|| ($("#tp option:selected").text())== "Otoño" ||($("#tp option:selected").text())=="Primavera"||($("#tp option:selected").text())=="Invierno")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -843,7 +823,7 @@ prov.bringToFront();
 
     });
 }
-    else if (((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==1)) || ((($("#var option:selected").text())=="Precipitación" && ($("#variable option:selected").val())==2))){$.ajax({
+    else if (((($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())=="Media Anual"|| ($("#tp option:selected").text())== "Semestre Cálido" ||($("#tp option:selected").text())=="Semestre Frío"))){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -1246,70 +1226,53 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
 			//4 tension de vapor y dpv
 			var opt_5 = new Array ("", "SMN");
 			// 2) crear una funcion que permita ejecutar el cambio dinamico
+            var options_1 = new Array ("","Media Anual", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+			var options_2 = new Array ("","Media Anual", " Semestre Frío", " Semestre Cálido","Verano","Otoó","Iniverno","Primavera", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
-			function cambia(){
-				var cosa;
-				//Se toma el vamor de la "cosa seleccionada"
-				cosa = document.formulario1.cosa[document.formulario1.cosa.selectedIndex].value;
-				//se chequea si la "cosa" esta definida
-				if(cosa!=0){
-					//selecionamos las cosas Correctas
-					mis_opts=eval("opt_" + cosa);
-					//se calcula el numero de cosas
-					num_opts=mis_opts.length;
-					//marco el numero de opt en el select
-					document.formulario1.opt.length = num_opts;
-					//para cada opt del array, la pongo en el select
-					for(i=0; i<num_opts; i++){
-						document.formulario1.opt.options[i].value=mis_opts[i];
-						document.formulario1.opt.options[i].text=mis_opts[i];
-					}
-					}else{
-						//si no habia ninguna opt seleccionada, elimino las cosas del select
-						document.formulario1.opt.length = 1;
-						//ponemos un guion en la unica opt que he dejado
-						document.formulario1.opt.options[0].value="-";
-						document.formulario1.opt.options[0].text="-";
-					}
-					//hacer un reset de las opts
-					document.formulario1.opt.options[0].selected = true;
+			function cambia() {
+                var cosa;
+                //Se toma el vamor de la "cosa seleccionada"
+                cosa = document.formulario1.cosa[document.formulario1.cosa.selectedIndex].value;
+                //se chequea si la "cosa" esta definida
+                if (cosa != 0) {
+                    //selecionamos las cosas Correctas
+                    mis_opts = eval("opt_" + cosa);
+                    mis_options = eval("options_" + cosa);
+                    //se calcula el numero de cosas
+                    num_opts = mis_opts.length;
+                    num_options = mis_options.length;
+                    //marco el numero de opt en el select
+                    document.formulario1.opt.length = num_opts;
+                    document.formulario1.options.length = num_options;
+                    //para cada opt del array, la pongo en el select
+                    for (i = 0; i < num_opts; i++) {
+                        document.formulario1.opt.options[i].value = mis_opts[i];
+                        document.formulario1.opt.options[i].text = mis_opts[i];
+                    }
+                    for (i = 0; i < num_options; i++) {
+                        document.formulario1.options.options[i].value = mis_options[i];
+                        document.formulario1.options.options[i].text = mis_options[i];
+                    }
+                } else {
+                    //si no habia ninguna opt seleccionada, elimino las cosas del select
+                    document.formulario1.opt.length = 1;
+                    //ponemos un guion en la unica opt que he dejado
+                    document.formulario1.opt.options[0].value = "-";
+                    document.formulario1.opt.options[0].text = "-";
+                    //si no habia ninguna opt seleccionada, elimino las cosas del select
+                    document.formulario1.options.length = 1;
+                    //ponemos un guion en la unica opt que he dejado
+                    document.formulario1.options.options[0].value = "-";
+                    document.formulario1.options.options[0].text = "-";
+                }
 
-				}
-				//1) Definir Las Variables Correspondintes
-			var options_1 = new Array ("", "Media Anual");
-			var options_2 = new Array ("", "Frío", "Cálido");
-			var options_3 = new Array ("", "Diciembre-Febrero","Marzo-Mayo","Junio-Agosto","Septiembre-Noviembre");
-			var options_5 = new Array ("", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-			// 2) crear una funcion que permita ejecutar el cambio dinamico
+                //hacer un reset de las opts
+                document.formulario1.opt.options[0].selected = true;
+                document.formulario1.options.options[0].selected = true;
+            }
 
-			function cambio(){
-				var periodo;
-				//Se toma el vamor de la "cosa seleccionada"
-				periodo = document.formulario1.periodo[document.formulario1.periodo.selectedIndex].value;
-				//se chequea si la "cosa" esta definida
-				if(periodo!=0){
-					//selecionamos las cosas Correctas
-					mis_options=eval("options_" + periodo);
-					//se calcula el numero de cosas
-					num_options=mis_options.length;
-					//marco el numero de opt en el select
-					document.formulario1.options.length = num_options;
-					//para cada opt del array, la pongo en el select
-					for(i=0; i<num_options; i++){
-						document.formulario1.options.options[i].value=mis_options[i];
-						document.formulario1.options.options[i].text=mis_options[i];
-					}
-					}else{
-						//si no habia ninguna opt seleccionada, elimino las cosas del select
-						document.formulario1.options.length = 1;
-						//ponemos un guion en la unica opt que he dejado
-						document.formulario1.options.options[0].value="-";
-						document.formulario1.options.options[0].text="-";
-					}
-					//hacer un reset de las opts
-					document.formulario1.options.options[0].selected = true;
 
-				}
+
 
 var control_capas=    L.control.layers(baseMaps, overlayMaps,{
 	position: 'topright', // 'topleft', 'bottomleft', 'bottomright'
