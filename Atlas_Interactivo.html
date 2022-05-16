@@ -348,10 +348,10 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                 return {
                     weight: 1,
                     opacity: 1,
-                    color: getColorep(feature2.properties.DN),
+                    color: getColorepmen(feature2.properties.DN),
                     dashArray: '1',
                     fillOpacity: 0.8,
-                    fillColor: getColorep(feature2.properties.DN)
+                    fillColor: getColorepmen(feature2.properties.DN)
                 };
             }
             //Precipitacion media anual
@@ -972,7 +972,7 @@ prov.bringToFront();
             legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0,200,400,600,800,1000,1200,1500],
+        grades = [0,20,40,60,80,100,120,140,160,180,200,220,240],
         labels = ['<strong></strong>']
         title= ["mm"];
 
