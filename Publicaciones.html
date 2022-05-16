@@ -27,8 +27,10 @@
 
   <!-- Template Main CSS File -->
   <link href="static/css/style.css" rel="stylesheet" type="text/css" >
-
-
+<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
   <!-- =======================================================
   * Template Name: Squadfree - v4.1.0
   * Template URL: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/
@@ -39,12 +41,12 @@
 
 <body>
 
-  <!-- ======= Header ======= -->
+ <!-- ======= Header ======= -->
   <header id="header2" class="fixed-top header">
     <div class="container d-flex align-items-center justify-content-between">
 
       <div class="logo">
-        <a href="/"><img src="static/img/icon.png" class="img-fluid"></a>
+        <a href="index.html"><img src="static/img/icono.png"class="img-fluid" alt="CIAg"></a>
 
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index"><img src="/img/logo.png" alt="" class="img-fluid"></a>-->
@@ -52,17 +54,24 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="index">Inicio</a></li>
+          <li><a  href="index.html#hero">Inicio</a></li>
 
-          <li class="dropdown"><a href="#services"><span>Contenidos</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="index.html#services"><span>Información Agroclimática</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-                <li><a href="Pasado">Pasado</a></li>
+                <li><a href="Pasado.html">Pasado (Atlas Agroclimático)</a></li>
 
-                <li><a href="Presente">Presente</a></li>
-                <li><a href="Futuro">Futuro</a></li>
+                <li><a href="Presente.html">Presente (Monitoreo Agrometeorológico)</a></li>
+                <li><a  href="Futuro.html">Futuro (Pronósticos y Proyecciones)</a></li>
             </ul>
 
-          </li>
+		  <li class="dropdown"><a href="index.html#services"><span>EMA-FAUBA</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+                <li><a href="https://drive.google.com/drive/folders/1tzRtMJlHBrevP2OoeK3nw-t_smnmsiJt?usp=sharing" target="_blank">Datos de la Estación Meteorológica Automática <br> de la Facultad de Agronomía</a></li>
+            </ul>
+		  <li><a class="nav-link scrollto" href="index.html#edu">Educación</a></li>
+		  <li><a class="nav-link scrollto" href="index.html#publi">Publicaciones</a></li>
+          <li><a class="nav-link scrollto" href="index.html#cta">Nosotros</a></li>
+          <li><a class="nav-link scrollto" href="index.html#contact">Contacto</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -82,123 +91,29 @@
           <p>Publicaciones de docentes e investigadores de la Cátedra de Climatología y Fenología Agricolas</p>
         </div>
 
-          <p>
-  <button class="btn btn-secondary btn-lg btn-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapse22" aria-expanded="false" aria-controls="collapse22">
-    2022
-  </button>
-</p>
-<div class="collapse" id="collapse22">
-  <div class="card card-body">
-    <table class="table">
+
+
+<table
+  id="table"
+  data-url="data.json"
+  data-filter-control="true"
+  >
   <thead>
     <tr>
-      <th scope="col">Título</th>
-      <th scope="col">Autores</th>
+      <th data-field="year" data-filter-control="select">Año</th>
+      <th data-field="titulo" data-filter-control="input">Título</th>
+      <th data-field="autores" data-filter-control="input">Autores</th>
+      <th data-field="tipo" data-filter-control="select">Tipo de publicación</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td><a href="http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf" target="_blank">Caracterización de las heladas en la Región Pampeana y su variabilidad en los últimos 10 años</a></td>
-      <td>M. E. Fernández Long, I. E. Barnatan, L. Spescha</td>
-
-    </tr>
-    <tr>
-      <td>El titulo del trabajo</td>
-      <td>Autores</td>
-    </tr>
-  </tbody>
 </table>
-  </div>
-</div>
-<p>
-  <button class="btn btn-secondary btn-lg btn-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapse21" aria-expanded="false" aria-controls="collapse21">
-    2021
-  </button>
-</p>
-<div class="collapse" id="collapse21">
-  <div class="card card-body">
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Título</th>
-      <th scope="col">Autores</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><a href="http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf" target="_blank">Caracterización de las heladas en la Región Pampeana y su variabilidad en los últimos 10 años</a></td>
-      <td>M. E. Fernández Long, I. E. Barnatan, L. Spescha</td>
 
-    </tr>
-    <tr>
-      <td>El titulo del trabajo</td>
-      <td>Autores</td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-</div>
-<p>
-          <button class="btn btn-secondary btn-lg btn-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapse20" aria-expanded="false" aria-controls="collapse20">
-    2020
-  </button>
-</p>
-<div class="collapse" id="collapse20">
-  <div class="card card-body">
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Título</th>
-      <th scope="col">Autores</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><a href="http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf" target="_blank">Caracterización de las heladas en la Región Pampeana y su variabilidad en los últimos 10 años</a></td>
-      <td>M. E. Fernández Long, I. E. Barnatan, L. Spescha</td>
-
-    </tr>
-    <tr>
-      <td>El titulo del trabajo</td>
-      <td>Autores</td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-</div>
-
-  <p>
-          <button class="btn btn-secondary btn-lg btn-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapse19" aria-expanded="false" aria-controls="collapse19">
-    2019
-  </button>
-</p>
-<div class="collapse" id="collapse19">
-  <div class="card card-body">
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Título</th>
-      <th scope="col">Autores</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><a href="http://ri.agro.uba.ar/files/download/revista/facultadagronomia/2005fernandezlongme.pdf" target="_blank">Caracterización de las heladas en la Región Pampeana y su variabilidad en los últimos 10 años</a></td>
-      <td>M. E. Fernández Long, I. E. Barnatan, L. Spescha</td>
-
-    </tr>
-    <tr>
-      <td>El titulo del trabajo</td>
-      <td>Autores</td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-</div>
-
+<script>
+  $(function() {
+    $('#table').bootstrapTable()
+  })
+</script>
       </div>
-
-
     </section><!-- End Services Section -->
 
 
