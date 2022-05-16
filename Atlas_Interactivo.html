@@ -280,26 +280,71 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
             }
             //EP media anual
         function getColorep(d) {
-                return d > 1400.0? '#00441b' :
-                        d > 1300.0 ? '#177337' :
-                            d > 1200 ? '#29924a' :
-                        d > 1100.0 ? '#369f54' :
-                        d > 1000.0  ? '#44ad5e' :
-                        d > 900.0  ? '#60ba6c' :
-                        d > 800.0  ? '#78c679' :
-                        d > 700.0  ? '#86cd85' :
-                        d > 600.0  ? '#95d491' :
-                        d > 500.0  ? '#a3da9a' :
-			            d > 400.0 ? '#b3dd91':
-			            d > 300.0 ? '#c2e089':
-                        d > 200.0  ? '#d1e380' :
-                        d > 100.0  ? '#e1e678' :
-                        d > 1.0  ? '#f0e96f' :
+                return d > 1900.0 ? '#00441b' :
+                		d > 1800.0 ? '#0e612c' :
+                		d > 1700.0 ? '#1d7f3e' :
+                		d > 1600.0 ? '#279049' :
+                		d > 1500.0 ? '#37a155' :
+                		d > 1400.0 ? '#3fa95c' :
+                		d > 1300.0 ? '#4eb264' :
+                		d > 1200.0 ? '#60ba6c' :
+                		d > 1100.0 ? '#71c375' :
+                		d > 1000.0 ? '#7cc87c' :
+                        d > 900.0 ? '#8ed08b' :
+                        d > 800.0 ? '#97d492' :
+                        d > 700.0 ? '#a0d99a' :
+                        d > 600.0 ? '#a9db97' :
+                        d > 500.0 ? '#b3dd91' :
+                        d > 400.0 ? '#bcdf8c' :
+                        d > 300.0 ? '#d0e381' :
+                        d > 200.0 ? '#d9e57c' :
+                        d > 100.0 ? '#ece972' :
+                        d > 1.0 ? '#f6ea6c' :
                          '#ffec67';
 
             }
 
             function styleep(feature2) {
+                return {
+                    weight: 1,
+                    opacity: 1,
+                    color: getColorep(feature2.properties.DN),
+                    dashArray: '1',
+                    fillOpacity: 0.8,
+                    fillColor: getColorep(feature2.properties.DN)
+                };
+            }
+            //EP media anual
+        function getColorepmen(d) {
+                return d > 230.0 ? '#00441b' :
+                		d > 220.0 ? '#0e612c' :
+                		d > 210.0 ? '#1d7f3e' :
+                		d > 200.0 ? '#279049' :
+                		d > 190.0 ? '#2f994f' :
+                		d > 180.0 ? '#37a155' :
+                		d > 170.0 ? '#3fa95c' :
+                		d > 160.0 ? '#4eb264' :
+                		d > 150.0 ? '#60ba6c' :
+                		d > 140.0 ? '#71c375' :
+                		d > 130.0 ? '#7cc87c' :
+                        d > 120.0 ? '#85cc84' :
+                        d > 110.0 ? '#8ed08b' :
+                        d > 100.0 ? '#97d492' :
+                        d > 90.0 ? '#a0d99a' :
+                        d > 80.0 ? '#a9db97' :
+                        d > 70.0 ? '#b3dd91' :
+                        d > 60.0 ? '#bcdf8c' :
+                        d > 50.0 ? '#c6e187' :
+                        d > 40.0 ? '#d0e381' :
+                        d > 30.0 ? '#d9e57c' :
+                        d > 20.0 ? '#e3e777' :
+                        d > 10.0 ? '#ece972' :
+                        d > 1.0 ? '#f6ea6c' :
+                         '#ffec67';
+
+            }
+
+            function styleepmen(feature2) {
                 return {
                     weight: 1,
                     opacity: 1,
@@ -870,6 +915,71 @@ prov.bringToFront();
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
             '<i style="background:' + getColorep(grades[i]) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+prov.bringToFront();
+                }
+
+
+    });
+}
+
+    //Evapotranspiración mensual
+        else if ((($("#var option:selected").text())=="Evapotranspiración") && ($("#variable option:selected").val())==5){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleepmen,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0,200,400,600,800,1000,1200,1500],
+        labels = ['<strong></strong>']
+        title= ["mm"];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColorepmen(grades[i]) + '"></i> ' +
             grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
     }
 
