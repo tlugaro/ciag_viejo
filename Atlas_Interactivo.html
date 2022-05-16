@@ -823,7 +823,7 @@ prov.bringToFront();
 
     });
 }
-    else if (((($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())=="Media Anual"|| ($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Semestre Cálido" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Frío"))){$.ajax({
+    else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Media Anual"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Cálido"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Frío")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
