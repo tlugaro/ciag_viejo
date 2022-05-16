@@ -760,7 +760,7 @@ prov.bringToFront();
 
     });
 }
-	else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Verano"|| ($("#tp option:selected").text())== "Otoño" ||($("#tp option:selected").text())=="Primavera"||($("#tp option:selected").text())=="Invierno")){$.ajax({
+	else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Verano"||($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Otoño" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Primavera"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Invierno")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -1227,7 +1227,7 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
 			var opt_5 = new Array ("", "SMN");
 			// 2) crear una funcion que permita ejecutar el cambio dinamico
             var options_1 = new Array ("","Media Anual", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-			var options_2 = new Array ("","Media Anual", " Semestre Frío", " Semestre Cálido","Verano","Otoó","Iniverno","Primavera", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+			var options_2 = new Array ("","Media Anual", " Semestre Frío", " Semestre Cálido","Verano","Otoño","Invierno","Primavera", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 			function cambia() {
                 var cosa;
