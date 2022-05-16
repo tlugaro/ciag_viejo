@@ -105,11 +105,13 @@
         <select class="form-control" id="var" name="cosa" onchange="cambia()" required aria-required="true">
             <option value="" disabled selected>Elija una variable</option>
           <option value="1">Precipitación</option>
+            <option value="1">Evapotranspiración</option>
             <option value="2">Temperatura Media</option>
             <option value="2">Temperatura Máxima</option>
             <option value="2">Temperatura Mínima</option>
             <option value="3">Radiación</option>
-            <option value="4">Humedad</option>
+            <option value="5">Déficit de presión de vapor</option>
+            <option value="5">Tensión de vapor</option>
         </select>
       </div>
                         <div class="form-group">
@@ -272,6 +274,37 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                     dashArray: '1',
                     fillOpacity: 0.8,
                     fillColor: getColor3(feature3.properties.DN)
+                };
+            }
+            //EP media anual
+        function getColorep(d) {
+                return d > 1400.0? '#00441b' :
+                        d > 1300.0 ? '#177337' :
+                            d > 1200 ? '#29924a' :
+                        d > 1100.0 ? '#369f54' :
+                        d > 1000.0  ? '#44ad5e' :
+                        d > 900.0  ? '#60ba6c' :
+                        d > 800.0  ? '#78c679' :
+                        d > 700.0  ? '#86cd85' :
+                        d > 600.0  ? '#95d491' :
+                        d > 500.0  ? '#a3da9a' :
+			            d > 400.0 ? '#b3dd91':
+			            d > 300.0 ? '#c2e089':
+                        d > 200.0  ? '#d1e380' :
+                        d > 100.0  ? '#e1e678' :
+                        d > 1.0  ? '#f0e96f' :
+                         '#ffec67';
+
+            }
+
+            function styleep(feature2) {
+                return {
+                    weight: 1,
+                    opacity: 1,
+                    color: getColorep(feature2.properties.DN),
+                    dashArray: '1',
+                    fillOpacity: 0.8,
+                    fillColor: getColorep(feature2.properties.DN)
                 };
             }
             //Precipitacion media anual
@@ -783,6 +816,71 @@ prov.bringToFront();
 
     });
 }
+
+    //Evapotranspiración
+        else if ((($("#var option:selected").text())=="Evapotransipración") && ($("#variable option:selected").val())==3){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleep,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0,200,400,600,800,1000,1200,1500],
+        labels = ['<strong></strong>']
+        title= ["mm"];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColorep(grades[i]) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+prov.bringToFront();
+                }
+
+
+    });
+}
 else if (($("#var option:selected").text())=="Radiación"){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
@@ -926,6 +1024,8 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
 			var opt_3 = new Array ("", "POWERNASA", "SMN");
         //4 humedad
 			var opt_4 = new Array ("", "POWERNASA", "SMN");
+			//4 tension de vapor y dpv
+			var opt_5 = new Array ("", "SMN");
 			// 2) crear una funcion que permita ejecutar el cambio dinamico
 
 			function cambia(){
