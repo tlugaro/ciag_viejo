@@ -105,13 +105,15 @@
         <select class="form-control" id="var" name="cosa" onchange="cambia()" required aria-required="true">
             <option value="" disabled selected>Elija una variable</option>
           <option value="1">Precipitación</option>
-            <option value="1">Evapotranspiración</option>
+            <option value="4">Evapotranspiración</option>
             <option value="2">Temperatura Media</option>
             <option value="2">Temperatura Máxima</option>
             <option value="2">Temperatura Mínima</option>
             <option value="3">Radiación</option>
-            <option value="5">Déficit de presión de vapor</option>
-            <option value="5">Tensión de vapor</option>
+
+            <option value="5">Humedad</option>
+            <option value="6">Déficit de presión de vapor</option>
+            <option value="7">Tensión de vapor</option>
         </select>
       </div>
                         <div class="form-group">
@@ -818,7 +820,7 @@ prov.bringToFront();
 }
 
     //Evapotranspiración
-        else if ((($("#var option:selected").text())=="Evapotransipración") && ($("#variable option:selected").val())==1){$.ajax({
+        else if ((($("#var option:selected").text())=="Evapotranspiración") && ($("#variable option:selected").val())==1){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
