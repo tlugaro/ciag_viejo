@@ -236,10 +236,10 @@ L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabasearge
                 return {
                     weight: 1,
                     opacity: 1,
-                    color: getColor4(feature4.properties.DN),
+                    color: getColor4(feature4.properties.HR),
                     dashArray: '1',
                     fillOpacity: 0.8,
-                    fillColor: getColor4(feature4.properties.DN)
+                    fillColor: getColor4(feature4.properties.HR)
                 };
             }
             //Radiacion
@@ -865,7 +865,7 @@ else if (($("#var option:selected").text())=="Humedad"){$.ajax({
                     let div = L.DomUtil.create('div');
 
                     let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                    let fields = ['DN'];
+                    let fields = ["HR"];
                     let aliases = ["%"];
                     let table = '<table>' +
                         String(
