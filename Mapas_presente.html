@@ -194,14 +194,25 @@
 
 
     var map = L.map('content', { zoomControl:false, minZoom: 4, zoomSnap: 0.25 }).setView([-38.86, -64.33], 4.5);
-
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
+        {position:"topright"}
+    ).addTo(map);
     var all = L.layerGroup().addTo(map)
     var layerGroup = L.layerGroup();
     var legend = L.control({position: 'bottomright'});
 
 
+    var overlayMaps = {
+        "Estaciones": layerGroup
+    };
+    var baseMaps = {
+    };
 
-
+    var control_capas=    L.control.layers(baseMaps, overlayMaps,{
+        position: 'topright', // 'topleft', 'bottomleft', 'bottomright'
+        collapsed: false // true
+    }).addTo(map);
 
     L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png",
         {"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
@@ -331,8 +342,11 @@
                 };
 
                 legend.addTo(map);
+
+
             });
             });
+
 
 </script>
 
