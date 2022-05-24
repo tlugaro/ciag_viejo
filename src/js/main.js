@@ -840,7 +840,7 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-    else if (($("#var option:selected").text())=="Radiación"){$.ajax({
+    else if (($("#var option:selected").text())=="Radiación Global"){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -967,7 +967,7 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-    else if (($("#var option:selected").text())=="Humedad"){$.ajax({
+    else if (($("#var option:selected").text())=="Humedad Relativa"){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
