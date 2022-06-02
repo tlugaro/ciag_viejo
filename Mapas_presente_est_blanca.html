@@ -258,6 +258,7 @@
 
                             if ((isNaN(pixelValue))) return null;
                             // scale to 0 - 1 used by chroma
+                            // var scaledPixelValue = (pixelValue - min) / range;
                             var scaledPixelValue = (pixelValue - min) / 100;
 
                             var color = scale(scaledPixelValue).hex();
