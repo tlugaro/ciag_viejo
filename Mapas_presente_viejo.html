@@ -104,7 +104,7 @@
                     <select class="form-control" id="var" name="cosa"  required aria-required="true">
                         <option value="" disabled selected>Elija una variable</option>
                         <option value="2">AU_2022_03_31</option>
-                        <option value="2">2022_05_29_PN_AU</option>
+                        <option value="2">puntos_powernasa</option>
 
                     </select>
                 </div>
@@ -218,156 +218,134 @@
         {"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
     ).addTo(map);
 
-    $('#newLayer').on("click",function(event) {
-        event.preventDefault();
-        var elemento = document.getElementById("bd").value
-        if (elemento == "") {
-            alert("Elije una base de datos!")
-            return false
-        }
-        var elemento2 = document.getElementById("var").value
-        if (elemento2 == "") {
-            alert("Elije una variable!")
-            return false
-        }
+    var url_to_geotiff_file =("./smnlinear.tif")
 
-        layerGroup.clearLayers();
-        map.removeControl(legend);
-        var base2 = ($("#var option:selected").text());
+    fetch(url_to_geotiff_file)
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => {
+            parseGeoraster(arrayBuffer).then(georaster => {
+                const min = georaster.mins[0];
+                const max = georaster.maxs[0];
+                const range = georaster.ranges[0];
 
-        var url_to_geotiff_file =("static/capas/raster/" + base2 +".tif")
+                // available color scales can be found by running console.log(chroma.brewer);
 
-        fetch(url_to_geotiff_file)
-            .then(response => response.arrayBuffer())
-            .then(arrayBuffer => {
-                parseGeoraster(arrayBuffer).then(georaster => {
-                    const min = georaster.mins[0];
-                    const max = georaster.maxs[0];
-                    const range = georaster.ranges[0];
+                var scale = chroma.scale(['#B2381C', '#FCA029', '#F4D629', '#F7FF82', '#D5FA79', '#A3F32F', '#43CD2A', '#0A8838', '#135943', '#07332C', '#2B2387']);
 
-                    // available color scales can be found by running console.log(chroma.brewer);
-
-                    var scale = chroma.scale(['#B2381C', '#FCA029', '#F4D629', '#F7FF82', '#D5FA79', '#A3F32F', '#43CD2A', '#0A8838', '#135943', '#07332C', '#2B2387']);
-
-                    var layer = new GeoRasterLayer({
-                        georaster: georaster,
-                        opacity: 0.8,
-                        pixelValuesToColorFn: function (pixelValues) {
-                            var pixelValue = pixelValues[0]; // there's just one band in this raster
+                var layer = new GeoRasterLayer({
+                    georaster: georaster,
+                    opacity: 0.8,
+                    pixelValuesToColorFn: function (pixelValues) {
+                        var pixelValue = pixelValues[0]; // there's just one band in this raster
 
 
-                            if ((isNaN(pixelValue))) return null;
-                            // scale to 0 - 1 used by chroma
-                            // var scaledPixelValue = (pixelValue - min) / range;
-                            var scaledPixelValue = (pixelValue - min) / 100;
+                        if ((isNaN(pixelValue))) return null;
+                        // scale to 0 - 1 used by chroma
+                        var scaledPixelValue = (pixelValue - min) / range;
 
-                            var color = scale(scaledPixelValue).hex();
+                        var color = scale(scaledPixelValue).hex();
 
-                            return color;
-                        },
+                        return color;
+                    },
 
-                        resolution: 256
-                    });
-                    console.log("layer:", layer);
-                    layer.addTo(map);
-
-                    map.fitBounds(layer.getBounds());
-
+                    resolution: 256
                 });
-                function getColor(d) {
-                    return d > 95.0 ? '#08306b' :
-                        d > 90.0 ? '#07332C' :
-                            d > 80.0 ? '#135943' :
-                                d > 70.0 ? '#0A8838' :
-                                    d > 60.0 ? '#43CD2A' :
-                                        d > 50.0 ? '#A3F32F' :
-                                            d > 40.0 ? '#D5FA79' :
-                                                d > 30.0 ? '#F7FF82' :
-                                                    d > 20.0 ? '#F4D629' :
-                                                        d > 10.0 ? '#FCA029' :
-                                                            d > 0.0 ? '#B2381C' :
+                console.log("layer:", layer);
+                layer.addTo(map);
 
-                                                                '#8c240c';
+                map.fitBounds(layer.getBounds());
 
-                }
-                fetch("static/capas/raster/" + base2 +'.geojson')
-                    .then(function (res) {
-                        if (res.ok === true) {
-                            return res.json();
-                        } else {
-                            alert('Geojson request failed.');
-                        }
-                    })
+            });
+            function getColor(d) {
+                return d > 95.0 ? '#08306b' :
+                    d > 90.0 ? '#07332C' :
+                        d > 80.0 ? '#135943' :
+                            d > 70.0 ? '#0A8838' :
+                                d > 60.0 ? '#43CD2A' :
+                                    d > 50.0 ? '#A3F32F' :
+                                        d > 40.0 ? '#D5FA79' :
+                                            d > 30.0 ? '#F7FF82' :
+                                                d > 20.0 ? '#F4D629' :
+                                                    d > 10.0 ? '#FCA029' :
+                                                        d > 0.0 ? '#B2381C' :
+
+                                            '#8c240c';
+
+            }
+            fetch('AU_2022_03_30.geojson')
+                .then(function (res) {
+                    if (res.ok === true) {
+                        return res.json();
+                    } else {
+                        alert('Geojson request failed.');
+                    }
+                })
 
 
 
-                    .then(function(quake) {
-                        var geojson = L.geoJSON(quake, {
-                            style: function (feature) {
-                                return feature.properties && feature.properties.style;
-                            },
+            .then(function(quake) {
+                var geojson = L.geoJSON(quake, {
+                    style: function (feature) {
+                        return feature.properties && feature.properties.style;
+                    },
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 4,
+                            fillColor: getColor(feature.properties.AU),
+                            color: "#fff",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8,
+                        });
+                    }
+                }).addTo(layerGroup);
 
-                            pointToLayer: function (feature, latlng) {
-                                return L.circleMarker(latlng, {
-                                    radius: 4,
-                                    fillColor: "#fff",
-                                    color: "#000",
-                                    weight: 1,
-                                    opacity: 1,
-                                    fillOpacity: 1,
-                                });
-                            }
-                        }).addTo(layerGroup);
-
-                        map.addLayer(layerGroup);
-
-                        geojson.bindTooltip(
-                            function (layer) {
-                                let div = L.DomUtil.create('div');
-                                let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
-                                let fields = ["AU"];
-                                let field = ["CODEST"];
-                                let aliases = ["% AU"];
-                                let table = '<table>' +
-                                    String(
-                                        fields.map(
-                                            (v, i) =>
-                                                `<tr>
+                map.addLayer(layerGroup);
+                geojson.bindTooltip(
+                    function (layer) {
+                        let div = L.DomUtil.create('div');
+                        let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                        let fields = ["AU"];
+                        let field = ["CODEST"];
+                        let aliases = ["% AU"];
+                        let table = '<table>' +
+                            String(
+                                fields.map(
+                                    (v, i) =>
+                                        `<tr>
 
 
             <td>${handleObject(layer.feature.properties[v])}</td>
             <th>${aliases[i]}</th>
         </tr>`).join(''))
-                                    + '</table>';
-                                div.innerHTML = table;
+                            + '</table>';
+                        div.innerHTML = table;
 
-                                return div
-                            }
-                            , {"className": "foliumtooltip", "sticky": true});
-                        legend.onAdd = function (map) {
+                        return div
+                    }
+                    , {"className": "foliumtooltip", "sticky": true});
+                legend.onAdd = function (map) {
 
-                            var div = L.DomUtil.create('div', 'info legend'),
-                                grades = [0,10,20,30,40,50,60,70,80,90,100],
-                                labels = ['<strong></strong>']
-                            title= ["% AU"];
+                    var div = L.DomUtil.create('div', 'info legend'),
+                        grades = [0,10,20,30,40,50,60,70,80,90,100],
+                        labels = ['<strong></strong>']
+                    title= ["% AU"];
 
-                            // loop through our density intervals and generate a label with a colored square for each interval
-                            for (var i = 0; i < grades.length; i++) {
-                                div.innerHTML +=
-                                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                                    grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' % ');
-                            }
+                    // loop through our density intervals and generate a label with a colored square for each interval
+                    for (var i = 0; i < grades.length; i++) {
+                        div.innerHTML +=
+                            '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' % ');
+                    }
 
-                            return div;
-                        };
+                    return div;
+                };
 
-                        legend.addTo(map);
+                legend.addTo(map);
 
 
-
-                    });
             });
-    });
+            });
 
 
 </script>
