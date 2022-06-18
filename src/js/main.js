@@ -261,7 +261,9 @@ function getColorppmensual(d) {
                                         d > 60.0  ? '#D7AB68' :
                                             d > 40.0  ? '#AF6E2E' :
                                                 d > 20.0  ? '#A55809' :
-                                                    '#814609';
+                                                    d > 0.0 ?'#814609':
+                                                        '#683806';
+                                                       
 
 }
 function styleppmens(feature2) {
