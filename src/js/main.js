@@ -261,7 +261,9 @@ function getColorppmensual(d) {
                                         d > 60.0  ? '#D7AB68' :
                                             d > 40.0  ? '#AF6E2E' :
                                                 d > 20.0  ? '#A55809' :
-                                                    '#814609';
+                                                    d > 0.0 ?'#814609':
+                                                        '#683806';
+                                                       
 
 }
 function styleppmens(feature2) {
@@ -1042,7 +1044,7 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
 //1 precipitacion
 var opt_1 = new Array ("", "POWERNASA","SMN", );
 //2 temp med, temp max temp min
-var opt_2 = new Array ("", "POWERNASA", "SMN", "Chirps");
+var opt_2 = new Array ("", "POWERNASA", "SMN", "Chirps", "ERA5");
 //3 radiacion
 var opt_3 = new Array ("", "POWERNASA", "SMN");
 //4 humedad
