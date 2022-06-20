@@ -666,7 +666,9 @@ section {
   top: 0;
   border-radius: 0px;
 }
-
+.services .icon-box:hover h4{
+  color: #fff;
+}
 .services .icon {
   margin-bottom: 15px;
 }
@@ -1039,12 +1041,17 @@ section {
   line-height: 28px;
   margin-bottom: 0;
 }
-
-.portfolio .icon-box:hover .title a, .portfolio .icon-box:hover .description {
+.portfolio a,p {
+  color: #545454;
+}
+.portfolio .icon-box:hover .title a, .portfolio .icon-box:hover .description{
   color: #fff;
 }
 
 .portfolio .icon-box:hover .icon i {
+  color: #fff;
+}
+.portfolio .icon-box:hover h4{
   color: #fff;
 }
 
