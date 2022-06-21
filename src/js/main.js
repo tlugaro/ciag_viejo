@@ -842,7 +842,7 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-    else if (($("#var option:selected").text())=="Radiación Global"){$.ajax({
+    else if (($("#var option:selected").text())=="Radiación global"){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
