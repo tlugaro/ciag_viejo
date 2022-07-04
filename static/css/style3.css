@@ -71,6 +71,7 @@ a:focus {
     align-content: center;
     padding-right: 15px;
     padding-left: 2px;
+
 }
 
 #sidebar.active {
@@ -86,7 +87,7 @@ a:focus {
     height: 35px;
     line-height: 35px;
     text-align: center;
-    background:  rgba(15,67,30, 0.9);
+    background:  #417261;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -94,6 +95,7 @@ a:focus {
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
+    z-index: 9999;
 }
 
 #dismiss:hover {
@@ -104,15 +106,19 @@ a:focus {
 
 
 #sidebar .sidebar-header {
+
     padding: 20px;
-    padding-bottom: 50px;
-    background:  rgba(15,67,30, 1);
+    background:  #417261;
     text-align:center;
+    z-index: 9999;
 }
 
 #sidebar ul.components {
     padding: 20px ;
     border-bottom: 1px solid #6f8282;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 
 }
 
@@ -151,7 +157,9 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 form{
-    display:inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     text-align:center;
 
 }
@@ -177,6 +185,10 @@ a.download {
     background: #fff;
     color: #148F77;
 
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
 }
 
 a.article,
@@ -185,16 +197,18 @@ a.article:hover {
     color: #fff !important;
 }
 
-@media only screen and (max-width: 600px) {
-    #sidebar{
-        width:40vh;
-        background:  rgba(15,67,30, 0.7);
+@media only screen and (max-width: 900px) {
+    #sidebar {
+        width: 40vh;
+        background:#417261;
     }
+}
+@media only screen and (max-width: 600px) {
     #IMAGEN_FLOT {
                         position:absolute;
                         bottom:-10%;
-                        left:-60%;
-                        z-index:9998;
+                        left:-50%;
+                        z-index:998;
                         }
 }
 /* ---------------------------------------------------
@@ -216,14 +230,16 @@ a.article:hover {
     background-color: #fff;
     align-content: center;
     border: none;
-    margin-left: 62px;
-    margin-right: 62px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 #newLayer:hover{
     background-color: #004735;
-    position: relative;
+
     border:none ;
     color: #fff;
+
 }
 #downloaderLayer{
     color: #232323;
@@ -231,8 +247,9 @@ a.article:hover {
     align-content: center;
     border: none;
     margin-top:10px;
-    margin-left: 62px;
-    margin-right: 62px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 #downloaderLayer:hover{
     background-color: #004735;
