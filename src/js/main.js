@@ -385,6 +385,16 @@ function styleprov() {
         fillColor: 	"#00FF00"
     };
 }
+function style_varast(){
+    return {
+        weight: 4,
+        opacity: 0.8,
+        color: 	"#05131c",
+        dashArray: '1',
+        fillOpacity: 0,
+        fillColor: 	"#05131c"
+    };
+}
 var layerGroup = L.layerGroup();
 var legend = L.control({position: 'bottomright'});
 
@@ -1032,7 +1042,89 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-});
+
+    else if (($("#var option:selected").text())=="Heliofanía astronómica"){$.ajax({
+
+        url: "static/capas/Variables astronómicas.geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: style_varast,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["HA_"+($("#tp option:selected").text())];
+                    let aliases = ["Horas"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+        }
+    });
+    }
+    else if (($("#var option:selected").text())=="Radiación astronómica"){$.ajax({
+
+        url: "static/capas/Variables astronómicas.geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: style_varast,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["RA_"+($("#tp option:selected").text())];
+                    let aliases = ["W/m2"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+        }
+    });
+    }
+
+        });
 
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
@@ -1046,7 +1138,7 @@ var opt_1 = new Array ("", "POWERNASA","SMN", );
 //2 temp med, temp max temp min
 var opt_2 = new Array ("", "POWERNASA", "SMN", "CHIRPS", "ERA5");
 //3 radiacion
-var opt_3 = new Array ("", "POWERNASA", "SMN");
+var opt_3 = new Array ("", "Variables astronómicas");
 //4 humedad
 var opt_4 = new Array ("", "POWERNASA", "SMN");
 //4 tension de vapor y dpv
@@ -1054,6 +1146,7 @@ var opt_5 = new Array ("", "SMN");
 // 2) crear una funcion que permita ejecutar el cambio dinamico
 var options_1 = new Array ("","Media Anual","------------------", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 var options_2 = new Array ("","Media Anual","------------------", "Semestre Frío", "Semestre Cálido","------------------","Verano","Otoño","Invierno","Primavera","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var options_3 = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 function cambia() {
     var cosa;
