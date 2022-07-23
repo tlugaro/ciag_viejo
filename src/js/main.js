@@ -167,6 +167,41 @@ function styleepmen(feature2) {
         fillColor: getColorepmen(feature2.properties.DN)
     };
 }
+
+//deficit de presion de vapor media anual
+//tension de vapor media anual
+function getColordpvanual(d) {
+    return d > 17.0 ? '#fdfdfd' :
+                d > 16.0 ? '#f1f9e2' :
+                    d > 15.0 ? '#e5f4c6' :
+                        d > 14.0 ? '#d8efaa' :
+                            d > 13.0 ? '#ccea8e' :
+                                d > 12.0 ? '#c0e572' :
+                                    d > 11.0 ? '#b2e066' :
+                                        d > 10.0 ? '#a4db6b' :
+                                            d > 9.0 ? '#95d770' :
+                                                d > 8.0 ? '#89d478' :
+                                                    d > 7.0 ? '#80d581' :
+                                                        d > 6.0 ? '#76d58a' :
+                                                            d > 5.0 ? '#6dd593' :
+                                                                d > 4.0 ? '#63d097' :
+                                                                    d > 3.0 ? '#56bd8c' :
+                                                                        d > 2.0 ? '#49aa80' :
+                                                                            d > 1.0 ? '#3b9675' :
+                                                                                '#2e836a';
+
+}
+
+function styledpvanual(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColordpvanual(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColordpvanual(feature2.properties.DN)
+    };
+}
 //tension de vapor media anual
 function getColortvp(d) {
     return d > 26.0 ? '#013968' :
@@ -383,6 +418,16 @@ function styleprov() {
         dashArray: '1',
         fillOpacity: 0,
         fillColor: 	"#00FF00"
+    };
+}
+function style_varast(){
+    return {
+        weight: 4,
+        opacity: 0.8,
+        color: 	"#05131c",
+        dashArray: '1',
+        fillOpacity: 0,
+        fillColor: 	"#05131c"
     };
 }
 var layerGroup = L.layerGroup();
@@ -649,7 +694,7 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-    else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Media Anual"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Cálido"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Frío")){$.ajax({
+    else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Media anual"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Cálido"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Frío")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -714,7 +759,7 @@ $('#newLayer').on("click",function(event) {
     }
 
     //Evapotranspiración Potencial (Penman Fao)
-    else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Media Anual")){$.ajax({
+    else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -906,6 +951,69 @@ $('#newLayer').on("click",function(event) {
     });
     }
 
+    else if (($("#var option:selected").text())=="Déficit de presión de vapor" ){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styledpvanual,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["hpa"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,3,6,9,12,15,18],
+                    labels = ['<strong></strong>']
+                title= ["hpa"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColordpvanual(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' hpa' + '<br>' : ' hpa +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+        }
+
+
+    });
+    }
     else if (($("#var option:selected").text())=="Tensión de Vapor"){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
@@ -1032,7 +1140,89 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-});
+
+    else if (($("#var option:selected").text())=="Heliofanía astronómica"){$.ajax({
+
+        url: "static/capas/Variables astronómicas.geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: style_varast,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["HA_"+($("#tp option:selected").text())];
+                    let aliases = ["Horas"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+        }
+    });
+    }
+    else if (($("#var option:selected").text())=="Radiación astronómica"){$.ajax({
+
+        url: "static/capas/Variables astronómicas.geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: style_varast,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["RA_"+($("#tp option:selected").text())];
+                    let aliases = ["W/m2"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+        }
+    });
+    }
+
+        });
 
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
@@ -1046,14 +1236,15 @@ var opt_1 = new Array ("", "POWERNASA","SMN", );
 //2 temp med, temp max temp min
 var opt_2 = new Array ("", "POWERNASA", "SMN", "CHIRPS", "ERA5");
 //3 radiacion
-var opt_3 = new Array ("", "POWERNASA", "SMN");
+var opt_3 = new Array ("", "Variables astronómicas");
 //4 humedad
 var opt_4 = new Array ("", "POWERNASA", "SMN");
 //4 tension de vapor y dpv
 var opt_5 = new Array ("", "SMN");
 // 2) crear una funcion que permita ejecutar el cambio dinamico
-var options_1 = new Array ("","Media Anual","------------------", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-var options_2 = new Array ("","Media Anual","------------------", "Semestre Frío", "Semestre Cálido","------------------","Verano","Otoño","Invierno","Primavera","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var options_1 = new Array ("","Media anual","------------------", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var options_2 = new Array ("","Media anual","------------------", "Semestre Frío", "Semestre Cálido","------------------","Verano","Otoño","Invierno","Primavera","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var options_3 = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 function cambia() {
     var cosa;
