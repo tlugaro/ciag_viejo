@@ -135,14 +135,14 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color:#004735;
+    color:#2c5798;
     background: #fff;
 }
 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #004735;
+    background: #2c5798;
 }
 
 a[data-toggle="collapse"] {
@@ -166,7 +166,7 @@ form{
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #004735;
+    background: #2c5798;
 }
 
 ul.CTAs {
@@ -252,7 +252,7 @@ a.article:hover {
     display: block;
 }
 #newLayer:hover{
-    background-color: #004735;
+    background-color: #2c5798;
 
     border:none ;
     color: #fff;
@@ -269,20 +269,20 @@ a.article:hover {
     display: block;
 }
 #downloaderLayer:hover{
-    background-color: #004735;
+    background-color: #2c5798;
     position: relative;
     border:none ;
     color: #fff;
 }
 
 #sidebarCollapse{
-    background: rgba(15,67, 30, 0.8);
+    background: rgba(44, 87, 152,0.8);
 }
 #sidebarCollapse:hover{
     background: #148F77;
 }
 #volver{
-    background: rgba(15,67, 30, 0.8);
+    background: rgba(44, 87, 152,0.8);
     border:none ;
     margin-top:2px;
 }
@@ -300,7 +300,7 @@ a.article:hover {
     margin-right: 62px;
 }
 #volveralinicio:hover{
-    background-color: #004735;
+    background-color: #2c5798;
     position: relative;
     border:none ;
     color: #fff;
