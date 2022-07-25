@@ -63,7 +63,7 @@ a:focus {
     left: -80vh;
     height: 100vh;
     z-index: 9999;
-    background: #011c38;
+    background: #1b365b;
     color: #fff;
     transition: all 0.3s;
     overflow-y: scroll;
@@ -87,7 +87,7 @@ a:focus {
     height: 35px;
     line-height: 35px;
     text-align: center;
-    background:  #011c38;
+    background:  #1b365b;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -108,7 +108,7 @@ a:focus {
 #sidebar .sidebar-header {
 
     padding: 20px;
-    background:  #011c38;
+    background:  #1b365b;
     text-align:center;
     z-index: 9999;
 }
@@ -200,7 +200,7 @@ a.article:hover {
 @media only screen and (max-width: 900px) {
     #sidebar {
         width: 40vh;
-        background:#011c38;
+        background:#1b365b;
     }
 }
 @media only screen and (max-width: 600px) {
