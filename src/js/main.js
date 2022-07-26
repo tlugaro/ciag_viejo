@@ -937,7 +937,7 @@ $('#newLayer').on("click",function(event) {
                 for (var i = 0; i < grades.length; i++) {
                     div.innerHTML +=
                         '<i style="background:' + getColor3(grades[i]) + '"></i> ' +
-                        grades[i] + (grades[i + 1] ? ' W/m2' + '<br>' : ' W/m2 +');
+                        grades[i] + (grades[i + 1] ? ' MJ/m2 día' + '<br>' : ' MJ/m2 día +');
                 }
 
                 return div;
