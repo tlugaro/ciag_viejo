@@ -907,7 +907,7 @@ $('#newLayer').on("click",function(event) {
 
                     let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
                     let fields = ["DN"];
-                    let aliases = ["W/m2"];
+                    let aliases = ["MJ/m2 día"];
                     let table = '<table>' +
                         String(
                             fields.map(
