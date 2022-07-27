@@ -119,7 +119,7 @@ function getColorep(d) {
 
 function styleep(feature2) {
     return {
-        weight: 1.5,
+        weight: 1,
         opacity: 0.8,
         color: '#fff',
         dashArray: '1',
@@ -159,9 +159,9 @@ function getColorepmen(d) {
 
 function styleepmen(feature2) {
     return {
-        weight: 1.5,
+        weight: 1,
         opacity: 0.8,
-        color: getColorepmen(feature2.properties.DN),
+        color: '#fff',
         dashArray: '1',
         fillOpacity: 0.8,
         fillColor: getColorepmen(feature2.properties.DN)
