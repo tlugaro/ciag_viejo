@@ -119,9 +119,9 @@ function getColorep(d) {
 
 function styleep(feature2) {
     return {
-        weight: 1.5,
+        weight: 1,
         opacity: 0.8,
-        color: getColorep(feature2.properties.DN),
+        color: '#fff',
         dashArray: '1',
         fillOpacity: 0.8,
         fillColor: getColorep(feature2.properties.DN)
@@ -159,9 +159,9 @@ function getColorepmen(d) {
 
 function styleepmen(feature2) {
     return {
-        weight: 1.5,
+        weight: 1,
         opacity: 0.8,
-        color: getColorepmen(feature2.properties.DN),
+        color: '#fff',
         dashArray: '1',
         fillOpacity: 0.8,
         fillColor: getColorepmen(feature2.properties.DN)
@@ -887,7 +887,7 @@ $('#newLayer').on("click",function(event) {
 
                     let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
                     let fields = ["DN"];
-                    let aliases = ["W/m2"];
+                    let aliases = ["MJ/m2 día"];
                     let table = '<table>' +
                         String(
                             fields.map(
@@ -917,7 +917,7 @@ $('#newLayer').on("click",function(event) {
                 for (var i = 0; i < grades.length; i++) {
                     div.innerHTML +=
                         '<i style="background:' + getColor3(grades[i]) + '"></i> ' +
-                        grades[i] + (grades[i + 1] ? ' W/m2' + '<br>' : ' W/m2 +');
+                        grades[i] + (grades[i + 1] ? ' MJ/m2 día' + '<br>' : ' MJ/m2 día +');
                 }
 
                 return div;
