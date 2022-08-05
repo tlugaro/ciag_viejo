@@ -339,7 +339,111 @@ function stylepptrim(feature2) {
     };
 }
 //Temperatura
+function getColortmax(d) {
+    return  d > 35.0 ? '#7e0015' :
+                d > 34.0 ? '#840316' :
+                    d > 33.0 ? '#8a0617' :
+                        d > 32.0 ? '#900918' :
+                            d > 31.0 ? '#950c19' :
+                                d > 30.0 ? '#9b0e1a' :
+                                    d > 29.0 ? '#a1111b' :
+                                        d > 28.0 ? '#a7141d' :
+                                            d > 27.0 ? '#ad171e' :
+                                                d > 26.0 ? '#b31a1f' :
+                                                    d > 25.0 ? '#b91d20' :
+                                                        d > 24.0 ? '#bf2021' :
+                                                            d > 23.0 ? '#c52322' :
+                                                                d > 22.0 ? '#cb2623' :
+                                                                    d > 21.0 ? '#d12924' :
+                                                                        d > 20.0 ? '#d72c25' :
+                                                                            d > 19.0 ? '#da3326' :
+                                                                                d > 18.0 ? '#dc3a27' :
+                                                                                    d > 17.0 ? '#de4128' :
+                                                                                        d > 16.0 ? '#e04829' :
+                                                                                            d > 15.0 ? '#e24f2a' :
+                                                                                                d > 14.0 ? '#e65a2b' :
+                                                                                                    d > 13.0 ? '#ea672d' :
+                                                                                                        d > 12.0 ? '#ee742f' :
+                                                                                                            d > 11.0 ? '#f18031' :
+                                                                                                                d > 10.0 ? '#f58d33' :
+                                                                                                                    d > 9.0 ? '#f89835' :
+                                                                                                                        d > 8.0 ? '#f79e3a' :
+                                                                                                                            d > 7.0 ? '#f6a33e' :
+                                                                                                                                d > 6.0 ? '#f5a942' :
+                                                                                                                                    d > 5.0 ? '#f5af47' :
+                                                                                                                                        d > 4.0 ? '#f4b54b' :
+                                                                                                                                            d > 3.0 ? '#f3bc54' :
+                                                                                                                                                d > 2.0 ? '#f6cc7e' :
+                                                                                                                                                    d > 1.0 ? '#f9dda7' :
+                                                                                                                                                        d > 0.0 ? '#fcedd1' :
+                                                                                                                                                            d > -1.0 ? '#fffdfb' :
+                                                                                                                                                                d > -2.0 ? '#1b7db7' :
+                                                                                                                                                                    '#0e689a';
+}
 
+function styletmax(feature1) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColortmax(feature1.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColortmax(feature1.properties.DN)
+    };
+}
+function getColortmin(d) {
+    return d > 24.0 ? '#ca0020' :
+                            d > 23.0 ? '#ce0c22' :
+                                d > 22.0 ? '#d21823' :
+                                    d > 21.0 ? '#d52525' :
+                                        d > 20.0 ? '#d93126' :
+                                            d > 19.0 ? '#dd3d28' :
+                                                d > 18.0 ? '#e14929' :
+                                                    d > 17.0 ? '#e4552b' :
+                                                        d > 16.0 ? '#e75f2c' :
+                                                            d > 15.0 ? '#ea692d' :
+                                                                d > 14.0 ? '#ed732f' :
+                                                                    d > 13.0 ? '#f17d30' :
+                                                                        d > 12.0 ? '#f48832' :
+                                                                            d > 11.0 ? '#f79233' :
+                                                                                d > 10.0 ? '#f89936' :
+                                                                                    d > 9.0 ? '#f79f3a' :
+                                                                                        d > 8.0 ? '#f6a43f' :
+                                                                                            d > 7.0 ? '#f5a943' :
+                                                                                                d > 6.0 ? '#f5af47' :
+                                                                                                    d > 5.0 ? '#f4b44b' :
+                                                                                                        d > 4.0 ? '#f3ba4f' :
+                                                                                                            d > 3.0 ? '#f6c975' :
+                                                                                                                d > 2.0 ? '#f8d99e' :
+                                                                                                                    d > 1.0 ? '#fbe9c7' :
+                                                                                                                        d > 0.0 ? '#fef9f0' :
+                                                                                                                            d > -1.0 ? '#ebf4f9' :
+                                                                                                                                d > -2.0 ? '#cbe2ef' :
+                                                                                                                                    d > -3.0 ? '#abcfe5' :
+                                                                                                                                        d > -4.0 ? '#8bbdda' :
+                                                                                                                                            d > -5.0 ? '#6babd0' :
+                                                                                                                                                d > -6.0 ? '#4b99c6' :
+                                                                                                                                                    d > -7.0 ? '#2b87bc' :
+                                                                                                                                                        d > -8.0 ? '#0b75b2' :
+                                                                                                                                                            d > -9.0 ? '#056eab' :
+                                                                                                                                                                d > -10.0 ? '#046aa6' :
+                                                                                                                                                                    d > -11.0 ? '#0467a0':
+                                                                                                                                                                        d > -12.0 ? '#04639a' :
+                                                                                                                                                                            d > -13.0 ? '#045f94' :
+                                                                                                                                                                                d > -14.0 ? '#035c8f' :
+                                                                                                                                                                                    '#035889';
+}
+
+function styletmin(feature1) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColortmin(feature1.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColortmin(feature1.properties.DN)
+    };
+}
 function getColor1(d) {
     return d > 29.0 ? '#8d0017' :
                 d > 28.0 ? '#920018' :
@@ -483,7 +587,7 @@ $('#newLayer').on("click",function(event) {
     var base2 = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#tp option:selected").text());
 
 
-    if (($("#var option:selected").text())=="Temperatura Media" ||($("#var option:selected").text())=="Temperatura Máxima" || ($("#var option:selected").text())=="Temperatura Mínima"){
+    if (($("#var option:selected").text())=="Temperatura Media" ){
         $.ajax({
 
             url: "static/capas/" + base2 +".geojson",
@@ -528,12 +632,142 @@ $('#newLayer').on("click",function(event) {
                     var div = L.DomUtil.create('div', 'info legend'),
                         grades = [-6,-3,-0,3,6,9,12,15,18,21,24,27,30],
                         labels = ['<strong></strong>']
-                    title= ["Temperatura"];
+                    title= ["Temperatura Media"];
 
                     // loop through our density intervals and generate a label with a colored square for each interval
                     for (var i = 0; i < grades.length; i++) {
                         div.innerHTML +=
                             '<i style="background:' + getColor1(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' ºC' + '<br>' : ' ºC' + '<br>');
+                    }
+
+                    return div;
+                };
+
+                legend.addTo(map);
+                prov.bringToFront();
+            }
+
+
+
+        });
+    }
+    else if (($("#var option:selected").text())=="Temperatura Máxima") {
+        $.ajax({
+
+            url: "static/capas/" + base2 +".geojson",
+
+            success: function (data) {
+
+                var geojson = new L.geoJson((data), {
+                        style: styletmax,
+                        onEachFeature: onEachFeature
+
+                    }
+                ).addTo(layerGroup);
+
+                map.addLayer(layerGroup);
+                geojson.bindTooltip(
+                    function (layer) {
+                        let div = L.DomUtil.create('div');
+
+                        let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                        let fields = ["DN"];
+                        let aliases = ["ºC"];
+                        let table = '<table>' +
+                            String(
+                                fields.map(
+                                    (v, i) =>
+                                        `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                            + '</table>';
+                        div.innerHTML = table;
+
+                        return div
+                    }
+                    , {"className": "foliumtooltip", "sticky": true});
+
+
+                legend.onAdd = function (map) {
+
+                    var div = L.DomUtil.create('div', 'info legend'),
+                        grades = [-3,0,3,6,9,12,15,18,21,24,27,30,33,36],
+                        labels = ['<strong></strong>']
+                    title= ["Temperatura máxima"];
+
+                    // loop through our density intervals and generate a label with a colored square for each interval
+                    for (var i = 0; i < grades.length; i++) {
+                        div.innerHTML +=
+                            '<i style="background:' + getColortmax(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' ºC' + '<br>' : ' ºC' + '<br>');
+                    }
+
+                    return div;
+                };
+
+                legend.addTo(map);
+                prov.bringToFront();
+            }
+
+
+
+        });
+    }
+    else if (($("#var option:selected").text())=="Temperatura Mínima"){
+        $.ajax({
+
+            url: "static/capas/" + base2 +".geojson",
+
+            success: function (data) {
+
+                var geojson = new L.geoJson((data), {
+                        style: styletmin,
+                        onEachFeature: onEachFeature
+
+                    }
+                ).addTo(layerGroup);
+
+                map.addLayer(layerGroup);
+                geojson.bindTooltip(
+                    function (layer) {
+                        let div = L.DomUtil.create('div');
+
+                        let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                        let fields = ["DN"];
+                        let aliases = ["ºC"];
+                        let table = '<table>' +
+                            String(
+                                fields.map(
+                                    (v, i) =>
+                                        `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                            + '</table>';
+                        div.innerHTML = table;
+
+                        return div
+                    }
+                    , {"className": "foliumtooltip", "sticky": true});
+
+
+                legend.onAdd = function (map) {
+
+                    var div = L.DomUtil.create('div', 'info legend'),
+                        grades = [-15,-12,-9,-6,-3,-0,3,6,9,12,15,18,21,24],
+                        labels = ['<strong></strong>']
+                    title= ["Temperatura mínima"];
+
+                    // loop through our density intervals and generate a label with a colored square for each interval
+                    for (var i = 0; i < grades.length; i++) {
+                        div.innerHTML +=
+                            '<i style="background:' + getColortmin(grades[i]) + '"></i> ' +
                             grades[i] + (grades[i + 1] ? ' ºC' + '<br>' : ' ºC' + '<br>');
                     }
 
