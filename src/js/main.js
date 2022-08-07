@@ -5,6 +5,7 @@ $(document).ready(function () {
     });
 
     $('#varast').on('click', function () {
+        event.preventDefault();
         $.ajax({
             url: "static/capas/Variables astronómicas_puntos.geojson",
 
