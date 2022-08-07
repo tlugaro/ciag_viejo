@@ -1,3 +1,262 @@
+$('#highcharts-figure').addClass('desactive');
+$(document).ready(function () {
+    $("#highcharts-figure").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#varast').on('click', function () {
+        $.ajax({
+            url: "static/capas/Variables astronómicas_puntos.geojson",
+
+            success: function (data) {
+
+                var puntos = new L.geoJson((data), {
+                        style: style1,
+                        onEachFeature: onEachFeature
+
+                    }
+                ).addTo(layerGroup);
+
+                map.addLayer(layerGroup);
+                puntos.bindTooltip(
+                    function (layer) {
+                        let div = L.DomUtil.create('div');
+
+                        let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                        let fields = ["ID"];
+                        let aliases = ["º Sur"];
+                        let table = '<table>' +
+                            String(
+                                fields.map(
+                                    (v, i) =>
+                                        `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                            + '</table>';
+                        div.innerHTML = table;
+
+                        return div
+                    }
+                    , {"className": "foliumtooltip", "sticky": true});
+
+                $('#highcharts-figure').addClass('active');
+                $('#sidebar').removeClass('active');
+
+            },
+        });
+        $.ajax({
+        url: "static/capas/Variables astronómicas.geojson",
+
+            success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: style_varast,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["ID"];
+                    let aliases = ["º Sur"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+        }
+    });
+
+    })
+    function onEachFeature(feature, puntos) {
+        puntos.on('click', function (e) {
+            lat = (feature.properties.ID);
+            console.log(name);
+            //or
+            if (lat == "25") {
+                chart.update({
+                    subtitle: {
+                        text: '25° S'
+                    },
+                    series: [
+
+                        {
+                            name: 'HA',
+                            data: [10.4,10.7,11.3,12.0,12.7,13.3,13.6,13.3,12.7,12.0,11.3,10.7,10.4],
+                            color: '#f5d33b',
+
+                        },{
+                            name: 'F',
+                            data: [11.4,11.6,12.2,12.9,13.7,14.3,14.6,14.3,13.6,12.9,12.2,11.6,11.4],
+                            color:'#2F6F3A',
+
+                        },{
+                            name: 'RA',
+                            yAxis: 1,
+                            data: [21.3,23.0,27.9,34.0,39.0,42.2,43.2,42.3,39.2,34.4,28.2,23.2,21.3],
+                            color:'#8F1D1D',
+
+
+                        }
+                    ],
+                });
+            }
+            if (lat == "30") {
+                chart.update({
+                    subtitle: {
+                        text: '30° S'
+                    },
+                    series: [
+
+                        {
+                            name: 'HA',
+                            data: [10.1, 10.3, 11.1, 12.0, 12.9, 13.7, 13.9, 13.6, 12.9, 12.0, 11.1, 10.4, 10.1],
+                            color: '#f5d33b',
+                        }, {
+                            name: 'F',
+                            data: [11.1, 11.3, 12.0, 12.9, 13.9, 14.7, 15.0, 14.6, 13.8, 12.9, 12.0, 11.4, 11.1],
+                            color: '#2F6F3A',
+                        }, {
+                            name: 'RA',
+                            data: [18.4, 20.3, 25.6, 32.5, 38.6, 42.6, 43.9, 42.7, 38.6, 32.9, 25.8, 20.5, 18.4],
+                            color: '#8F1D1D',
+                            yAxis: 1,
+
+
+                        }
+                    ],
+                });
+            }
+
+            if (lat == "35") {
+                chart.update({
+                    subtitle: {
+                        text: '35° S'
+                    },
+                    series: [
+
+                        {
+                            name: 'HA',
+                            data: [9.6,10.0,10.9,12.0,13.1,14.0,14.4,14.0,13.1,12.0,10.9,10.0,9.6],
+                            color: '#f5d33b',
+                        },{
+                            name: 'F',
+                            data: [10.7,11.1,11.9,13.0,14.1,15.1,15.5,15.1,14.1,13.0,11.9,11.1,10.7],
+                            color:'#2F6F3A',
+                        },{
+                            name: 'RA',
+                            data: [15.6,17.5,23.1,30.8,37.8,42.7,44.4,42.8,37.8,31.2,23.4,17.7,15.6],
+                            color:'#8F1D1D',
+                            yAxis: 1,
+
+
+                        }
+                    ],
+                });
+            }
+
+            if (lat == "40") {
+                chart.update({
+                    subtitle: {
+                        text: '40° S'
+                    },
+                    series: [
+
+                        {
+                            name: 'HA',
+                            data: [9.2,9.6,10.7,12.0,13.4,14.4,14.8,14.4,13.3,12.0,10.7,9.6,9.2],
+                            color: '#f5d33b',
+                        },{
+                            name: 'F',
+                            data: [10.3,10.7,11.7,13.1,14.5,15.6,16.1,15.6,14.4,13.1,11.7,10.7,10.3],
+                            color:'#2F6F3A',
+                        },{
+                            name: 'RA',
+                            data: [12.7,14.6,20.5,28.8,36.8,42.6,44.7,42.6,36.7,29.2,20.7,14.8,12.7],
+                            color:'#8F1D1D',
+                            yAxis:1,
+
+
+                        }
+                    ],
+                });
+            }
+
+            if (lat == "45") {
+                chart.update({
+                    subtitle: {
+                        text: '45° S'
+                    },
+                    series: [
+
+                        {
+                            name: 'HA',
+                            data: [8.6,9.1,10.4,12.0,13.6,14.9,15.4,14.9,13.5,12.0,10.4,9.1,8.6],
+                            color: '#f5d33b',
+                        },{
+                            name: 'F',
+                            data: [9.9,10.4,11.6,13.2,14.8,16.3,16.9,16.2,14.7,13.2,11.6,10.4,9.9],
+                            color:'#2F6F3A',
+                        },{
+                            name: 'RA',
+                            data: [9.8,11.7,17.8,26.6,35.5,42.3,44.7,42.2,35.3,27.0,17.9,11.9,9.8],
+                            color:'#8F1D1D',
+                            yAxis:1,
+
+                        }
+                    ],
+                });
+            }
+            if (lat == "50") {
+                chart.update({
+                    subtitle: {
+                        text: '50° S'
+                    },
+                    series: [
+
+                        {
+                            name: 'HA',
+                            data: [7.9,8.5,10.1,12.0,13.9,15.5,16.1,15.4,13.8,12.0,10.1,8.5,7.9],
+                            color: '#f5d33b',
+                        },{
+                            name: 'F',
+                            data: [9.4,9.9,11.4,13.3,15.3,17.1,17.9,17.0,15.1,13.3,11.4,10.0,9.4],
+                            color:'#2F6F3A',
+                        },{
+                            name: 'RA',
+                            data: [7.0,8.9,14.9,24.3,34.0,41.8,44.6,41.6,33.8,24.5,15.1,9.1,7.0],
+                            color:'#8F1D1D',
+                            yAxis:1,
+
+
+
+                        }
+                    ],
+                });
+            }
+        });
+    }
+});
+
 $('#sidebar').addClass('active');
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
@@ -7,19 +266,22 @@ $(document).ready(function () {
     $('#dismiss, .overlay').on('click', function () {
         $('#sidebar').removeClass('active');
         $('.overlay').removeClass('active');
+
     });
 
     $('#sidebarCollapse').on('click', function () {
+        $('#highcharts-figure').removeClass('active');
         $('#sidebar').addClass('active');
         $('.overlay').addClass('active');
         $('.collapse.in').toggleClass('in');
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+
     });
 });
 
 
 
-var map = L.map('content', { zoomControl:false, minZoom: 4, zoomSnap: 0.25 }).setView([-38.86, -64.33], 4.5);
+var map = L.map('content', { zoomControl:false, minZoom: 4, zoomSnap: 0.25 }).setView([-38.86, -74.33], 4.5);
 
 var all = L.layerGroup().addTo(map)
 
