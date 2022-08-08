@@ -1714,14 +1714,15 @@ var opt_1 = new Array ("", "POWERNASA","SMN" );
 var opt_2 = new Array ("", "POWERNASA", "SMN", "CHIRPS", "ERA5");
 //3 radiacion
 var opt_3 = new Array ("", "POWERNASA", "SMN","ERA5");
-//4 humedad
+//4 solo mensual
 var opt_4 = new Array ("", "POWERNASA", "SMN");
 //4 tension de vapor y dpv
 var opt_5 = new Array ("", "SMN");
 // 2) crear una funcion que permita ejecutar el cambio dinamico
 var options_1 = new Array ("","Media anual","------------------", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 var options_2 = new Array ("","Media anual","------------------", "Semestre Frío", "Semestre Cálido","------------------","Verano","Otoño","Invierno","Primavera","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-var options_3 = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var options_3 = new Array ("","Media anual","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var options_4 = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 function cambia() {
     var cosa;
