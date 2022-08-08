@@ -915,7 +915,7 @@ $('#newLayer').on("click",function(event) {
 
         });
     }
-    else if (($("#var option:selected").text())=="Temperatura Máxima") {
+    else if (($("#var option:selected").text())=="Temperatura máxima") {
         $.ajax({
 
             url: "static/capas/" + base2 +".geojson",
@@ -1709,11 +1709,11 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
 
 //1) Definir Las Variables Correspondintes
 //1 precipitacion
-var opt_1 = new Array ("", "POWERNASA","SMN", );
+var opt_1 = new Array ("", "POWERNASA","SMN" );
 //2 temp med, temp max temp min
 var opt_2 = new Array ("", "POWERNASA", "SMN", "CHIRPS", "ERA5");
 //3 radiacion
-var opt_3 = new Array ("", "Variables astronómicas");
+var opt_3 = new Array ("", "POWERNASA", "SMN","ERA5");
 //4 humedad
 var opt_4 = new Array ("", "POWERNASA", "SMN");
 //4 tension de vapor y dpv
