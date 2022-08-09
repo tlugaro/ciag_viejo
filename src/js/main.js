@@ -324,23 +324,38 @@ function style4(feature4) {
 }
 //Radiacion
 function getColor3(d) {
-    return d > 30.0? '#7f2704' :
-        d > 28.0 ? '#993103' :
-            d > 26 ? '#b43b02' :
-                d > 24.0 ? '#d14501' :
-                    d > 22.0  ? '#e25407' :
-                        d > 20.0  ? '#ee6510' :
-                            d > 18.0  ? '#f67722' :
-                                d > 16.0  ? '#fc8938' :
-                                    d > 14.0  ? '#fd9b4f' :
-                                        d > 12.0  ? '#fdac67' :
-                                            d > 10.0  ? '#fdbd83' :
-                                                d > 8.0  ? '#fdcf9f' :
-                                                    d > 6.0  ? '#fedbb7' :
-                                                        d > 4.0  ? '#fee6cd' :
-                                                            d > 2.0  ? '#ffeedc' :
-                                                                d > 0.0  ? '#fff5eb' :
-                                                                    '#fff5eb';
+    return d > 30.0? '#8e1db7' :
+        d > 29.0 ? '#902688' :
+        d > 28.0 ? '#912b71' :
+            d > 27.0 ? '#922f5a' :
+                d > 26.0 ? '#933442' :
+                    d > 25.0 ? '#93382b' :
+                    d > 24.0 ? '#943d14' :
+                        d > 23.0 ? '#974103' :
+                        d > 22.0  ? '#9f4505' :
+                            d > 21.0 ? '#a64808' :
+                            d > 20.0  ? '#ae4c0a' :
+                                d > 19.0 ? '#b5500d' :
+                                d > 18.0  ? '#bd530f' :
+                                    d > 17.0  ? '#c55711' :
+                                d > 16.0  ? '#cc5a14' :
+                                    d > 15.0  ? '#d2601b' :
+                                    d > 14.0  ? '#d76926' :
+                                        d > 13.0  ? '#db7232' :
+                                        d > 12.0  ? '#df7a3d' :
+                                            d > 11.0  ? '#e38349' :
+                                            d > 10.0  ? '#e88b54' :
+                                                d > 9.0  ? '#ec9460' :
+                                                d > 8.0  ? '#f09c6b' :
+                                                    d > 7.0  ? '#f3a87c' :
+                                                    d > 6.0  ? '#f5b48f' :
+                                                        d > 5.0  ? '#f6c1a2' :
+                                                        d > 4.0  ? '#f8cdb4' :
+                                                            d > 3.0  ? '#fadac7' :
+                                                            d > 2.0  ? '#fce6da' :
+                                                                d > 1.0  ? '#fdf3ec' :
+                                                                d > 0.0  ? '#ffffff' :
+                                                                    '#ffffff';
 
 }
 
@@ -1408,7 +1423,7 @@ $('#newLayer').on("click",function(event) {
                 var div = L.DomUtil.create('div', 'info legend'),
                     grades = [0,4,8,12,16,20,24,28,32],
                     labels = ['<strong></strong>']
-                title= ["mm"];
+                title= ["MJ/m2 día"];
 
                 // loop through our density intervals and generate a label with a colored square for each interval
                 for (var i = 0; i < grades.length; i++) {
