@@ -62,6 +62,7 @@ a:focus {
     z-index: 998;
     margin: 0px auto;
 
+
 }
 
 #highcharts-figure.active {
@@ -224,6 +225,17 @@ a.article:hover {
                         left:-50%;
                         z-index:998;
                         }
+    .highcharts-figure, .highcharts-data-table table {
+        position:absolute;
+        bottom:0%;
+        left:-100%;
+        min-width: 100%;
+        max-width: 100%;
+        max-height: 50%;
+        z-index: 998;
+        margin: 0px auto;
+
+    }
 }
 /* ---------------------------------------------------
     CONTENT STYLE

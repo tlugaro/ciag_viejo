@@ -973,7 +973,7 @@ $('#newLayer').on("click",function(event) {
                 legend.onAdd = function (map) {
 
                     var div = L.DomUtil.create('div', 'info legend'),
-                        grades = [-3,0,3,6,9,12,15,18,21,24,27,30,33,36],
+                        grades = [-4,0,4,8,12,16,20,24,28,32,36],
                         labels = ['<strong></strong>']
                     title= ["Temperatura máxima"];
 
@@ -1038,7 +1038,7 @@ $('#newLayer').on("click",function(event) {
                 legend.onAdd = function (map) {
 
                     var div = L.DomUtil.create('div', 'info legend'),
-                        grades = [-15,-12,-9,-6,-3,-0,3,6,9,12,15,18,21,24],
+                        grades = [-14,-10,-6,-2,0,2,6,10,14,18,22,24],
                         labels = ['<strong></strong>']
                     title= ["Temperatura mínima"];
 
@@ -1102,7 +1102,7 @@ $('#newLayer').on("click",function(event) {
             legend.onAdd = function (map) {
 
                 var div = L.DomUtil.create('div', 'info legend'),
-                    grades = [0,40,80,100,120,160,200,240],
+                    grades = [0,20,40,60,80,100,120,140,160,180,200,220,240],
                     labels = ['<strong></strong>']
                 title= ["mm"];
 
