@@ -995,7 +995,7 @@ $('#newLayer').on("click",function(event) {
 
         });
     }
-    else if (($("#var option:selected").text())=="Temperatura Mínima"){
+    else if (($("#var option:selected").text())=="Temperatura mínima"){
         $.ajax({
 
             url: "static/capas/" + base2 +".geojson",
