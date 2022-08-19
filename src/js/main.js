@@ -618,21 +618,21 @@ function stylepptrim(feature2) {
 }
 //Temperatura
 function getColortmax(d) {
-    return  d > 35.0 ? '#7e0015' :
-                d > 34.0 ? '#840316' :
-                    d > 33.0 ? '#8a0617' :
-                        d > 32.0 ? '#900918' :
-                            d > 31.0 ? '#950c19' :
-                                d > 30.0 ? '#9b0e1a' :
-                                    d > 29.0 ? '#a1111b' :
-                                        d > 28.0 ? '#a7141d' :
-                                            d > 27.0 ? '#ad171e' :
-                                                d > 26.0 ? '#b31a1f' :
-                                                    d > 25.0 ? '#b91d20' :
-                                                        d > 24.0 ? '#bf2021' :
-                                                            d > 23.0 ? '#c52322' :
-                                                                d > 22.0 ? '#cb2623' :
-                                                                    d > 21.0 ? '#d12924' :
+    return  d > 35.0 ? '#35070c' :
+                d > 34.0 ? '#42060e' :
+                    d > 33.0 ? '#4f040f' :
+                        d > 32.0 ? '#5c0211' :
+                            d > 31.0 ? '#690112' :
+                                d > 30.0 ? '#740014' :
+                                    d > 29.0 ? '#7b0015' :
+                                        d > 28.0 ? '#830016' :
+                                            d > 27.0 ? '#8b0017' :
+                                                d > 26.0 ? '#960018' :
+                                                    d > 25.0 ? '#a3001a' :
+                                                        d > 24.0 ? '#b0001c' :
+                                                            d > 23.0 ? '#bd001e' :
+                                                                d > 22.0 ? '#ca0020' :
+                                                                    d > 21.0 ? '#ce0f22' :
                                                                         d > 20.0 ? '#d72c25' :
                                                                             d > 19.0 ? '#da3326' :
                                                                                 d > 18.0 ? '#dc3a27' :
@@ -661,11 +661,11 @@ function getColortmax(d) {
 
 function styletmax(feature1) {
     return {
-        weight: 1.5,
+        weight: 1.9,
         opacity: 0.8,
         color: getColortmax(feature1.properties.DN),
         dashArray: '1',
-        fillOpacity: 0.8,
+        fillOpacity: 0.9,
         fillColor: getColortmax(feature1.properties.DN)
     };
 }
