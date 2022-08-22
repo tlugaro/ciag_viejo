@@ -272,7 +272,6 @@
     };
     var baseMaps = {
     };
-
     var control_capas=    L.control.layers(baseMaps, overlayMaps,{
         position: 'topright', // 'topleft', 'bottomleft', 'bottomright'
         collapsed: false // true
@@ -332,9 +331,10 @@
 
                             resolution: 256
                         });
-                        console.log("layer:", layer);
                         layer.addTo(layerGroup);
                         map.addLayer(layerGroup);
+
+
                         //Precipitación mensual
                         function getColor(d) {
                             return d > 230.0? '#08314C' :
@@ -378,6 +378,7 @@
                 })
             });
     });
+
 
 
 

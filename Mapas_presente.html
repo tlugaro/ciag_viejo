@@ -106,6 +106,7 @@
                         <option value="2">2022_05_29_PN_AU</option>
                         <option value="2">2022_05_29_PN_ER</option>
                         <option value="2">2022_05_29_PN_WSI</option>
+                        <option value="2">AU_20220802</option>
 
                     </select>
                 </div>
@@ -221,12 +222,14 @@
     ).addTo(map);
     var all = L.layerGroup().addTo(map)
     var layerGroup = L.layerGroup();
+    var layerGroupdos = L.layerGroup();
     var legend = L.control({position: 'bottomright'});
 
 
     var overlayMaps = {
         "Limites Provinciales": prov,
         "Estaciones": layerGroup
+
 
     };
     var baseMaps = {
@@ -255,6 +258,7 @@
         }
 
         layerGroup.clearLayers();
+        layerGroupdos.clearLayers();
         map.removeControl(legend);
         var base2 = ($("#var option:selected").text());
 
@@ -292,7 +296,7 @@
                             resolution: 256
                         });
                         console.log("layer:", layer);
-                        layer.addTo(map);
+                        layer.addTo(layerGroupdos);
 
                         map.fitBounds(layer.getBounds());
 
@@ -341,7 +345,7 @@
                                     });
                                 }
                             }).addTo(layerGroup);
-
+                            map.addLayer(layerGroupdos);
                             map.addLayer(layerGroup);
 
                             geojson.bindTooltip(
@@ -411,7 +415,9 @@
                             resolution: 256
                         });
                         console.log("layer:", layer);
-                        layer.addTo(map);
+                        layer.addTo(layerGroupdos);
+                        map.addLayer(layerGroupdos);
+                        map.addLayer(layerGroup);
 
                         map.fitBounds(layer.getBounds());
 
@@ -507,6 +513,127 @@
                                 prov.bringToFront();
 
                             });
+                    }else if ((($("#var option:selected").text()) == "AU_20220802")) {
+                        var scale = chroma.scale(['#B2381C', '#FCA029', '#F4D629', '#F7FF82', '#D5FA79', '#A3F32F', '#43CD2A', '#0A8838', '#135943', '#07332C', '#2B2387']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.8,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - min) / 100;
+
+                                var color = scale(scaledPixelValue).hex();
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+                        layer.addTo(layerGroupdos);
+                        map.addLayer(layerGroupdos);
+                        map.addLayer(layerGroup);
+
+                        map.fitBounds(layer.getBounds());
+
+                        function getColor(d) {
+                            return d > 95.0 ? '#08306b' :
+                                d > 90.0 ? '#07332C' :
+                                    d > 80.0 ? '#135943' :
+                                        d > 70.0 ? '#0A8838' :
+                                            d > 60.0 ? '#43CD2A' :
+                                                d > 50.0 ? '#A3F32F' :
+                                                    d > 40.0 ? '#D5FA79' :
+                                                        d > 30.0 ? '#F7FF82' :
+                                                            d > 20.0 ? '#F4D629' :
+                                                                d > 10.0 ? '#FCA029' :
+                                                                    d > 0.0 ? '#B2381C' :
+
+                                                                        '#8c240c';
+
+                        }
+
+                        fetch("static/capas/raster/" + base2 + '.geojson')
+                            .then(function (res) {
+                                if (res.ok === true) {
+                                    return res.json();
+                                } else {
+                                    alert('Geojson request failed.');
+                                }
+                            })
+
+
+                            .then(function (quake) {
+                                var geojson = L.geoJSON(quake, {
+                                    style: function (feature) {
+                                        return feature.properties && feature.properties.style;
+                                    },
+
+                                    pointToLayer: function (feature, latlng) {
+                                        return L.circleMarker(latlng, {
+                                            radius: 4,
+                                            fillColor: getColor(feature.properties.au),
+                                            color: "#FFF",
+                                            weight: 1,
+                                            opacity: 1,
+                                            fillOpacity: 1,
+                                        });
+                                    }
+                                }).addTo(layerGroup);
+
+                                map.addLayer(layerGroup);
+
+                                geojson.bindTooltip(
+                                    function (layer) {
+                                        let div = L.DomUtil.create('div');
+                                        let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                                        let fields = ["au"];
+                                        let field = ["codest"];
+                                        let aliases = ["% AU"];
+                                        let table = '<table>' +
+                                            String(
+                                                fields.map(
+                                                    (v, i) =>
+                                                        `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                                            + '</table>';
+                                        div.innerHTML = table;
+
+                                        return div
+                                    }
+                                    , {"className": "foliumtooltip", "sticky": true});
+                                legend.onAdd = function (map) {
+
+                                    var div = L.DomUtil.create('div', 'info legend'),
+                                        grades = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                                        labels = ['<strong></strong>']
+                                    title = ["% AU"];
+
+                                    // loop through our density intervals and generate a label with a colored square for each interval
+                                    for (var i = 0; i < grades.length; i++) {
+                                        div.innerHTML +=
+                                            '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                                            grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' % ');
+                                    }
+
+                                    return div;
+                                };
+
+                                legend.addTo(map);
+                                prov.bringToFront();
+
+                            });
+
+
                     }else if ((($("#var option:selected").text())=="2022_05_29_PN_WSI")){
                         var scale = chroma.scale(['#B2381C', '#FCA029', '#F4D629', '#F7FF82', '#D5FA79', '#A3F32F', '#43CD2A', '#0A8838', '#135943', '#07332C', '#2B2387']);
 
@@ -529,12 +656,12 @@
 
                             resolution: 256
                         });
-                        console.log("layer:", layer);
-                        layer.addTo(map);
+                        layer.addTo(layerGroupdos);
+                        map.addLayer(layerGroupdos);
+                        map.addLayer(layerGroup);
 
                         map.fitBounds(layer.getBounds());
-                    }
-                });
+
                 function getColor(d) {
                     return d > 0.95 ? '#08306b' :
                         d > 0.90 ? '#07332C' :
@@ -627,8 +754,10 @@
                         }
                     )
 
-
+                    }
+                });
             });
+
 
     });
 

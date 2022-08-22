@@ -82,14 +82,14 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 997;
   transition: all 0.5s;
   padding: 10px 0 0 0;
-  background: rgba(15,67,30, 0.5);
+  background: rgba(65,114,97, 0.5);
 }
 #header2 {
   transition: all 0.5s;
   z-index: 997;
   transition: all 0.5s;
   padding: 10px 0 0 0;
-  background: rgba(15,67,30, 0.9);
+  background: rgba(65,114,97, 0.9);
 }
 
 #header.header-transparent {
@@ -99,11 +99,11 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 #header2.header-scrolled {
-  background: rgba(15,67,30, 0.9);
+  background: rgba(65,114,97, 0.9);
   padding: 12px;
 }
 #header.header-scrolled {
-  background: rgba(15,67,30, 0.9);
+  background: rgba(65,114,97, 0.9);
   padding: 12px;
 }
 
@@ -140,12 +140,12 @@ h1, h2, h3, h4, h5, h6 {
 #header .logo img {
   padding: 0;
   margin: 0;
-  max-height: 60px;
+  max-height: 50px;
 }
 #header2 .logo img {
   padding: 0;
   margin: 0;
-  max-height: 60px;
+  max-height: 50px;
 }
 
 @media (max-width: 768px) {
@@ -184,7 +184,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 8px 16px;
   margin-left: 10px;
   font-family: "Raleway", sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
@@ -222,7 +222,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar .dropdown ul a {
   padding: 10px 20px;
-  font-size: 15px;
+  font-size: 12px;
   text-transform: none;
   font-weight: 600;
   color: #2f4d5a;
@@ -583,7 +583,7 @@ section {
 
 .about .content .about-btn {
   display: inline-block;
-  background:rgba(15,67,30, 0.8);
+  background:rgba(65,114,97, 0.8);
   padding: 6px 44px 8px 30px;
   color: #fff;
   border-radius: 50px;
@@ -608,7 +608,7 @@ section {
 
 .about .icon-boxes .icon-box i {
   font-size: 40px;
-  color: rgba(15,67,30, 0.92);
+  color: rgba(65,114,97, 0.92);
   margin-bottom: 10px;
 }
 
@@ -643,7 +643,7 @@ section {
   position: relative;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 0 29px 0 rgba(15,67,30, 0.12);
+  box-shadow: 0 0 29px 0 rgba(65,114,97, 0.12);
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   z-index: 1;
@@ -676,7 +676,7 @@ section {
 .services .icon i {
   font-size: 48px;
   line-height: 1;
-  color: rgb(15,67,30);
+  color: rgb(65,114,97);
   
   transition: all 0.3s ease-in-out;
 }
@@ -760,7 +760,7 @@ section {
 # Cta
 --------------------------------------------------------------*/
 .cta {
-  background: linear-gradient(rgba(15,67,30, 0.4), rgba(15,67,30, 0.4)), url("../img/cta-bg.jpg") fixed center center;
+  background: linear-gradient(rgba(65,114,97, 0.4), rgba(65,114,97, 0.4)), url("../img/cta-bg.jpg") fixed center center;
   background-size: cover;
   padding: 60px 0;
 }
@@ -785,7 +785,7 @@ section {
   border-radius: 25px;
   transition: 0.5s;
   margin-top: 10px;
-  background-color: rgba(15,67,30, 0.8);
+  background-color: rgba(65,114,97, 0.8);
   border: 2px solid rgba(255, 255, 255, 0.5);
   color: #fff;
 }
@@ -820,7 +820,7 @@ section {
   margin: 0 auto 35px auto;
   list-style: none;
   text-align: center;
-  background: rgb(15,67,30);
+  background: rgb(65,114,97);
   border-radius: 50px;
   padding: 2px 15px;
 }
@@ -990,7 +990,7 @@ section {
   position: relative;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 0 29px 0 rgba(15,67,30, 0.12);
+  box-shadow: 0 0 29px 0 rgba(65,114,97, 0.12);
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   z-index: 1;
@@ -1021,7 +1021,7 @@ section {
 .portfolio .icon i {
   font-size: 48px;
   line-height: 1;
-  color: rgb(15,67,30);
+  color: rgb(65,114,97);
 
   transition: all 0.3s ease-in-out;
 }
@@ -1459,7 +1459,7 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: rgba(15,67,30, 1);
+  background: rgba(65,114,97, 1);
   padding: 0 0 30px 0;
   color: #fff;
   font-size: 14px;
