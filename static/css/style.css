@@ -42,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
   right: 15px;
   bottom: 0px;
   z-index: 998;
-  background: #6ea843ff;
+  background: #206422;
   width: 40px;
   height: 40px;
   border-radius: 50px;
@@ -81,15 +81,15 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s;
   z-index: 997;
   transition: all 0.5s;
-  padding: 10px 0 0 0;
-  background: rgba(65,114,97, 0.5);
+  padding: 10px 0 5px 0;
+  background: rgba(65,114,97, 0.64);
 }
 #header2 {
   transition: all 0.5s;
   z-index: 997;
   transition: all 0.5s;
-  padding: 10px 0 0 0;
-  background: rgba(65,114,97, 0.9);
+  padding: 10px 0 5px 0;
+  background: rgba(65,114,97, 1);
 }
 
 #header.header-transparent {
@@ -99,11 +99,11 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 #header2.header-scrolled {
-  background: rgba(65,114,97, 0.9);
+  background: rgba(65,114,97, 1);
   padding: 12px;
 }
 #header.header-scrolled {
-  background: rgba(65,114,97, 0.9);
+  background: rgba(65,114,97, 1);
   padding: 12px;
 }
 
@@ -182,9 +182,9 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  margin-left: 10px;
+  margin-left: 1px;
   font-family: "Raleway", sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
@@ -276,7 +276,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: 0.5s;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   .mobile-nav-toggle {
     display: block;
   }
@@ -292,7 +292,7 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   left: 0;
   bottom: 0;
-  background: rgba(43, 111, 142, 0.9);
+  background: rgba(43, 111, 142, 0.2);
   transition: 0.3s;
 }
 
