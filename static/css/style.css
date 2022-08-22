@@ -88,7 +88,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s;
   z-index: 997;
   transition: all 0.5s;
-  padding: 10px 0 5px 0;
+  padding: 10px 0 10px 0;
   background: rgba(65,114,97, 1);
 }
 
@@ -117,7 +117,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Poppins", sans-serif;
   text-transform: uppercase;
 }
-#header2 .logo h1 {
+#header .logo h1 {
   display: inline-block;
   font-size: 24px;
   margin: 0;
@@ -833,7 +833,7 @@ section {
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
-  color: rgb(100,100,100);
+  color: rgb(72, 72, 72);
   margin-bottom: 5px;
   transition: all 0.3s ease-in-out;
 }
