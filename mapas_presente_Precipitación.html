@@ -80,6 +80,26 @@
             margin-bottom: 2px;
             opacity: 0.7;
         }
+        .loading {
+            position: fixed;
+            left: -400%;
+            top: 40%;
+            width: 20%;
+            height: 20%;
+            z-index: 9999;
+            background: url("static/img/pageLoader.gif") 50% 50% no-repeat ;
+            opacity: 1;
+        }
+        .loading.active {
+            position: fixed;
+            left: 40%;
+            top: 40%;
+            width: 20%;
+            height: 20%;
+            z-index: 9999;
+            background: url("static/img/pageLoader.gif") 50% 50% no-repeat ;
+            opacity: 1;
+        }
     </style>
 <body>
 
@@ -192,6 +212,7 @@
                     <i class="bi-layers-half"></i>
                     <span>Control de Capas</span>
                 </button>
+
                 <a href="index.html"><button id="volver" class="btn btn-info">
                     <span>Volver al inicio</span>
                 </button></a>
@@ -200,6 +221,7 @@
         </nav>
     </div>
 </div>
+<div class="loading"></div>
 <a href="index.html"><img id="IMAGEN_FLOT" alt="CIAg"
                      src="static/img/icon.png"
                      style="z-index: 999999">
@@ -283,6 +305,7 @@
 
     $('#newLayer').on("click",function(event) {
         event.preventDefault();
+
         var elemento = document.getElementById("bd").value
         if (elemento == "") {
             alert("Elije un año!")
@@ -293,6 +316,7 @@
             alert("Elije un mes!")
             return false
         }
+        $('.loading').addClass('active');
 
         layerGroup.clearLayers();
         map.removeControl(legend);
@@ -374,6 +398,7 @@
 
                         legend.addTo(map);
                         prov.bringToFront();
+                        $('.loading').removeClass('active');
                     }
                 })
             });
