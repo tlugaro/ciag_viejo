@@ -305,7 +305,7 @@
 
     $('#newLayer').on("click",function(event) {
         event.preventDefault();
-
+        $('.loading').addClass('active');
         var elemento = document.getElementById("bd").value
         if (elemento == "") {
             $('.loading').removeClass('active');
@@ -318,7 +318,7 @@
             alert("Elije un mes!")
             return false
         }
-        $('.loading').addClass('active');
+
 
         layerGroup.clearLayers();
         map.removeControl(legend);
