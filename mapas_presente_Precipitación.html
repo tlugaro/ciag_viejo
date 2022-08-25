@@ -308,11 +308,13 @@
 
         var elemento = document.getElementById("bd").value
         if (elemento == "") {
+            $('.loading').removeClass('active');
             alert("Elije un año!")
             return false
         }
         var elemento2 = document.getElementById("var").value
         if (elemento2 == "") {
+            $('.loading').removeClass('active');
             alert("Elije un mes!")
             return false
         }

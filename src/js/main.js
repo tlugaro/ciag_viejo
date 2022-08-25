@@ -843,16 +843,19 @@ $('#newLayer').on("click",function(event) {
     event.preventDefault();
     var elemento = document.getElementById("bd").value
     if (elemento == "") {
+        $('.loading').removeClass('active');
         alert("Elije una base de datos!")
         return false
     }
     var elemento2 = document.getElementById("var").value
     if (elemento2 == "") {
+        $('.loading').removeClass('active');
         alert("Elije una variable!")
         return false
     }
     var elemento4 = document.getElementById("tp").value
     if (elemento4 == "") {
+        $('.loading').removeClass('active');
         alert("Elije un período de tiempo!")
         return false
     }
