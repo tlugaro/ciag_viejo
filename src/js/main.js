@@ -841,6 +841,7 @@ $('#downloaderLayer').on("click",function(event) {
 
 $('#newLayer').on("click",function(event) {
     event.preventDefault();
+    $('.loading').addClass('active');
     var elemento = document.getElementById("bd").value
     if (elemento == "") {
         $('.loading').removeClass('active');
@@ -927,6 +928,7 @@ $('#newLayer').on("click",function(event) {
 
                 legend.addTo(map);
                 prov.bringToFront();
+                $('.loading').removeClass('active');
             }
 
 
@@ -992,6 +994,7 @@ $('#newLayer').on("click",function(event) {
 
                 legend.addTo(map);
                 prov.bringToFront();
+                $('.loading').removeClass('active');
             }
 
 
@@ -1057,6 +1060,7 @@ $('#newLayer').on("click",function(event) {
 
                 legend.addTo(map);
                 prov.bringToFront();
+                $('.loading').removeClass('active');
             }
 
 
@@ -1121,6 +1125,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1184,6 +1189,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1247,6 +1253,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1312,6 +1319,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1377,6 +1385,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1440,6 +1449,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1504,6 +1514,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1567,6 +1578,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
@@ -1630,6 +1642,7 @@ $('#newLayer').on("click",function(event) {
 
             legend.addTo(map);
             prov.bringToFront();
+            $('.loading').removeClass('active');
         }
 
 
