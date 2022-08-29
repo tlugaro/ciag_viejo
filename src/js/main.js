@@ -445,7 +445,38 @@ function styleepmen(feature2) {
         fillColor: getColorepmen(feature2.properties.DN)
     };
 }
+// ETR MENSUAL
+//EP media mensual
+function getColorermen(d) {
+    return d > 140.0 ? '#00441b' :
+        d > 130.0 ? '#0e612c' :
+            d > 120.0 ? '#1d7f3e' :
+                        d > 110.0 ? '#37a155' :
+                                d > 100.0 ? '#4eb264' :
+                                        d > 90.0 ? '#71c375' :
+                                                d > 80.0 ? '#85cc84' :
+                                                        d > 70.0 ? '#97d492' :
+                                                                d > 60.0 ? '#a9db97' :
+                                                                        d > 50.0 ? '#bcdf8c' :
+                                                                            d > 40.0 ? '#c6e187' :
+                                                                                d > 30.0 ? '#d0e381' :
+                                                                                        d > 20.0 ? '#e3e777' :
+                                                                                            d > 10.0 ? '#ece972' :
+                                                                                                d > 1.0 ? '#f6ea6c' :
+                                                                                                    '#ffec67';
 
+}
+
+function styleermen(feature2) {
+    return {
+        weight: 1,
+        opacity: 0.8,
+        color: '#fff',
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColorermen(feature2.properties.DN)
+    };
+}
 //deficit de presion de vapor media anual
 //tension de vapor media anual
 function getColordpvanual(d) {
@@ -1405,6 +1436,134 @@ $('#newLayer').on("click",function(event) {
                 for (var i = 0; i < grades.length; i++) {
                     div.innerHTML +=
                         '<i style="background:' + getColorepmen(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
+    else if (($("#var option:selected").text())=="Radiación global"){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: style3,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["MJ/m2 día"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,4,8,12,16,20,24,28,32],
+                    labels = ['<strong></strong>']
+                title= ["MJ/m2 día"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColor3(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' MJ/m2 día' + '<br>' : ' MJ/m2 día +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
+    //Evapotranspiración Potencial (Penman Fao) mensual
+    else if ((($("#var option:selected").text())=="Evapotranspiración real (BHOA)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleermen,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,20,40,60,80,100,120,140],
+                    labels = ['<strong></strong>']
+                title= ["mm"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColorermen(grades[i]) + '"></i> ' +
                         grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
                 }
 
