@@ -365,7 +365,7 @@ function style3(feature3) {
         opacity: 0.8,
         color: getColor3(feature3.properties.DN),
         dashArray: '1',
-        fillOpacity: 0.8,
+        fillOpacity: 0.9,
         fillColor: getColor3(feature3.properties.DN)
     };
 }
@@ -616,6 +616,34 @@ function stylepptrim(feature2) {
         fillColor: getColorpptrim(feature2.properties.DN)
     };
 }
+
+//Agua util
+function getColoraguautil(d) {
+    return d > 95.0 ? '#08306b' :
+        d > 90.0 ? '#07332C' :
+            d > 80.0 ? '#135943' :
+                d > 70.0 ? '#0A8838' :
+                    d > 60.0 ? '#43CD2A' :
+                        d > 50.0 ? '#A3F32F' :
+                            d > 40.0 ? '#D5FA79' :
+                                d > 30.0 ? '#F7FF82' :
+                                    d > 20.0 ? '#F4D629' :
+                                        d > 10.0 ? '#FCA029' :
+                                            d > 0.0 ? '#B2381C' :
+
+                                                '#8c240c';
+
+}
+function styleaguautil(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColoraguautil(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColoraguautil(feature2.properties.DN)
+    };
+}
 //Temperatura
 function getColortmax(d) {
     return  d > 35.0 ? '#35070c' :
@@ -723,23 +751,23 @@ function styletmin(feature1) {
     };
 }
 function getColor1(d) {
-    return d > 29.0 ? '#8d0017' :
-                d > 28.0 ? '#920018' :
-                    d > 27.0 ? '#980019' :
-                        d > 26.0 ? '#9d0019' :
-                            d > 25.0 ? '#a3001a' :
-                                d > 24.0 ? '#a9001b' :
-                                    d > 23.0 ? '#b0001c' :
-                                        d > 22.0 ? '#b7001d' :
-                                            d > 21.0 ? '#bf001e' :
-                                                d > 20.0 ? '#c6001f' :
-                                                    d > 19.0 ? '#cc0621' :
-                                                        d > 18.0 ? '#d11523' :
-                                                            d > 17.0 ? '#d52424' :
-                                                                d > 16.0 ? '#da3326' :
-                                                                    d > 15.0 ? '#de4228' :
-                                                                        d > 14.0 ? '#e3512a' :
-                                                                            d > 13.0 ? '#e75f2c' :
+    return d > 29.0 ? '#35070c' :
+        d > 28.0 ? '#42060e' :
+            d > 27.0 ? '#4f040f' :
+                d >26.0 ? '#5c0211' :
+                    d > 25.0 ? '#690112' :
+                        d > 24.0 ? '#740014' :
+                            d > 23.0 ? '#8d0017' :
+                                 d > 22.0 ? '#920018' :
+                                    d > 21.0 ? '#9d0019' :
+                                        d > 20.0 ? '#a3001a' :
+                                             d > 19.0 ? '#b0001c' :
+                                                d > 18.0 ? '#bf001e' :
+                                                    d > 17.0 ? '#c6001f' :
+                                                        d > 16.0 ? '#d11523' :
+                                                            d > 15.0 ? '#d52424' :
+                                                                    d > 14.0 ? '#de4228' :
+                                                                        d > 13.0 ? '#e3512a' :
                                                                                 d > 12.0 ? '#ec6d2e' :
                                                                                     d > 11.0 ? '#f07b30' :
                                                                                         d > 10.0 ? '#f48932' :
@@ -855,7 +883,7 @@ $('#newLayer').on("click",function(event) {
         return false
     }
     var elemento4 = document.getElementById("tp").value
-    if (elemento4 == "") {
+    if ((elemento4 == "")||(elemento4=="------------------")) {
         $('.loading').removeClass('active');
         alert("Elije un período de tiempo!")
         return false
@@ -1455,7 +1483,70 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
+    else if (($("#var option:selected").text())=="Agua útil (BHOA)"){$.ajax({
 
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleaguautil,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["% AU"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,10,20,30,40,50,60,70,80,90,100],
+                    labels = ['<strong></strong>']
+                title= ["% AU"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColoraguautil(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' % AU' + '<br>' : ' % AU');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
     else if (($("#var option:selected").text())=="Déficit de presión de vapor" ){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
