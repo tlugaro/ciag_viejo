@@ -780,7 +780,7 @@ function getColoraguautil(d) {
         d > 90.0 ? '#07332C' :
             d > 80.0 ? '#135943' :
                 d > 70.0 ? '#0A8838' :
-                    d > 60.0 ? '#43CD2A' :
+                    d > 60.0 ? '#3da82a' :
                         d > 50.0 ? '#A3F32F' :
                             d > 40.0 ? '#D5FA79' :
                                 d > 30.0 ? '#F7FF82' :
@@ -793,7 +793,7 @@ function getColoraguautil(d) {
 }
 function styleaguautil(feature2) {
     return {
-        weight: 1.5,
+        weight: 1.9,
         opacity: 0.8,
         color: getColoraguautil(feature2.properties.DN),
         dashArray: '1',
