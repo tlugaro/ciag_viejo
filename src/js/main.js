@@ -330,32 +330,32 @@ function getColor3(d) {
             d > 27.0 ? '#922f5a' :
                 d > 26.0 ? '#933442' :
                     d > 25.0 ? '#93382b' :
-                    d > 24.0 ? '#943d14' :
-                        d > 23.0 ? '#974103' :
-                        d > 22.0  ? '#9f4505' :
-                            d > 21.0 ? '#a64808' :
-                            d > 20.0  ? '#ae4c0a' :
-                                d > 19.0 ? '#b5500d' :
-                                d > 18.0  ? '#bd530f' :
-                                    d > 17.0  ? '#c55711' :
-                                d > 16.0  ? '#cc5a14' :
-                                    d > 15.0  ? '#d2601b' :
-                                    d > 14.0  ? '#d76926' :
-                                        d > 13.0  ? '#db7232' :
-                                        d > 12.0  ? '#df7a3d' :
-                                            d > 11.0  ? '#e38349' :
-                                            d > 10.0  ? '#e88b54' :
-                                                d > 9.0  ? '#ec9460' :
-                                                d > 8.0  ? '#f09c6b' :
-                                                    d > 7.0  ? '#f3a87c' :
-                                                    d > 6.0  ? '#f5b48f' :
-                                                        d > 5.0  ? '#f6c1a2' :
-                                                        d > 4.0  ? '#f8cdb4' :
-                                                            d > 3.0  ? '#fadac7' :
-                                                            d > 2.0  ? '#fce6da' :
-                                                                d > 1.0  ? '#fdf3ec' :
-                                                                d > 0.0  ? '#ffffff' :
-                                                                    '#ffffff';
+                        d > 24.0 ? '#943d14' :
+                            d > 23.0 ? '#974103' :
+                                d > 22.0  ? '#9f4505' :
+                                    d > 21.0 ? '#a64808' :
+                                        d > 20.0  ? '#ae4c0a' :
+                                            d > 19.0 ? '#b5500d' :
+                                                d > 18.0  ? '#bd530f' :
+                                                    d > 17.0  ? '#c55711' :
+                                                        d > 16.0  ? '#cc5a14' :
+                                                            d > 15.0  ? '#d2601b' :
+                                                                d > 14.0  ? '#d76926' :
+                                                                    d > 13.0  ? '#db7232' :
+                                                                        d > 12.0  ? '#df7a3d' :
+                                                                            d > 11.0  ? '#e38349' :
+                                                                                d > 10.0  ? '#e88b54' :
+                                                                                    d > 9.0  ? '#ec9460' :
+                                                                                        d > 8.0  ? '#f09c6b' :
+                                                                                            d > 7.0  ? '#f3a87c' :
+                                                                                                d > 6.0  ? '#f5b48f' :
+                                                                                                    d > 5.0  ? '#f6c1a2' :
+                                                                                                        d > 4.0  ? '#f8cdb4' :
+                                                                                                            d > 3.0  ? '#fadac7' :
+                                                                                                                d > 2.0  ? '#fce6da' :
+                                                                                                                    d > 1.0  ? '#fdf3ec' :
+                                                                                                                        d > 0.0  ? '#ffffff' :
+                                                                                                                            '#ffffff';
 
 }
 
@@ -403,6 +403,132 @@ function styleep(feature2) {
         dashArray: '1',
         fillOpacity: 0.8,
         fillColor: getColorep(feature2.properties.DN)
+    };
+}
+
+//deficits mensual
+function getColordef(d) {
+    return d > 170.0 ? '#8b4703' :
+        d > 160.0 ? '#a6611a' :
+            d > 150.0 ? '#b47933' :
+                d > 140.0 ? '#c3924c' :
+                    d > 130.0 ? '#d1aa64' :
+                        d > 120.0 ? '#dfc27d' :
+                            d > 110.0 ? '#e5cf8c' :
+                                d > 100.0 ? '#eadc9b' :
+                                    d > 90.0 ? '#f0e8a9' :
+                                        d > 80.0 ? '#f5f5b8' :
+                                            d > 70.0 ? '#d8eaa6' :
+                                                d > 60.0 ? '#bae093' :
+                                                    d > 50.0 ? '#9dd581' :
+                                                        d > 40.0 ? '#80cb6e' :
+                                                            d > 30.0 ? '#60a653' :
+                                                                d > 20.0 ? '#408137' :
+                                                                    d > 10.0 ? '#215b1c' :
+                                                                        d > 1.0 ? '#013500' :
+                                                                            '#022c01';
+
+}
+
+function styledef(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColordef(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColordef(feature2.properties.DN)
+    };
+}
+//deficits anual
+function getColordefanual(d) {
+    return d > 1100.0 ? '#8b4703' :
+                d > 1000.0 ? '#a6611a' :
+                    d > 900.0 ? '#b47933' :
+                        d > 800.0 ? '#d1aa64' :
+                            d > 700.0 ? '#dfc27d' :
+                                d > 600.0 ? '#f5f5b8' :
+                                    d > 500.0 ? '#d8eaa6' :
+                                        d > 400.0 ? '#bae093' :
+                                            d > 300.0 ? '#9dd581' :
+                                                d > 200.0 ? '#60a653' :
+                                                    d > 100.0 ? '#215b1c' :
+                                                        d > 1.0 ? '#013500' :
+                                                            '#022c01';
+
+}
+
+function styledefanual(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColordefanual(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColordefanual(feature2.properties.DN)
+    };
+}
+//excesos anual
+function getColorexcanual(d) {
+    return d > 1200.0 ? '#3f007d' :
+        d > 1100.0 ? '#4b1788' :
+            d > 1000.0 ? '#572c91' :
+                d > 900.0 ? '#5f3c99' :
+                    d > 800.0 ? '#684da1' :
+                        d > 700.0 ? '#7464ad' :
+                            d > 600.0 ? '#817eba' :
+                                d > 500.0 ? '#8e8bc1' :
+                                        d > 400.0 ? '#a9a7d0' :
+                                            d > 300.0 ? '#b7b7d9' :
+                                                d > 200.0 ? '#c5c5e0' :
+                                                    d > 100.0 ? '#d2d2e7' :
+                                                        d > 1.0 ? '#f4f4fa' :
+                                                            '#ffffff';
+
+}
+
+function styleexcanual(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColorexcanual(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColorexcanual(feature2.properties.DN)
+    };
+}
+//excesos mensual
+function getColorexc(d) {
+    return d > 170.0 ? '#3f007d' :
+                d > 160.0 ? '#4b1788' :
+                    d > 150.0 ? '#572c91' :
+                        d > 140.0 ? '#5f3c99' :
+                            d > 130.0 ? '#684da1' :
+                                d > 120.0 ? '#7464ad' :
+                                    d > 110.0 ? '#817eba' :
+                                        d > 100.0 ? '#8e8bc1' :
+                                            d > 90.0 ? '#9c98c7' :
+                                                d > 80.0 ? '#a9a7d0' :
+                                                    d > 70.0 ? '#b7b7d9' :
+                                                        d > 60.0 ? '#c5c5e0' :
+                                                            d > 50.0 ? '#d2d2e7' :
+                                                                d > 40.0 ? '#dedeed' :
+                                                                    d > 30.0 ? '#e7e6f1' :
+                                                                        d > 20.0 ? '#e7e6f1' :
+                                                                            d > 10.0 ? '#efeef6' :
+                                                                                d > 1.0 ? '#f4f4fa' :
+                                                                                    '#ffffff';
+
+}
+
+function styleexc(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColorexc(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColorexc(feature2.properties.DN)
     };
 }
 //EP media mensual
@@ -469,7 +595,7 @@ function getColorermen(d) {
 
 function styleermen(feature2) {
     return {
-        weight: 1,
+        weight: 1.5,
         opacity: 0.8,
         color: '#fff',
         dashArray: '1',
@@ -1304,6 +1430,266 @@ $('#newLayer').on("click",function(event) {
                 for (var i = 0; i < grades.length; i++) {
                     div.innerHTML +=
                         '<i style="background:' + getColor2(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
+    //deficits anual
+    else if ((($("#var option:selected").text())=="Déficits (BHOA)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styledefanual,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,200,400,600,800,1000,1200],
+                    labels = ['<strong></strong>']
+                title= ["mm"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColordefanual(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
+        //deficits mensual
+    else if ((($("#var option:selected").text())=="Déficits (BHOA)") && (($("#tp option:selected").text())!="Media anual")){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styledef,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,20,40,60,80,100,120,140,160,180],
+                    labels = ['<strong></strong>']
+                title= ["mm"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColordef(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
+    //excesos anual
+    else if ((($("#var option:selected").text())=="Excesos (BHOA)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleexcanual,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,200,400,600,800,1000,1200,1300],
+                    labels = ['<strong></strong>']
+                title= ["mm"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColorexcanual(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
+    //excesos mensual
+    else if ((($("#var option:selected").text())=="Excesos (BHOA)") && (($("#tp option:selected").text())!="Media anual")){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleexc,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,20,40,60,80,100,120,140,160,180],
+                    labels = ['<strong></strong>']
+                title= ["mm"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColorexc(grades[i]) + '"></i> ' +
                         grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm +');
                 }
 
