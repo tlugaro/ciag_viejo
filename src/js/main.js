@@ -1054,7 +1054,7 @@ $('#newLayer').on("click",function(event) {
     var base2 = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#tp option:selected").text());
 
 
-    if (($("#var option:selected").text())=="Temperatura Media" ){
+    if (($("#var option:selected").text())=="Temperatura media" ){
         $.ajax({
 
             url: "static/capas/" + base2 +".geojson",
@@ -1099,7 +1099,7 @@ $('#newLayer').on("click",function(event) {
                     var div = L.DomUtil.create('div', 'info legend'),
                         grades = [-6,-3,-0,3,6,9,12,15,18,21,24,27,30],
                         labels = ['<strong></strong>']
-                    title= ["Temperatura Media"];
+                    title= ["Temperatura media"];
 
                     // loop through our density intervals and generate a label with a colored square for each interval
                     for (var i = 0; i < grades.length; i++) {
