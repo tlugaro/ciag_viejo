@@ -34,7 +34,14 @@
 
         <script type="text/javascript" src="static/capas/provincias.js"></script>
 
-
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
 </head>
     <style>
         .foliumtooltip {
@@ -126,6 +133,12 @@
                         <option value="-" disabled selected>Elija un período de tiempo</option>
                     </select>
                 </div>
+
+
+
+
+
+                <div id="datepicker"></div>
 
                 <button class="btn btn-primary" id="newLayer"  > Ver Capa</button>
                 <button class="btn btn-primary" id="downloaderLayer"  >Descargar Capa</button>

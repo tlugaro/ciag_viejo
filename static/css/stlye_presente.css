@@ -163,6 +163,7 @@ form{
     text-align:center;
 
 }
+
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
@@ -202,6 +203,20 @@ a.article:hover {
         width: 40vh;
         background:#1b365b;
     }
+    .cta-btn {
+        font-family: "Raleway", sans-serif;
+        text-transform: uppercase;
+        font-weight: 10;
+        font-size: 12px;
+        letter-spacing: 1px;
+        display: inline-block;
+        padding: 8px 28px;
+        border-radius: 25px;
+        transition: 0.5s;
+        margin-top: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        color: #fff;
+    }
 }
 @media only screen and (max-width: 600px) {
     #IMAGEN_FLOT {
@@ -210,6 +225,20 @@ a.article:hover {
                         left:-50%;
                         z-index:998;
                         }
+    .cta-btn {
+        font-family: "Raleway", sans-serif;
+        text-transform: uppercase;
+        font-weight: 10;
+        font-size: 12px;
+        letter-spacing: 1px;
+        display: inline-block;
+        padding: 8px 28px;
+        border-radius: 25px;
+        transition: 0.5s;
+        margin-top: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        color: #fff;
+    }
 }
 /* ---------------------------------------------------
     CONTENT STYLE
@@ -217,8 +246,8 @@ a.article:hover {
 .cta-btn {
     font-family: "Raleway", sans-serif;
     text-transform: uppercase;
-    font-weight: 500;
-    font-size: 16px;
+    font-weight: 300;
+    font-size: 12px;
     letter-spacing: 1px;
     display: inline-block;
     padding: 8px 28px;
