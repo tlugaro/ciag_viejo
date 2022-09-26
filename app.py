@@ -97,7 +97,8 @@ def home_page():
     nombres = df['name'].tolist()
     valores = df['values.avg']
 
-    wind=  str(valores[11][0])
+    wind=  str(valores[11])+ " km/h"
+    wind= "Sensor no responde" if wind =="nan km/h" else wind
     winddir = str(valores[12])
     eto = str(valores[22]) + " " + str(unidades[22])
     radiacion =str(valores[0][0]) + " " + str(unidades[0])
