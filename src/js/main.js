@@ -1901,7 +1901,74 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-    //Evapotranspiración Potencial (Penman Fao) mensual
+        //Evapotranspiración real  anual
+
+    else if ((($("#var option:selected").text())=="Evapotranspiración real (BHOA)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
+
+        url: "static/capas/" + base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: styleep,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["mm"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [0,200,400,600,800,1000,1200,1500],
+                    labels = ['<strong></strong>']
+                title= ["mm"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColorep(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm ');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+
+
+    });
+    }
+
+    //Evapotranspiración real mensual
     else if ((($("#var option:selected").text())=="Evapotranspiración real (BHOA)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
         url: "static/capas/" + base2 +".geojson",
 
