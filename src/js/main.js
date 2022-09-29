@@ -2113,7 +2113,7 @@ $('#newLayer').on("click",function(event) {
 
                     let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
                     let fields = ["DN"];
-                    let aliases = ["hpa"];
+                    let aliases = ["hPa"];
                     let table = '<table>' +
                         String(
                             fields.map(
@@ -2143,7 +2143,7 @@ $('#newLayer').on("click",function(event) {
                 for (var i = 0; i < grades.length; i++) {
                     div.innerHTML +=
                         '<i style="background:' + getColordpvanual(grades[i]) + '"></i> ' +
-                        grades[i] + (grades[i + 1] ? ' hpa' + '<br>' : ' hpa +');
+                        grades[i] + (grades[i + 1] ? ' hPa' + '<br>' : ' hPa');
                 }
 
                 return div;
