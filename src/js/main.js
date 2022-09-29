@@ -2073,7 +2073,7 @@ $('#newLayer').on("click",function(event) {
                 var div = L.DomUtil.create('div', 'info legend'),
                     grades = [0,10,20,30,40,50,60,70,80,90,100],
                     labels = ['<strong></strong>']
-                title= ["% AU"];
+                title= ["% "];
 
                 // loop through our density intervals and generate a label with a colored square for each interval
                 for (var i = 0; i < grades.length; i++) {
