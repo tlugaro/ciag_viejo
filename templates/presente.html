@@ -7,12 +7,12 @@
 
         <title>CIAg - Agua útil</title>
     <!-- Favicons -->
-    <link href="static/img/icono.ico" rel="icon">
-    <link href="static/img/icono.png"  rel="apple-touch-icon" alt="Ciag">
+    <link href="{{ url_for('static',filename='/img/icono.ico')}}" rel="icon">
+    <link href="{{ url_for('static',filename='/img/icono.png')}}" rel="apple-touch-icon" >
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="static/css/stlye_presente.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/stlye_presente.css')}}">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <!-- Popper.JS -->
@@ -32,7 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
 
-    <script type="text/javascript" src="static/capas/provincias.js"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='/capas/provincias.js')}}"></script>
 
 
 </head>
@@ -95,20 +95,36 @@
         </div>
 
         <ul class="list-unstyled components">
-            <form  id="capas" name= "formulario1">
+            <form method="POST" id="capas" name= "formulario1">
 
                 <div class="form-group" >
                 <label for="var">Año </label>
-                <select class="form-control" id="year" name="ann" >
+                <select class="form-control" id="year" name="year" >
                     <option value="" disabled selected>Elija un Año</option>
-                    <option value="-" >2015</option>
-                    <option value="-" >2016</option>
-                    <option value="-" >2017</option>
-                    <option value="-" >2018</option>
-                    <option value="-" >2019</option>
-                    <option value="-" >2020</option>
-                    <option value="-" >2021</option>
-                    <option value="-" >2022</option>
+
+                    <option value="2022" >2022</option>
+                    <option value="2021" >2021</option>
+                    <option value="2020" >2020</option>
+                    <option value="2019" >2019</option>
+                    <option value="2018" >2018</option>
+                    <option value="2017" >2017</option>
+                    <option value="2016" >2016</option>
+                    <option value="2015" >2015</option>
+                    <option value="2014" >2014</option>
+                    <option value="2013" >2013</option>
+                    <option value="2012" >2012</option>
+                    <option value="2011" >2011</option>
+                    <option value="2010" >2010</option>
+                    <option value="2009" >2009</option>
+                    <option value="2008" >2008</option>
+                    <option value="2007" >2007</option>
+                    <option value="2006" >2006</option>
+                    <option value="2005" >2005</option>
+                    <option value="2004" >2004</option>
+                    <option value="2003" >2003</option>
+                    <option value="2002" >2002</option>
+                    <option value="2001" >2001</option>
+                    <option value="2000" >2000</option>
 
                 </select>
             </div>
@@ -116,18 +132,18 @@
                     <label for="var">Mes </label>
                     <select class="form-control" id="var" name="cosa" onchange="cambia()" >
                         <option value="" disabled selected>Elija una variable</option>
-                        <option value="1">01</option>
-                        <option value="2">02</option>
-                        <option value="1">03</option>
-                        <option value="3">04</option>
-                        <option value="1">05</option>
-                        <option value="3">06</option>
-                        <option value="1">07</option>
-                        <option value="1">08</option>
-                        <option value="3">09</option>
-                        <option value="1">10</option>
-                        <option value="3">11</option>
-                        <option value="1">12</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
 
                     </select>
                 </div>
@@ -146,7 +162,7 @@
                 </div>
 
 
-                <button class="cta-btn" id="newLayer"> Ver Capa</button>
+                <button  value="Submit" type="submit" class="cta-btn" id="newLayer"   > Ver Capa</button>
                 <button class="cta-btn" id="downloaderLayer"  >Descargar Capa</button>
 
                 <button class="cta-btn" id="volveralinicio"  ><a href="index.html">Volver al Inicio</a></button>
@@ -158,7 +174,7 @@
 
         <ul class="list-unstyled CTAs">
 
-            <a href="index.html"><img src="static/img/icon.png", class="img-fluid"></a>
+            <a href="index.html"><img src="{{ url_for('static',filename='/img/icon.png')}}", class="img-fluid"></a>
         </ul>
 
     </nav>
@@ -183,7 +199,7 @@
 </div>
 <div class="loading"></div>
 <a href="index"><img id="IMAGEN_FLOT" alt="CIAg"
-                     src="static/img/icon.png"
+                     src="{{ url_for('static',filename='/img/icon.png')}}"
                      style="z-index: 999999">
 </img></a>
 <!-- Bootstrap JS -->
@@ -194,7 +210,6 @@
 <script src="https://unpkg.com/georaster"></script>
 <script src="https://unpkg.com/georaster-layer-for-leaflet/georaster-layer-for-leaflet.browserify.min.js"></script>
 <!-- script tomymaps -->
-<script type="text/javascript" src="static/capas/provincias.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
 
 <script type="text/javascript" charset="UTF-8" >
@@ -266,8 +281,89 @@
         {"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
     ).addTo(map);
 
+        var base2 = ('{{year}}'+'{{mes}}'+'{{dia}}');
+
+
+        var url_to_geotiff_file = ("static/AU-PN/"+base2+".tif")
+
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#B2381C', '#FCA029', '#F4D629', '#F7FF82', '#D5FA79', '#A3F32F', '#43CD2A', '#0A8838', '#135943', '#07332C', '#2B2387']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - 0) / 100;
+
+                                var color = scale(scaledPixelValue).hex();
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+                    function getColor(d) {
+                        return d > 95.0 ? '#08306b' :
+                            d > 90.0 ? '#07332C' :
+                                d > 80.0 ? '#135943' :
+                                    d > 70.0 ? '#0A8838' :
+                                        d > 60.0 ? '#43CD2A' :
+                                            d > 50.0 ? '#A3F32F' :
+                                                d > 40.0 ? '#D5FA79' :
+                                                    d > 30.0 ? '#F7FF82' :
+                                                        d > 20.0 ? '#F4D629' :
+                                                            d > 10.0 ? '#FCA029' :
+                                                                d > 0.0 ? '#B2381C' :
+
+                                                                    '#8c240c';
+
+                    }
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                        '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                                        grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' % ');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+            })
+
+
     $('#newLayer').on("click",function(event) {
-        event.preventDefault();
+
         $('.loading').addClass('active');
         var elemento = document.getElementById("base").value
         if (elemento == "") {
@@ -294,10 +390,10 @@
         layerGroupdos.clearLayers();
         map.removeControl(legend);
 
-        var base2 = ($("#base option:selected").text()) +"/"+ ($("#year option:selected").text())+($("#var option:selected").text())+($("#tp option:selected").text());
+        var base2 = ('{{year}}'+'{{mes}}'+'{{dia}}');
 
 
-        var url_to_geotiff_file = ("static/capas/raster/"+base2+".tif")
+        var url_to_geotiff_file = ("{{ url_for('static',filename='AU-PN/"+base2+".tif')}}")
 
         fetch(url_to_geotiff_file)
             .then(response => response.arrayBuffer())
@@ -380,9 +476,18 @@
 
 
     // 2) crear una funcion que permita ejecutar el cambio dinamico
-    var options_1 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-    var options_2 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28");
-    var options_3 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
+    var options_01 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+    var options_02 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28");
+    var options_03 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+    var options_04 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
+    var options_05 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+    var options_06 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
+    var options_07 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+    var options_08 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+    var options_09 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
+    var options_10 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+    var options_11 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
+    var options_12 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
 
 
 

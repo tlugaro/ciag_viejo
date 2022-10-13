@@ -1,39 +1,91 @@
-from flask import Flask, render_template, url_for
-from flask_wtf import FlaskForm
-from flask import send_file
-import folium
-from folium import plugins
+from flask import Flask, render_template, url_for, request
+import requests
 import urllib
 import json
-from urllib import request
-import requests
 from requests.auth import AuthBase
 from Crypto.Hash import HMAC
 from Crypto.Hash import SHA256
 from datetime import datetime, timedelta
 from dateutil.tz import tzlocal
 from pandas import json_normalize
-import pandas as pd
-from osgeo import gdal
-from osgeo import ogr
 import numpy as np
 import pandas as pd
-import geopandas
-import psycopg2
 import math
-
+import psycopg2
+import geopandas
+import gdal
+import time
+import ogr
+from cla import publicKey, privateKey
 app = Flask(__name__)
 
-
-@app.route('/mapa', methods=["GET", "POST"])
+@app.route('/presente', methods=["GET", "POST"])
 def mapa():
-    return render_template('mapa.html')
+    if request.method == 'POST':
+        year = request.form.get('year')
+        mes = request.form.get('cosa')
+        dia=request.form.get('options')
+        print(year,mes,dia)
+        # ip desde casa zero tier
+        conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
+        # compu facultad
+        #conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+
+        dat = str(year) + "-" + str(mes) + "-" + (str(dia))
+
+        print(dat)
+        resultados = pd.read_sql(
+            'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
+                year) + ' and extract(month from (fecha))=' + str(mes) + ' and extract(day from (fecha))=' + str(
+                dia) + ' group by "LAT", "LONG"', conexion)
+        df = pd.DataFrame(resultados)
+        gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
+        gdf = gdf.set_crs('epsg:4326')
+        gdf.to_file('puntos_powernasa.shp')
+        capa = "puntos_powernasa.shp"
+        pts = ogr.Open(capa, 0)
+        dem = gdal.Open("grilla.tif")
+        gt = dem.GetGeoTransform()
+        ulx = gt[0]
+        uly = gt[3]
+        res = gt[1]
+        xsize = dem.RasterXSize
+        ysize = dem.RasterYSize
+        lrx = ulx + xsize * res
+        lry = uly - ysize * res
+        dem = None
+
+        # Interpolacion del punto mas cerca
+        campo = "au"
+        pts = layer = None
+
+        # interpolación idw "invdist:power=3"
+        # interpolacion del punto mas cercano "nearest"
+        # interpolación linear "linear"
+
+        nn = gdal.Grid("nearest.tif", capa, zfield=campo,
+                       algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+        nn = None
+        import numpy as np
+
+        gdal.UseExceptions()
+        rasin = "nearest.tif"
+        shpin = "arg.shp"
+        rasout = "./static/AU-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+        resampleada = "nearest_resampleada.tif"
+        # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
+        dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
+                          resampleAlg="bilinear")
+        # recorto con shape de Arg
+        dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+
+        return render_template('presente.html',year=year,mes=mes,dia=dia)
+
+    return render_template('presente.html')
 
 @app.route('/')
 def home_page():
     # HMAC Authentication credentials
-    publicKey = 'cbbc417983f46ad4292a4ea93f6b4dff7074c20d7bc1b7e0'
-    privateKey = 'e2c745bf445a99390999bcce7d7e424beef75b7e2234db78'
 
     # Class to perform HMAC encoding
     class AuthHmacMetosGet(AuthBase):
@@ -59,7 +111,7 @@ def home_page():
 
     # Service/Route that you wish to call
     apiRoute = '/data/0020B01A/hourly/last/1h'
-    apiRoute2 = '/data/0020B01A/hourly/last/24h'
+    apiRoute2 = '/data/0020B01A/hourly/last/48h'
 
     auth = AuthHmacMetosGet(apiRoute, publicKey, privateKey)
     response = requests.get(apiURI + apiRoute, headers={'Accept': 'application/json'}, auth=auth)
@@ -80,9 +132,9 @@ def home_page():
     valoresmax = df2['values.max']
     ppt=valoressum[3]
 
-    pp= round((sum(ppt)),2)
-    tmax= max(valoresmax[6])
-    tmin=min(valoresmin[6])
+    pp= round((sum(ppt[24:48])),1)
+    tmax= round(max(valoresmax[6][24:48]),1)
+    tmin=round(min(valoresmin[6][24:48]),1)
 
     marchaviento = valores2[11]
     marchadirviento = valores2[12]
@@ -97,22 +149,25 @@ def home_page():
     nombres = df['name'].tolist()
     valores = df['values.avg']
 
-    wind=  str(valores[11][0])
-    winddir = str(valores[12])
-    eto = str(valores[22]) + " " + str(unidades[22])
-    radiacion =str(valores[0][0]) + " " + str(unidades[0])
-    temp_suelo = str(valores[1][0]) + " " + str(unidades[1])
-    temp_air =str(valores[6][0]) + " " + str(unidades[6])
-    humedad = str(valores[7][0]) + " " + str(unidades[7])
-    now= datetime.now()
-    hour= str(now.hour)+":"+str(now.minute)
+    wind= "Sensor no responde" if str(valores[11])=="nan" else str(valores[11][0])+ " km/h"
+
+
+    radiacion =str(round(valores[0][0],1)) + " " + str(unidades[0])
+    temp_suelo = str(round(valores[1][0],1)) + " " + str(unidades[1])
+    temp_air =str(round(valores[6][0],1)) + " " + str(unidades[6])
+    humedad = str(round(valores[7][0],1)) + " " + str(unidades[7])
+    now= datetime.now()- timedelta(hours=3)
+    hour= str(now.hour)
+    hour1=str((datetime.now()- timedelta(hours=2)).hour)
     date = str(now.day) + "/" + str(now.month)
-    hours=[23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0]
+    hours=[47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0]
     d=[]
     for i in hours:
-        d.append(((datetime.now() - timedelta(hours=i)).hour))
+        d.append(((datetime.now() - timedelta(hours=3 )- timedelta(hours=i)).hour))
 
-    return render_template('ema.html',d=d,windir=winddir,wind=wind,puntorocio=marchapuntorocio,eto=eto,mrad=marcharad,mhum=marchahum,mpp=ppt,mtsuelo=marchatsuelo,mtmin=marchatmin,mtmed=marchatmed,mtmax=marchatmax,tmax=tmax,tmin=tmin, rad=radiacion,pp=pp, temp= temp_suelo, temp2=temp_air, hum=humedad,hora=hour,date=date)
+    return render_template('ema.html',d=d,hour1=hour1,wind=wind,puntorocio=marchapuntorocio,mrad=marcharad,mhum=marchahum,mpp=ppt,mtsuelo=marchatsuelo,mtmed=marchatmed,tmax=tmax,tmin=tmin, rad=radiacion,pp=pp, temp= temp_suelo, temp2=temp_air, hum=humedad,hora=hour,date=date)
+
+
 
 
 
