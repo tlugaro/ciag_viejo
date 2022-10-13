@@ -2477,7 +2477,6 @@ $('#newLayer').on("click",function(event) {
     });
     }
 
-        });
     else if (($("#var option:selected").text())=="Heliofanía astronómica"){$.ajax({
 
         url: "static/capas/Variables astronómicas.geojson",
