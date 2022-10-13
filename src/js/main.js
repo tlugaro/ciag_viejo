@@ -433,7 +433,7 @@ function stylehelrel(feature2) {
     return {
         weight: 1,
         opacity: 0.8,
-        color: '#fff',
+        color: getColorHelrel(feature2.properties.DN),
         dashArray: '1',
         fillOpacity: 0.8,
         fillColor: getColorHelrel(feature2.properties.DN)
@@ -2581,7 +2581,7 @@ var opt_5 = new Array ("", "SMN");
 var options_1 = new Array ("","Media anual","------------------", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 var options_2 = new Array ("","Media anual","------------------", "Semestre Frío", "Semestre Cálido","------------------","Verano","Otoño","Invierno","Primavera","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 var options_3 = new Array ("","Media anual","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-var options_4 = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var options_4 = new Array ("","Media anual","------------------","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 function cambia() {
     var cosa;
