@@ -2376,7 +2376,7 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
-    else if (($("#var option:selected").text())=="Heliofanía relativa"){$.ajax({
+    else if (($("#var option:selected").text())=="Heliofanía efectiva"){$.ajax({
 
         url: "static/capas/"+ base2 +".geojson",
 
