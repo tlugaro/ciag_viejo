@@ -25,7 +25,6 @@ def mapa():
         year = request.form.get('year')
         mes = request.form.get('cosa')
         dia=request.form.get('options')
-        print(year,mes,dia)
         # ip desde casa zero tier
         conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
         # compu facultad
@@ -33,7 +32,6 @@ def mapa():
 
         dat = str(year) + "-" + str(mes) + "-" + (str(dia))
 
-        print(dat)
         resultados = pd.read_sql(
             'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
                 year) + ' and extract(month from (fecha))=' + str(mes) + ' and extract(day from (fecha))=' + str(
