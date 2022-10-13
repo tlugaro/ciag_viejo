@@ -78,8 +78,8 @@ def mapa():
         dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
 
         return render_template('presente.html',year=year,mes=mes,dia=dia)
-
-    return render_template('presente.html')
+    #aca se va a crear la capa del dia de hoy, y se va a cargar primera
+    return render_template('presente.html',year="ca",mes="p",dia="a")
 
 @app.route('/')
 def home_page():
