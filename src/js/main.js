@@ -429,7 +429,31 @@ function getColordef(d) {
                                                                             '#022c01';
 
 }
+function stylehelrel(feature2) {
+    return {
+        weight: 1,
+        opacity: 0.8,
+        color: '#fff',
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColorHelrel(feature2.properties.DN)
+    };
+}
 
+//deficits mensual
+function getColorHelrel(d) {
+    return d > 10.0 ? '#e66101' :
+        d > 9.0 ? '#f28d32' :
+            d > 8.0 ? '#fdb863' :
+                d > 7.0 ? '#f6af84' :
+                    d > 6.0 ? '#efa5a6' :
+                        d > 5.0 ? '#d1a8bc' :
+                            d > 4.0 ? '#b2abd2' :
+                                d > 3.0 ? '#8873b5' :
+                                    d > 2.0 ? '#5e3c99' :
+                                            '#3c1f68';
+
+}
 function styledef(feature2) {
     return {
         weight: 1.5,
@@ -2352,7 +2376,108 @@ $('#newLayer').on("click",function(event) {
 
     });
     }
+    else if (($("#var option:selected").text())=="Heliofanía relativa"){$.ajax({
 
+        url: "static/capas/"+ base2 +".geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: stylehelrel,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["DN"];
+                    let aliases = ["Horas"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [1,2,3,4,5,6,7,8,9,10],
+                    labels = ['<strong></strong>']
+                title= ["mm"];
+
+                // loop through our density intervals and generate a label with a colored square for each interval
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColorHelrel(grades[i]) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' horas' + '<br>' : ' horas +');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+            prov.bringToFront();
+            $('.loading').removeClass('active');
+        }
+    });
+    }
+    else if (($("#var option:selected").text())=="Radiación astronómica"){$.ajax({
+
+        url: "static/capas/Variables astronómicas.geojson",
+
+        success: function (data) {
+
+            var geojson = new L.geoJson((data), {
+                    style: style_varast,
+                    onEachFeature: onEachFeature
+
+                }
+            ).addTo(layerGroup);
+
+            map.addLayer(layerGroup);
+            geojson.bindTooltip(
+                function (layer) {
+                    let div = L.DomUtil.create('div');
+
+                    let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+                    let fields = ["RA_"+($("#tp option:selected").text())];
+                    let aliases = ["W/m2"];
+                    let table = '<table>' +
+                        String(
+                            fields.map(
+                                (v, i) =>
+                                    `<tr>
+
+
+            <td>${handleObject(layer.feature.properties[v])}</td>
+            <th>${aliases[i]}</th>
+        </tr>`).join(''))
+                        + '</table>';
+                    div.innerHTML = table;
+
+                    return div
+                }
+                , {"className": "foliumtooltip", "sticky": true});
+        }
+    });
+    }
+
+        });
     else if (($("#var option:selected").text())=="Heliofanía astronómica"){$.ajax({
 
         url: "static/capas/Variables astronómicas.geojson",
