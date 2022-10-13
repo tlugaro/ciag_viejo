@@ -2450,7 +2450,7 @@ var opt_2 = new Array ("", "POWERNASA", "SMN", "CHIRPS", "ERA5");
 //3 radiacion
 var opt_3 = new Array ("", "POWERNASA", "SMN","ERA5");
 //4 solo mensual
-var opt_4 = new Array ("", "POWERNASA", "SMN");
+var opt_4 = new Array ("", "SMN");
 //4 tension de vapor y dpv
 var opt_5 = new Array ("", "SMN");
 // 2) crear una funcion que permita ejecutar el cambio dinamico
