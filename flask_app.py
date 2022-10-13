@@ -76,10 +76,13 @@ def mapa():
                           resampleAlg="bilinear")
         # recorto con shape de Arg
         dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+        date=(dia+"-"+mes+"-"+year)
 
-        return render_template('presente.html',year=year,mes=mes,dia=dia)
+        return render_template('presente.html',year=year,mes=mes,dia=dia, fecha=date)
     #aca se va a crear la capa del dia de hoy, y se va a cargar primera
-    return render_template('presente.html',year="ca",mes="p",dia="a")
+    now = datetime.now()- timedelta(hours=15)
+    date = str(now.day)+"-"+str(now.month)+"-"+str(now.year)
+    return render_template('presente.html',year="ca",mes="p",dia="a", fecha= date)
 
 @app.route('/')
 def home_page():
