@@ -1,33 +1,43 @@
-from flask import Flask, render_template
-import flask
-from flask_mail import Mail, Message
-from flask import request, redirect
-app= Flask(__name__)
+import smtplib, ssl
+import datetime
+from datetime import timedelta
+class Mail:
 
+    def __init__(self):
+        self.port = 465
+        self.smtp_server_domain_name = "smtp.gmail.com"
+        self.sender_mail = 'anemoi.vientos.arg@gmail.com'
+        self.password = 'lyqrctvwauauggnq'
 
-def mail():
-    with app.app_context():
-        app.config['DEBUG']= False
-        app.config['TESTING']= False
-        app.config['MAIL_SERVER']='smtp.gmail.com'
-        app.config['MAIL_PORT']= 465
-        app.config['MAIL_USE_TLS']= False
-        app.config['MAIL_USE_SSL']= True
-        app.config['MAIL_USERNAME']= 'anemoi.vientos.arg@gmail.com'
-        app.config['MAIL_PASSWORD']= 'lyqrctvwauauggnq'
-        app.config['MAIL_DEFAULT_SENDER']= 'anemoi.vientos.arg@gmail.com'
-        app.config['MAIL_MAX_EMAILS']= 1
-        app.config['MAIL_SUPPRESS_SEND']= False
-        app.config['MAIL_ASCII_ATTACHMENTS']= False
+    def send(self, emails, subject, content):
+        ssl_context = ssl.create_default_context()
+        service = smtplib.SMTP_SSL(self.smtp_server_domain_name, self.port, context=ssl_context)
+        service.login(self.sender_mail, self.password)
 
-        email=('tlugaro@agro.uba.ar')
-        mensaje=('Hubo un error en la carga de datos de ayer!')
-        cuerpo=(str(mensaje))
-        print(cuerpo)
-        msg = Message(email, recipients=['anemoi.vientos.arg@gmail.com'])
-        msg.body = cuerpo
-        mail.send(msg)
-mail()
+        for email in emails:
+            result = service.sendmail(self.sender_mail, email, f"Subject: {subject}\n{content}")
 
+        service.quit()
 
+def powernasa(dia,mes, year):
+    #conexion a la base de datos
+    conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    #aca va la consulta para ver si da error
+    resultados = pd.read_sql(
+        'select * FROM where'+dia+mes+year, conexion)
+    if resultados[3]=="Error":
+        if __name__ == '__main__':
+            mails = "lcalabrese@agro.uba.ar"
+            subject = "Error en carga de datos"
+            content = "Hubo un error ayer en la carga de datos de NASA POWER"
 
+            mail = Mail()
+            mail.send(mails, subject, content)
+    else:
+        pass
+now=datetime.date.today() -timedelta(hours=24)
+dia=now.day
+year=now.year
+mes=now.month
+print(dia,mes,year)
+powernasa(dia,mes,year)
