@@ -1775,7 +1775,7 @@ $('#newLayer').on("click",function(event) {
             legend.onAdd = function (map) {
 
                 var div = L.DomUtil.create('div', 'info legend'),
-                    grades = [0,200,400,600,800,1000,1200,1500],
+                    grades = [0,200,400,600,800,1000,1200,1400,1600,1800],
                     labels = ['<strong></strong>']
                 title= ["mm"];
 
