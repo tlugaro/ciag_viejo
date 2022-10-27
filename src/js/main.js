@@ -399,7 +399,7 @@ function getColorep(d) {
 
 function styleep(feature2) {
     return {
-        weight: 1,
+        weight: 1.5,
         opacity: 0.8,
         color: getColorep(feature2.properties.DN),
         dashArray: '1',
