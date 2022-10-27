@@ -389,7 +389,7 @@ function getColorep(d) {
                                                         d > 600.0 ? '#B08552' :
                                                             d > 500.0 ? '#987049' :
                                                                 d > 400.0 ? '#7E552D' :
-                                                                    d > 300.0 ? '#7D5025' :
+                                                                    d > 300.0 ? '#89521C' :
                                                                         d > 200.0 ? '#7A3D00' :
                                                                             d > 100.0 ? '#623001' :
                                                                                 d > 1.0 ? '#412202' :
@@ -1775,7 +1775,7 @@ $('#newLayer').on("click",function(event) {
             legend.onAdd = function (map) {
 
                 var div = L.DomUtil.create('div', 'info legend'),
-                    grades = [0,200,400,600,800,1000,1200,1400,1600,1800],
+                    grades = [0,200,400,600,800,1000,1200,1400,1600,1800,2000],
                     labels = ['<strong></strong>']
                 title= ["mm"];
 
