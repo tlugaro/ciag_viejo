@@ -18,6 +18,32 @@ import time
 from cla import publicKey, privateKey
 app = Flask(__name__)
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+@app.route('/Pasado')
+def index():
+    return render_template('Pasado.html')
+@app.route('/Futuro')
+def index():
+    return render_template('Futuro.html')
+@app.route('/Presente')
+def index():
+    return render_template('Presente.html')
+@app.route('/Atlas')
+def index():
+    return render_template('Atlas_interactivo.html')
+@app.route('/Aguautilpresente')
+def index():
+    return render_template('Mapas_presente.html')
+@app.route('/Publicaciones')
+def index():
+    return render_template('Publicaciones.html')
+@app.route('/Sietedias')
+def index():
+    return render_template('Siete_Dias.html')    
+
 @app.route('/presente', methods=["GET", "POST"])
 def mapa():
     if request.method == 'POST':
@@ -83,7 +109,7 @@ def mapa():
     date = str(now.day)+"-"+str(now.month)+"-"+str(now.year)
     return render_template('presente.html',year="ca",mes="p",dia="a", fecha= date)
 
-@app.route('/')
+@app.route('/emafauba')
 def home_page():
     # HMAC Authentication credentials
 
@@ -166,6 +192,7 @@ def home_page():
         d.append(((datetime.now() - timedelta(hours=3 )- timedelta(hours=i)).hour))
 
     return render_template('ema.html',d=d,hour1=hour1,wind=wind,puntorocio=marchapuntorocio,mrad=marcharad,mhum=marchahum,mpp=ppt,mtsuelo=marchatsuelo,mtmed=marchatmed,tmax=tmax,tmin=tmin, rad=radiacion,pp=pp, temp= temp_suelo, temp2=temp_air, hum=humedad,hora=hour,date=date)
+
 
 
 
