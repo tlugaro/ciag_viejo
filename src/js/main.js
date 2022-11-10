@@ -2572,7 +2572,7 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
 //1 precipitacion
 var opt_1 = new Array ("", "POWERNASA","SMN" );
 //2 temp med, temp max temp min
-var opt_2 = new Array ("", "POWERNASA", "SMN", "CHIRPS", "ERA5");
+var opt_2 = new Array ("", "POWERNASA", "SMN", "CHIRPS", "ERA5", "CPC");
 //3 radiacion
 var opt_3 = new Array ("", "POWERNASA", "SMN","ERA5");
 //4 solo mensual
