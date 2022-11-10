@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-
+    <title>EMA - FAUBA</title>
   <!-- Favicons -->
   <link href="{{ url_for('static',filename='/img/icon.ico')}}" rel="icon">
   <link href="{{ url_for('static',filename='/img/icon.png')}}"  rel="apple-touch-icon" alt="ciag">
@@ -22,7 +22,7 @@
     <style type="text/css">
  .highcharts-figure, .highcharts-data-table table {
   min-width: 310px;
-  max-width: 800px;
+  max-width: 80%;
   margin: 1em auto;
 }
 
@@ -64,7 +64,6 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script src="https://code.highcharts.com/themes/dark-unica.js"></script>
 
 </head>
 <body>
@@ -73,50 +72,50 @@
 <section id="edu" class="about">
       <div class="container">
         <h1> Estación meteorológica automática (EMA) FAUBA</h1>
-<h2> Datos actualizados el {{date}} a las {{hora}}</h2>
+<h3> Última actualización:  {{date}} a las {{hora}}:00 hs. </h3>
 <div class="col-xl-11 d-flex align-items-stretch">
             <div class="icon-boxes d-flex flex-column justify-content-center">
               <div class="row">
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-brightness-high"></i>
                   <h4>Radiación</h4>
-                  <p style="text-align: justify"><b>{{rad}}</b></p>
+                  <p style="text-align: justify">{{rad}}</p>
                 </div>
 
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-moisture"></i>
                   <h4>Humedad</h4>
-                  <p style="text-align: justify"><b>{{hum}}</b></p>
+                  <p style="text-align: justify">{{hum}}</p>
                 </div>
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-thermometer-half"></i>
                   <h4>Temperatura del aire</h4>
-                  <p style="text-align: justify"><b>{{temp2}}</b></p>
+                  <p style="text-align: justify">{{temp2}}</p>
                 </div>
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-thermometer"></i>
                   <h4>Temperatura del suelo (10 cm de profundidad)</h4>
-                  <p style="text-align: justify"><b>{{temp}}</b></p>
+                  <p style="text-align: justify">{{temp}}</p>
                 </div>
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-wind"></i>
                   <h4>Viento</h4>
-                  <p style="text-align: justify"><b>{{wind}} km/h</b></p>
+                  <p style="text-align: justify">{{wind}}</p>
                 </div>
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-cloud-rain"></i>
                   <h4>Precipitación acumulada (últimas 24 horas)</h4>
-                  <p style="text-align: justify"><b>{{pp}} mm</b></p>
+                  <p style="text-align: justify">{{pp}} mm</p>
                 </div>
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-thermometer-sun"></i>
                   <h4>Temperatura máxima (últimas 24 horas)</h4>
-                  <p style="text-align: justify"><b>{{tmax}} ºC</b></p>
+                  <p style="text-align: justify">{{tmax}} ºC</p>
                 </div>
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
                   <i class="bi bi-thermometer-snow"></i>
                   <h4>Temperatura mínima (últimas 24 horas)</h4>
-                  <p style="text-align: justify"><b>{{tmin}} ºC</b></p>
+                  <p style="text-align: justify">{{tmin}} ºC</p>
                 </div>
 
 
@@ -133,8 +132,6 @@
 <script type="text/javascript">
      var mpp= JSON.parse('{{mpp}}')
      var mtmed= JSON.parse('{{mtmed}}')
-     var mtmax= JSON.parse('{{mtmax}}')
-     var mtmin= JSON.parse('{{mtmin}}')
      var mtsuelo= JSON.parse('{{mtsuelo}}')
      var mhum= JSON.parse('{{mhum}}')
      var mrad= JSON.parse('{{mrad}}')
@@ -143,13 +140,13 @@
      Highcharts.setOptions({
     chart: {
         style: {
-            fontFamily: 'Georgia'
+            fontFamily: 'serif'
         }
     }
 });
 Highcharts.chart('container', {
   title: {
-    text: 'Últimas 24 horas'
+    text: 'Últimas 48 horas'
   },
   xAxis: {
     categories: horas,
@@ -157,6 +154,20 @@ Highcharts.chart('container', {
                     text: 'Horas'
                 },
   },
+  lang: {
+      viewFullscreen:"Pantalla completa",
+        printChart:"Imprimir Gráfico",
+        downloadPNG: 'Descargar PNG',
+        downloadCSV: 'Descargar CSV'
+                        },
+
+                        exporting: {
+                            buttons: {
+                                contextButton: {
+                                    menuItems: ["viewFullscreen","printChart","downloadPNG","downloadCSV"]
+                                }
+                            }
+                        },
     yAxis: [{
 
             title: {
@@ -209,7 +220,7 @@ Highcharts.chart('container', {
 
   series: [ {
     type: 'spline',
-    name: 'Temperatura media',
+    name: 'Temperatura',
     data: mtmed,
       color:'#6edb7f',
       tooltip: {
@@ -226,22 +237,6 @@ Highcharts.chart('container', {
     name: 'Punto de rocío',
     data: puntoroc,
       color:'#495f9b',
-      tooltip: {
-                valueSuffix: 'ºC',}
-    },{
-    type: 'spline',
-    name: 'Temperatura máxima',
-    data: mtmax,
-      visible:false,
-      color:'#db6e6e',
-      tooltip: {
-                valueSuffix: 'ºC',}
-    },{
-    type: 'spline',
-    name: 'Temperatura mínima',
-    data: mtmin,
-      visible:false,
-      color:'#6ebddb',
       tooltip: {
                 valueSuffix: 'ºC',}
     },{

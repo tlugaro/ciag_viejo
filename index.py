@@ -20,32 +20,150 @@ app = Flask(__name__)
 
 
 @app.route('/')
+@app.route('/index')
 def index():
     return render_template('index.html')
 @app.route('/Pasado')
-def index():
+def pasado():
     return render_template('Pasado.html')
 @app.route('/Futuro')
-def index():
+def fut():
     return render_template('Futuro.html')
 @app.route('/Presente')
-def index():
+def presente():
     return render_template('Presente.html')
-@app.route('/Atlas')
-def index():
+@app.route('/Atlasinteractivo')
+def atlas():
     return render_template('Atlas_interactivo.html')
 @app.route('/Aguautilpresente')
-def index():
+def agua():
     return render_template('Mapas_presente.html')
 @app.route('/Publicaciones')
-def index():
+def publi():
     return render_template('Publicaciones.html')
 @app.route('/Sietedias')
-def index():
+def sietedias():
     return render_template('Siete_Dias.html')    
+@app.route('/humedadsuelonp', methods=["GET", "POST"])
 
-@app.route('/presente', methods=["GET", "POST"])
 def mapa():
+    if request.method == 'POST':
+        var = request.form.get('variable')
+        year = request.form.get('year')
+        mes = request.form.get('cosa')
+        dia=request.form.get('options')
+        # ip desde casa zero tier
+        #conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
+        # compu facultad
+        conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+
+        dat = str(year) + "-" + str(mes) + "-" + (str(dia))
+        if var=="Humedad del suelo (NASAPOWER)":
+            resultados = pd.read_sql(
+                'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
+                    year) + ' and extract(month from (fecha))=' + str(mes) + ' and extract(day from (fecha))=' + str(
+                    dia) + ' group by "LAT", "LONG"', conexion)
+            df = pd.DataFrame(resultados)
+            gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
+            gdf = gdf.set_crs('epsg:4326')
+            gdf.to_file('puntos_powernasa.shp')
+            capa = "puntos_powernasa.shp"
+            pts = ogr.Open(capa, 0)
+            dem = gdal.Open("grilla.tif")
+            gt = dem.GetGeoTransform()
+            ulx = gt[0]
+            uly = gt[3]
+            res = gt[1]
+            xsize = dem.RasterXSize
+            ysize = dem.RasterYSize
+            lrx = ulx + xsize * res
+            lry = uly - ysize * res
+            dem = None
+
+            # Interpolacion del punto mas cerca
+            campo = "au"
+            pts = layer = None
+
+            # interpolación idw "invdist:power=3"
+            # interpolacion del punto mas cercano "nearest"
+            # interpolación linear "linear"
+
+            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
+                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = None
+            import numpy as np
+
+            gdal.UseExceptions()
+            rasin = "nearest.tif"
+            shpin = "arg.shp"
+            rasout = "./static/AU-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "nearest_resampleada.tif"
+            # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
+            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
+                              resampleAlg="bilinear")
+            # recorto con shape de Arg
+            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            date=(dia+"-"+mes+"-"+year)
+
+            return render_template('humedadsuelonp.html',year=year,mes=mes,dia=dia, fecha=date)
+        if var == "Temperatura mínima absoluta(NASAPOWER)":
+            resultados = pd.read_sql(
+                'select "lat" as lat, "lon" as lon,  min(t_min) as tmin FROM public.nasa_power_ where t_min != -999 and year =' + str(
+                    year) + ' and mes=' + str(mes) +' group by "lat", "lon"', conexion)
+
+            df = pd.DataFrame(resultados)
+            print(df)
+            gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
+            gdf = gdf.set_crs('epsg:4326')
+            gdf.to_file('puntos_powernasa.shp')
+            capa = "puntos_powernasa.shp"
+            pts = ogr.Open(capa, 0)
+            dem = gdal.Open("grilla.tif")
+            gt = dem.GetGeoTransform()
+            ulx = gt[0]
+            uly = gt[3]
+            res = gt[1]
+            xsize = dem.RasterXSize
+            ysize = dem.RasterYSize
+            lrx = ulx + xsize * res
+            lry = uly - ysize * res
+            dem = None
+
+            # Interpolacion del punto mas cerca
+            campo = "tmin"
+            pts = layer = None
+
+            # interpolación idw "invdist:power=3"
+            # interpolacion del punto mas cercano "nearest"
+            # interpolación linear "linear"
+
+            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
+                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = None
+            import numpy as np
+
+            gdal.UseExceptions()
+            rasin = "nearest.tif"
+            shpin = "arg.shp"
+            rasout = "./static/tmin-PN/" + str(year) + str(mes) + ".tif"
+            resampleada = "nearest_resampleada.tif"
+            # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
+            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
+                              resampleAlg="bilinear")
+            # recorto con shape de Arg
+            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            date = (dia + "-" + mes + "-" + year)
+
+            return render_template('humedadsuelonp.html', year=year, mes=mes, dia=dia, fecha=date)
+    now = datetime.now() - timedelta(hours=85)
+    date = str(now.day) + "-" + str(now.month) + "-" + str(now.year)
+    year = (now.year)
+    mes = (now.month)
+    dia = (now.day)
+    return render_template('humedadsuelonp.html',year=now.year,mes=now.month,dia=now.day, fecha= now)
+
+@app.route('/humedadsuelonpVIEJA', methods=["GET", "POST"])
+def mapaS():
     if request.method == 'POST':
         year = request.form.get('year')
         mes = request.form.get('cosa')
@@ -103,11 +221,66 @@ def mapa():
         dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
         date=(dia+"-"+mes+"-"+year)
 
-        return render_template('presente.html',year=year,mes=mes,dia=dia, fecha=date)
+        return render_template('humedadsuelonp.html',year=year,mes=mes,dia=dia, fecha=date)
     #aca se va a crear la capa del dia de hoy, y se va a cargar primera
-    now = datetime.now()- timedelta(hours=15)
+
+    now = datetime.now()- timedelta(hours=85)
     date = str(now.day)+"-"+str(now.month)+"-"+str(now.year)
-    return render_template('presente.html',year="ca",mes="p",dia="a", fecha= date)
+    year = (now.year)
+    mes = (now.month)
+    dia = (now.day)
+    # ip desde casa zero tier
+    # conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    # compu facultad
+    conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+
+    dat = str(year) + "-" + str(mes) + "-" + (str(dia))
+
+    resultados = pd.read_sql(
+        'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
+            year) + ' and extract(month from (fecha))=' + str(mes) + ' and extract(day from (fecha))=' + str(
+            dia) + ' group by "LAT", "LONG"', conexion)
+    df = pd.DataFrame(resultados)
+    gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
+    gdf = gdf.set_crs('epsg:4326')
+    gdf.to_file('puntos_powernasa.shp')
+    capa = "puntos_powernasa.shp"
+    pts = ogr.Open(capa, 0)
+    dem = gdal.Open("grilla.tif")
+    gt = dem.GetGeoTransform()
+    ulx = gt[0]
+    uly = gt[3]
+    res = gt[1]
+    xsize = dem.RasterXSize
+    ysize = dem.RasterYSize
+    lrx = ulx + xsize * res
+    lry = uly - ysize * res
+    dem = None
+
+    # Interpolacion del punto mas cerca
+    campo = "au"
+    pts = layer = None
+
+    # interpolación idw "invdist:power=3"
+    # interpolacion del punto mas cercano "nearest"
+    # interpolación linear "linear"
+
+    nn = gdal.Grid("nearest.tif", capa, zfield=campo,
+                   algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+    nn = None
+    import numpy as np
+
+    gdal.UseExceptions()
+    rasin = "nearest.tif"
+    shpin = "arg.shp"
+    rasout = "./static/AU-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+    resampleada = "nearest_resampleada.tif"
+    # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
+    dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
+                      resampleAlg="bilinear")
+    # recorto con shape de Arg
+    dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+    return render_template('humedadsuelonp.html',year=now.year,mes=now.month,dia=now.day, fecha= now)
 
 @app.route('/emafauba')
 def home_page():
@@ -193,10 +366,31 @@ def home_page():
 
     return render_template('ema.html',d=d,hour1=hour1,wind=wind,puntorocio=marchapuntorocio,mrad=marcharad,mhum=marchahum,mpp=ppt,mtsuelo=marchatsuelo,mtmed=marchatmed,tmax=tmax,tmin=tmin, rad=radiacion,pp=pp, temp= temp_suelo, temp2=temp_air, hum=humedad,hora=hour,date=date)
 
-
-
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
+
+
+
+"""
+python --> consultas
+python --> crear capas
+si yo creo las capas en el servidor pero no por consultas 
+python --> crea las ultimas 10¿? y remplaza las que ya estan, por si hay algun error.
+
+cargar la ultima capa
+if not disponible:
+    cargar anteultimacapa
+if not disponible
+    cargar anteanteultimacapa
+
+para lo que lo puedo usar python es para las cosas temporales, tiene mas sentido.
+
+import aspose.words as aw
+
+doc = aw.Document()
+builder = aw.DocumentBuilder(doc)
+
+shape = builder.insert_image("Input.tiff")
+shape.image_data.save("Output.png")
+
+    """
