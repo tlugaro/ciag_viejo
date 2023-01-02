@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Ciag - Series observadas</title>
+
+  <!-- Favicons -->
+    <link href="{{ url_for('static',filename='/img/icon.ico')}}" rel="icon">
+    <link href="{{ url_for('static',filename='/img/icon.png')}}" rel="apple-touch-icon" >
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/stlye_presente.css')}}">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- LEAFLET -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js" integrity="sha512-GBlVVqOnLycKN+z49gDABUY6RxEQjOw/GHFbpboxpTxAPJQ78C6pAjT08S/1fT9pWOy9PeyDqipC7cBwrfX2cA==" crossorigin=""></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+
+    <script type="text/javascript" src="{{ url_for('static',filename='/capas/provincias.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='/capas/puntos.js')}}"></script>
+
+
+    <!--[if lt IE 9]>
+    <script src="https://code.highcharts.com/modules/oldie-polyfills.js"></script>
+    <![endif]-->
+    <script src="https://polyfill.io/v3/polyfill.js?features=default%2Ces2015%2CElement.prototype.dataset%2CXMLHttpRequest"></script>
+
+    <script src="https://code.highcharts.com/themes/dark-unica.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+
+</head>
+    
+                    <style>
+                        .foliumtooltip {
+                            background-color: grey; color: white;
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                        .legend {
+                            line-height: 20px;
+                            color: #232323;
+                            border-radius: 5px;
+                            background-color: rgba(222,222,222,0.6);
+
+                        }
+                        .legend i {
+                            width: 20px;
+                            height: 18px;
+                            float: left;
+                            margin-right: 8px;
+                            opacity: 0.7;
+                        }
+                    </style>
+<body>
+
+<script src="https://code.highcharts.com/themes/dark-unica.js"></script>
+
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h2>Series temporales observadas</h2>
+            </div>
+</ul>
+            <ul class="list-unstyled CTAs">
+            <figure id="highcharts-figure" class="highcharts-figure">
+                <div id="container"></div>
+
+            </figure>
+                <button class="cta-btn" id="newLayer"><a href="index.html">Volver al inicio</a></button>
+
+                <a href="index.html"><img src="static/img/icon.png", class="img-fluid"></a>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content" >
+            <div>
+                <tbody >
+                <section id="graf">
+
+
+
+
+                    <script type="text/javascript">
+
+                        var colors = Highcharts.getOptions().colors;
+
+                        var chart= Highcharts.chart('container', {
+                            chart: {
+                                type: 'spline'
+                            },
+                            legend: {
+                                symbolWidth: 40
+                            },
+                            title: {
+                                text:"Hacé click sobre una estación del mapa"
+                            },
+                            lang: {
+
+                                viewFullscreen:"Pantalla completa",
+                                printChart:"Imprimir Gráfico",
+                                downloadPNG: 'Descargar PNG',
+                            },
+
+                            exporting: {
+                                buttons: {
+                                    contextButton: {
+                                        menuItems: ["viewFullscreen","printChart","downloadPNG"]
+                                    }
+                                }
+                            },
+                            subtitle: {
+                                text: 'Datos del Servicio Meteorológico Nacional y Últimos 12 meses'
+                            },
+
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Intensidad del viento (km/h)'
+                                },
+                                accessibility: {
+                                    description: 'Intensidad del viento'
+
+                                }
+
+                            },
+
+                            xAxis: {
+                                title: {
+                                    text: 'Meses'
+                                },
+                                accessibility: {
+                                    description: 'Intensidad media del viento para cada mes'
+                                },
+                                categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+                            },
+
+                            tooltip: {
+                                valueSuffix: 'km/h'
+                            },
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+
+                            responsive: {
+                                rules: [{
+                                    condition: {
+                                        maxWidth: 50
+                                    },
+                                    chartOptions: {
+                                        chart: {
+                                            spacingLeft: 3,
+                                            spacingRight: 3
+                                        },
+                                        legend: {
+                                            itemWidth: 150
+                                        },
+                                        xAxis: {
+                                            categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                            title: 'Meses'
+                                        },
+                                        yAxis: {
+                                            min: 0,
+                                            visible: true,
+                                            title: 'Intensidad media del viento (km/h)'
+
+
+                                        }
+                                    }
+                                }]
+                            }
+                        });
+
+                        $('#sidebar').addClass('active');
+                        $(document).ready(function () {
+                            $("#sidebar").mCustomScrollbar({
+                                theme: "minimal"
+                            });
+
+                            $('#dismiss, .overlay').on('click', function () {
+                                $('#sidebar').removeClass('active');
+                                $('.overlay').removeClass('active');
+                            });
+
+                            $('#sidebarCollapse').on('click', function () {
+                                $('#sidebar').addClass('active');
+                                $('.overlay').addClass('active');
+                                $('.collapse.in').toggleClass('in');
+                                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                            });
+                        });
+
+                    </script>
+
+
+                </section>
+                </tbody>
+                </div>
+
+
+    </div>
+
+    <a href="index.html"><img id="IMAGEN_FLOT" alt="anemoi"
+                 src="static/img/icon.png"
+                 style="z-index: 999999">
+
+        </img></a>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script type="text/javascript">
+var map = L.map('content', { zoomControl:false, minZoom: 4, zoomSnap: 0.25 }).setView([-39.86, -64.33], 4.5);
+
+var all = L.layerGroup().addTo(map)
+
+
+
+L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png",
+                {"attribution": "\u003ca href=\"https://anemoi.netlify.app\" target=\"_blank\"\u003eANEMOI\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map);
+
+
+
+            function onEachFeature(feature, layer) {
+            layer.on({
+            });
+            };
+
+
+            //Viento
+
+            function getColor1(d) {
+                return d > 28.0 ? '#b80003' :
+                        d > 27.0 ? '#c10307' :
+                        d > 26.0 ? '#d5060a' :
+                        d > 25.0 ? '#f80d10' :
+                        d > 24.0 ? '#d50303' :
+                        d > 23.0 ? '#fd3636' :
+                        d > 22.0 ? '#ff4646' :
+                        d > 21.0 ? '#ca0087' :
+                        d > 20.0 ? '#dc299c' :
+                        d > 19.0 ? '#f530ba' :
+                        d > 18.0 ? '#ac08cc' :
+                        d > 17.0 ? '#b91ad9' :
+                        d > 16.0 ? '#d740f3' :
+                        d > 15.0 ? '#9240ef' :
+                        d > 14.0 ? '#9f54f8' :
+                        d > 13.0 ? '#b882ff' :
+                        d > 12.0 ? '#1e1e64' :
+                        d > 11.0 ? '#343482' :
+                        d > 10.0 ? '#484895' :
+                        d > 9.0 ? '#7a7ac2' :
+                        d > 8.0 ? '#8787d0' :
+                        d > 7.0 ? '#b9b9fd' :
+                        d > 6.0 ? '#c5c5ff' :
+                        d > 5.0 ? '#cbcbfa' :
+                        d > 4.0 ? '#ebebff' :
+                                    '#ececfa';
+            }
+
+            function style1(feature1) {
+                return {
+                    weight: 1,
+                    opacity: 1,
+                    color: getColor1(feature1.properties.DN),
+                    dashArray: '1',
+                    fillOpacity: 0.8,
+                    fillColor: getColor1(feature1.properties.DN)
+                };
+            }
+            function styleprov() {
+                return {
+                    weight: 1,
+                    opacity: 1,
+                    color: 	"#ffffff",
+                    dashArray: '1',
+                    fillOpacity: 0,
+                    fillColor: 	"#ffffff"
+                };
+            }
+
+var layerGroup = L.layerGroup();
+var legend = L.control({position: 'bottomright'});
+
+var prov= new L.geoJson( provincias, {
+                    style: styleprov,
+                    onEachFeature: onEachFeature
+
+                })
+var est= new L.geoJson( est, {
+                style: styleprov(),
+                onEachFeature: onEachFeature
+                }).addTo(map)
+est.bindTooltip(
+    function (layer) {
+        let div = L.DomUtil.create('div');
+        let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+        let fields = ["Estacion"];
+        let aliases = ["% AU"];
+        let table = '<table>' +
+            String(
+                fields.map(
+                    (v, i) =>
+                        `<tr>
+            <td>${handleObject(layer.feature.properties[v])}</td>
+
+        </tr>`).join(''))
+            + '</table>';
+        div.innerHTML = table;
+
+        return div
+    }
+    , {"className": "foliumtooltip", "sticky": true});
+
+new L.Control.Zoom({ position: 'topright' }).addTo(map);
+var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
+                {position:"topright"}
+            ).addTo(map);
+            function onEachFeature(feature, est) {
+                est.on('click', function (e) {
+                    name = (feature.properties.Estacion);
+                    console.log(name);
+                    //or
+
+                    if (name == "Comodoro Rivadavia") {
+                        chart.update({
+                            title: {
+                                text: "Marcha anual de la intensidad media del viento en Comodoro Rivadavia"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [25.79, 21.28, 19.69, 20.76, 18.66, 21.17, 19.37, 20.0, 19.47, 21.97, 24.38, 26.25],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                }, {
+                                    name: 'Últimos 12 meses',
+                                    data: [26.45, 24.82, 25.12, 26.87, 25.67, 28.42, 26.76, 25.75, 24.2, 24.59, 26.27, 27.21],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })
+                    }
+                    if (name=="Azul") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Azul"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [14.85,13.47,13.43,12.44,12.7,12.89,13.29,14.96,15.46,16.33,16.02,15.82],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [15.39,14.54,14.66,14.3,14.0,14.52,15.09,15.77,15.91,15.9,16.05,15.98],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Bahia Blanca") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Bahia Blanca"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [25.14,21.94,21.2,19.05,18.47,19.54,19.27,20.54,20.84,21.5,22.52,24.73],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [20.05,18.82,18.57,17.81,17.02,18.67,18.37,18.3,17.78,17.83,18.96,19.81],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Bariloche") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Bariloche"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [25.01,21.23,19.5,18.81,16.27,18.78,17.54,18.47,19.15,23.59,26.8,27.7],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [14.09,13.08,12.75,12.85,12.55,13.92,13.23,14.24,12.95,13.86,14.6,14.91],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Benito Juarez") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Benito Juarez"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [13.66,12.23,11.32,10.92,10.68,12.61,13.22,13.9,13.66,14.2,14.12,15.16],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [17.29,16.35,16.48,16.08,15.76,16.95,17.14,17.53,17.2,17.1,17.61,17.8],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Bernardo de Irigoyen") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Bernardo de Irigoyen"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [10.71,10.75,10.38,11.12,11.89,12.78,13.44,13.81,13.13,11.87,11.45,10.72],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [4.87,4.78,4.78,4.98,5.28,5.57,5.86,6.09,5.85,5.62,5.38,5.08],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Catamarca") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Catamarca"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [21.49,19.63,18.18,15.32,12.94,10.9,12.26,16.28,19.69,22.92,23.85,23.05],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [13.69,13.09,12.49,11.17,10.28,9.58,10.6,12.23,14.03,15.6,15.76,14.69],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Ceres") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Ceres"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [12.35,12.06,11.62,10.96,11.39,11.45,13.13,14.76,15.84,16.77,15.41,13.79],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [12.25,12.22,12.01,11.73,11.69,11.97,12.99,14.5,15.34,15.67,14.65,13.1],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Chamical") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Chamical"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [10.07,9.11,8.19,7.42,6.92,7.11,7.78,9.14,10.87,11.04,11.75,11.15],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [17.2,16.11,15.51,13.65,12.69,11.38,12.5,14.34,16.62,18.87,19.26,17.97],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Chilecito") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Chilecito"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [9.31,8.82,7.83,6.31,5.54,5.85,6.14,7.24,8.1,9.54,10.23,10.15],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [12.19,11.24,9.95,8.35,7.26,6.77,7.32,8.31,9.7,11.3,12.52,12.59],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Comodoro Rivadavia") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Comodoro Rivadavia"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [25.79,21.28,19.69,20.76,18.66,21.17,19.37,20.0,19.47,21.97,24.38,26.25],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [26.45,24.82,25.12,26.87,25.67,28.42,26.76,25.75,24.2,24.59,26.27,27.21],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Concordia") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Concordia"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [11.86,11.12,9.74,8.93,9.05,9.18,10.24,12.33,14.18,14.4,13.32,12.52],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [13.67,13.26,13.19,12.8,13.01,13.31,14.25,15.29,15.76,15.76,15.14,14.03],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Cordoba") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Cordoba"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [13.72,12.28,12.45,12.11,11.9,11.8,12.73,14.76,16.08,16.77,17.0,15.32],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [8.57,8.05,8.0,8.01,7.97,8.5,9.21,10.18,10.61,10.76,10.44,9.26],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Coronel Suarez") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Coronel Suarez"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [16.28,14.18,13.5,12.71,12.53,13.04,14.16,15.56,16.18,16.56,16.69,17.24],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [16.2,15.13,15.42,14.68,14.36,14.84,15.52,16.29,16.35,16.27,16.58,16.8],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Corrientes") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Corrientes"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [12.87,12.54,12.19,11.78,11.97,12.2,12.81,14.88,15.69,16.3,14.71,13.56],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [11.81,11.88,11.48,11.57,11.89,12.16,12.96,14.32,14.5,14.56,13.75,12.48],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Esquel") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Esquel"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [22.96,19.22,17.07,16.33,13.92,15.04,14.13,15.08,16.09,19.61,23.19,24.39],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [12.96,11.49,11.02,11.15,10.18,11.31,10.5,11.56,10.83,12.03,13.1,13.75],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Ezeiza") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Ezeiza"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [14.38,13.28,12.34,11.43,10.98,11.26,12.16,12.9,14.9,14.66,14.91,14.24],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [14.51,13.91,13.99,13.8,13.72,14.08,14.84,15.21,15.83,15.73,15.68,14.89],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Formosa") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Formosa"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [13.24,12.65,11.95,11.71,12.09,12.74,13.2,15.38,15.59,16.27,15.18,14.15],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [12.27,12.37,11.88,12.15,12.54,13.17,13.92,15.4,15.37,15.37,14.4,13.14],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="General Pico") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en General Pico"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [13.98,13.0,12.93,12.42,12.3,12.07,13.26,15.02,16.05,15.53,15.98,15.21],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [12.23,11.71,12.01,11.48,11.22,11.09,11.95,12.87,13.4,13.42,13.35,12.76],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Gualeguaychu") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Gualeguaychu"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [10.92,9.78,9.56,9.14,9.62,10.36,11.14,12.18,12.75,12.47,12.97,11.67],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [13.6,13.11,13.03,12.78,12.79,13.25,14.03,14.66,15.29,15.13,14.95,14.06],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Iguazu") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Iguazu"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [8.68,8.52,8.05,8.66,8.48,8.6,9.22,9.8,9.9,9.51,9.48,9.08],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [4.3,4.33,4.33,4.51,4.75,4.89,5.14,5.38,5.24,4.97,4.82,4.56],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Ituzaingo") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Ituzaingo"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [7.81,7.72,7.6,7.58,7.59,8.04,8.43,9.58,9.52,9.46,8.93,8.25],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [14.51,13.91,13.99,13.8,13.72,14.08,14.84,15.21,15.83,15.73,15.68,14.89],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Ituzaingo") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Ituzaingo"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [7.81,7.72,7.6,7.58,7.59,8.04,8.43,9.58,9.52,9.46,8.93,8.25],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [14.51,13.91,13.99,13.8,13.72,14.08,14.84,15.21,15.83,15.73,15.68,14.89],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Jujuy") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Jujuy"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [8.82,8.76,7.95,7.79,7.63,7.75,9.17,10.87,11.09,11.03,11.09,9.5],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [10.56,10.07,9.55,8.29,7.27,7.29,7.89,9.01,10.31,11.77,12.35,11.54],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Junin") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Junin"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [14.17,13.14,13.32,13.26,13.31,13.38,14.07,15.66,16.35,16.23,16.31,15.31],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [13.02,12.22,13.08,13.2,13.23,13.67,14.45,14.94,15.35,15.44,15.16,13.8],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="La Plata") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en La Plata"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [13.83,13.28,12.39,11.25,11.0,10.96,12.05,13.12,15.04,14.85,14.26,13.82],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [18.56,18.17,18.16,18.01,17.88,18.25,18.82,18.79,19.83,19.7,19.85,18.79],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Laboulaye") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Laboulaye"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [11.63,9.38,9.99,9.11,8.89,8.38,9.57,12.53,14.55,15.86,15.26,13.82],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [11.23,10.62,11.04,10.66,10.7,10.74,11.61,12.47,13.03,13.2,12.82,11.87],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Las Lomitas") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Las Lomitas"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [5.74,6.5,5.53,5.32,5.3,5.3,6.16,7.56,7.54,8.15,8.19,7.08],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [10.95,11.07,10.67,10.54,10.37,10.79,11.85,13.37,13.91,13.99,12.98,11.71],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Malargue") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Malargue"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [10.29,9.59,8.02,7.66,8.29,10.01,11.1,11.51,11.51,12.24,12.38,11.91],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [11.72,11.7,11.24,11.94,12.77,16.45,15.8,16.6,14.36,15.15,15.16,13.8],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Mar del Plata") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Mar del Plata"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [18.1,16.52,15.23,13.8,13.09,13.92,14.1,15.12,16.22,17.32,18.12,18.77],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [18.36,17.77,17.66,17.48,16.81,18.11,18.12,18.26,18.23,18.15,18.6,18.85],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Neuquen") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Neuquen"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [13.19,11.5,9.99,8.93,8.26,9.36,9.49,10.33,11.12,12.92,13.96,14.6],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [20.43,18.46,17.47,16.54,14.78,15.93,15.61,16.65,17.25,18.99,20.52,21.35],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Olavarria") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Olavarria"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [15.28,13.05,11.99,11.55,11.91,12.12,12.92,15.09,16.45,16.28,15.61,16.14],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [15.48,14.54,14.73,14.32,14.04,14.49,15.13,15.84,15.99,15.96,16.1,16.07],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Parana") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Parana"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [12.84,11.89,10.83,10.92,10.99,11.47,12.41,13.83,14.93,15.81,14.84,13.85],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [13.5,13.17,13.26,13.19,13.3,13.59,14.56,15.57,16.2,16.4,15.61,14.1],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Pigue") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Pigue"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [14.29,12.25,12.2,10.78,10.56,10.95,12.18,14.07,14.46,14.31,14.2,14.63],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [18.0,16.87,16.97,15.9,15.54,16.32,16.88,17.49,17.31,17.09,17.71,18.28],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Posadas") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Posadas"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [10.4,10.45,10.16,9.85,9.92,10.04,10.42,11.19,11.09,11.56,11.33,10.93],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [3.71,3.71,3.77,3.87,4.08,4.25,4.48,4.71,4.55,4.42,4.24,3.95],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Reconquista") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Reconquista"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [12.99,12.78,12.27,11.49,11.69,11.71,13.24,15.48,16.54,17.05,15.52,13.74],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [12.38,12.37,12.21,12.0,12.23,12.32,13.4,14.98,15.4,15.55,14.55,12.89],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Resistencia") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Resistencia"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [10.86,10.79,9.94,9.87,9.96,10.46,11.15,13.25,14.15,13.94,12.82,11.56],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [7.94,7.94,7.67,7.64,7.79,8.01,8.68,9.68,9.81,9.74,9.13,8.29],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Rio Cuarto") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Rio Cuarto"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [17.87,16.02,15.8,15.44,14.56,14.96,16.49,18.75,20.89,21.77,21.2,19.72],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [7.01,6.59,6.79,6.79,7.03,7.33,8.13,8.75,9.14,9.13,8.54,7.6],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Rio Gallegos") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Rio Gallegos"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [30.04,26.69,23.25,22.32,19.12,19.35,19.01,20.75,21.59,25.89,30.04,30.56],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [27.48,25.76,25.08,24.79,22.42,22.99,22.37,22.7,22.4,24.47,26.82,26.73],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Rio Grande") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Rio Grande"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [31.55,27.99,25.57,23.11,19.51,18.62,18.34,20.98,22.49,28.48,30.94,31.49],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [28.25,27.01,26.88,26.72,24.99,25.08,24.63,25.39,24.28,26.59,27.45,27.15],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Rosario") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Rosario"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [12.66,11.34,11.3,10.82,10.74,10.96,12.24,13.48,15.17,16.13,15.48,13.52],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [12.76,12.29,12.42,12.56,12.8,13.15,14.01,14.72,15.21,15.51,15.09,13.61],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Salta") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Salta"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [7.75,7.09,6.77,6.59,6.65,6.7,7.19,7.92,8.87,10.3,10.28,8.9],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [10.92,10.52,10.22,9.23,8.26,8.01,8.66,9.88,11.56,13.03,13.42,12.17],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="San Juan") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en San Juan"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [16.13,14.85,14.13,12.01,10.31,10.14,10.97,12.22,14.01,16.5,17.61,17.22],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [15.69,15.05,14.29,12.27,11.21,10.66,11.41,13.39,14.85,16.19,16.53,16.14],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="San Julian") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en San Julian"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [31.04,28.22,26.07,25.96,24.33,26.02,25.42,25.65,26.08,28.76,31.46,32.38],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [24.97,24.17,24.4,25.13,24.0,25.31,24.24,23.69,23.23,23.38,25.22,25.25],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="San Luis") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en San Luis"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [16.84,16.24,15.83,14.72,14.05,15.42,16.22,17.03,17.9,19.23,18.85,18.15],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [16.13,15.43,15.65,15.01,14.73,15.18,16.06,17.85,18.29,19.25,18.56,17.02],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="San Martin Mza") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en San Martin Mza"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [7.82,7.28,6.62,6.01,5.3,5.1,5.82,6.74,7.82,8.6,9.06,8.35],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [16.31,15.54,15.09,13.41,12.15,11.5,12.15,14.35,15.92,17.46,17.78,17.02],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Santa Rosa") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Santa Rosa"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [14.93,14.51,13.73,12.5,12.46,12.38,13.0,14.24,15.39,15.23,15.38,15.41],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [10.18,9.78,9.75,9.34,9.13,9.51,10.29,10.87,10.86,10.61,10.65,10.56],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Santiago del Estero") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Santiago del Estero"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [9.9,9.33,9.04,8.96,8.63,8.46,9.17,9.83,10.78,10.99,10.82,10.57],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [8.61,8.33,8.13,8.05,7.82,7.86,8.82,10.15,11.13,11.5,10.91,9.47],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Sauce Viejo") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Sauce Viejo"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [11.89,11.19,10.94,10.85,11.6,11.96,13.76,15.13,15.21,15.74,14.97,12.63],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [13.52,13.17,13.26,13.28,13.36,13.55,14.53,15.56,16.24,16.57,15.91,14.28],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Tandil") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Tandil"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [15.55,13.82,13.13,12.24,12.15,12.91,13.73,15.22,16.58,17.03,16.88,16.75],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [16.15,15.37,15.41,15.18,14.81,15.71,16.03,16.65,16.55,16.48,16.76,16.75],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Tartagal") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Tartagal"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [7.53,6.92,6.7,6.68,6.41,7.06,7.35,8.45,8.85,9.65,9.01,8.13],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [10.23,10.3,9.99,9.96,9.49,9.54,10.26,11.64,12.67,13.11,12.9,11.42],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Trelew") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Trelew"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [25.56,22.93,19.76,18.21,16.35,17.09,17.17,18.15,18.85,22.17,24.25,25.24],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [23.21,22.52,21.86,22.43,21.08,23.15,22.3,21.9,21.18,21.7,22.81,23.32],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Tres Arroyos") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Tres Arroyos"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [15.13,13.37,12.53,12.12,11.61,13.01,12.94,13.63,13.78,14.41,14.81,15.94],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [17.99,16.95,17.17,16.64,16.25,17.67,17.71,17.75,17.31,17.19,17.85,18.19],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Tucuman") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Tucuman"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [10.87,10.78,9.84,9.0,8.54,9.15,9.94,10.44,11.0,11.68,11.51,11.03],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [11.92,11.52,11.09,10.16,9.16,8.5,9.36,10.88,12.66,14.06,14.11,13.01],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Viedma") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Viedma"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [22.8,20.33,17.98,15.95,15.43,17.46,17.21,17.21,18.28,19.76,21.36,22.56],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [20.84,20.34,19.38,18.71,17.85,19.4,19.06,18.96,18.55,18.87,19.71,20.44],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+                    if (name=="Villa Dolores") {
+                        chart.update({
+                            title: {
+                                text:"Marcha anual de la intensidad media del viento en Villa Dolores"
+                            },
+
+                            series: [
+                                {
+                                    name: 'Media',
+                                    data: [8.9,7.86,7.45,7.66,7.67,7.54,8.47,9.06,9.52,9.62,9.83,10.02],
+                                    dashStyle: 'Dash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Últimos 12 meses',
+                                    data: [11.74,11.15,10.96,10.24,9.81,9.79,10.77,12.33,13.41,14.39,14.02,12.4],
+                                    dashStyle: 'Dash',
+                                    color: colors[2]
+                                }
+                            ],
+                        })}
+
+                })}
+
+
+    </script>
+    </div>
+</body>
+
+</html>

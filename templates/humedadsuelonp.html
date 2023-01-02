@@ -5,10 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>CIAg - Agua útil</title>
+        <title>CIAg - Mapas presente </title>
     <!-- Favicons -->
-    <link href="{{ url_for('static',filename='/img/icono.ico')}}" rel="icon">
-    <link href="{{ url_for('static',filename='/img/icono.png')}}" rel="apple-touch-icon" >
+    <link href="{{ url_for('static',filename='/img/icon.ico')}}" rel="icon">
+    <link href="{{ url_for('static',filename='/img/icon.png')}}" rel="apple-touch-icon" >
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
@@ -80,6 +80,27 @@
             margin-bottom: 2px;
             opacity: 0.7;
         }
+        .loading {
+                            position: fixed;
+                            left: -400%;
+                            top: 40%;
+                            width: 20%;
+                            height: 20%;
+                            z-index: 9999;
+                            background: url("../static/img/pageLoader.gif") 50% 50% no-repeat ;
+                            opacity: 1;
+                        }
+                        .loading.active {
+                            position: fixed;
+                            left: 40%;
+                            top: 40%;
+                            width: 20%;
+                            height: 20%;
+                            z-index: 9999;
+                            background: url("../static/img/pageLoader.gif") 50% 50% no-repeat ;
+                            opacity: 1;
+                        }
+
     </style>
 <body>
 
@@ -91,7 +112,8 @@
         </div>
 
         <div class="sidebar-header">
-            <h2>Agua útil</h2>
+            <h2>Atlas presente</h2>
+            <h4>{{variab}}</h4>
             <h6>{{fecha}}</h6>
         </div>
 
@@ -104,6 +126,10 @@
             <option  disabled selected>Elija una variable</option>
           <option value="Humedad del suelo (NASAPOWER)">Humedad del suelo (NASAPOWER)</option>
             <option value="Temperatura mínima absoluta(NASAPOWER)">Temperatura mínima absoluta(NASAPOWER)</option>
+            <option value="Temperatura máxima absoluta(NASAPOWER)">Temperatura máxima absoluta(NASAPOWER)</option>
+            <option value="Número de días con t menor a 3 (NASAPOWER)">Número de días con t<3ºC (NASAPOWER)</option>
+            <option value="Número de días con t mayor a 30 (NASAPOWER)">Número de días con t>30ºC (NASAPOWER)</option>
+            <option value="Número de días con pp (NASAPOWER)">Número de días con pp (NASAPOWER)</option>
 
         </select>
       </div>
@@ -135,6 +161,16 @@
                     <option value="2002" >2002</option>
                     <option value="2001" >2001</option>
                     <option value="2000" >2000</option>
+                    <option value="1999" >1999</option>
+                    <option value="1998" >1998</option>
+                    <option value="1997" >1997</option>
+                    <option value="1996" >1996</option>
+                    <option value="1995" >1995</option>
+                    <option value="1994" >1994</option>
+                    <option value="1993" >1993</option>
+                    <option value="1992" >1992</option>
+                    <option value="1991" >1991</option>
+                    <option value="1990" >1990</option>
 
                 </select>
             </div>
@@ -172,7 +208,7 @@
                 </div>
 
 
-                <button  value="Submit" type="submit" class="cta-btn" id="newLayer"   > Ver Capa</button>
+                <button  value="Submit" type="submit" class="cta-btn" id="newLayer"  onclick="return newla();"  > Ver Capa</button>
                 <button class="cta-btn" id="downloaderLayer"  >Descargar Capa</button>
 
                 <button class="cta-btn" id="volveralinicio"  ><a href="/index">Volver al Inicio</a></button>
@@ -241,11 +277,33 @@
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
     });
+    function newla(){
 
-    function onEachFeature(feature, layer) {
-        layer.on({
-        });
-    };
+
+        var elemento = document.getElementById("base").value
+        if (elemento == "") {
+            $('.loading').removeClass('active');
+            alert("Elije una base de datos!")
+            return false
+        }
+        var elemento2 = document.getElementById("var").value
+        if (elemento2 == "") {
+            $('.loading').removeClass('active');
+            alert("Elije una variable!")
+            return false
+        }
+        var elemento4 = document.getElementById("tp").value
+        if ((elemento4 == "") || (elemento4 == "------------------")) {
+            $('.loading').removeClass('active');
+            alert("Elije un período de tiempo!")
+            return false
+        }
+        $('.loading').addClass('active');
+        return true;
+    }
+ function onEachFeature(feature, layer) {
+            layer.on({});
+        };
     function styleprov() {
         return {
             weight: 1.5,
@@ -290,205 +348,6 @@
     L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png",
         {"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
     ).addTo(map);
-
-        var base2 = ('{{year}}'+'{{mes}}'+'{{dia}}');
-
-
-        var url_to_geotiff_file = ("static/AU-PN/"+base2+".tif")
-
-        fetch(url_to_geotiff_file)
-            .then(response => response.arrayBuffer())
-            .then(arrayBuffer => {
-                parseGeoraster(arrayBuffer).then(georaster => {
-                    const min = georaster.mins[0];
-                    const max = georaster.maxs[0];
-                    const range = georaster.ranges[0];
-
-                        var scale = chroma.scale(['#B2381C', '#FCA029', '#F4D629', '#F7FF82', '#D5FA79', '#A3F32F', '#43CD2A', '#0A8838', '#135943', '#07332C', '#2B2387']);
-
-                        var layer = new GeoRasterLayer({
-                            georaster: georaster,
-                            opacity: 0.9,
-                            pixelValuesToColorFn: function (pixelValues) {
-                                var pixelValue = pixelValues[0]; // there's just one band in this raster
-
-
-                                if ((isNaN(pixelValue))) return null;
-                                // scale to 0 - 1 used by chroma
-                                // var scaledPixelValue = (pixelValue - min) / range;
-                                var scaledPixelValue = (pixelValue - 0) / 100;
-
-                                var color = scale(scaledPixelValue).hex();
-
-                                return color;
-                            },
-
-                            resolution: 256
-                        });
-
-                    layer.addTo(layerGroup);
-                    map.addLayer(layerGroup);
-
-                    function getColor(d) {
-                        return d > 95.0 ? '#08306b' :
-                            d > 90.0 ? '#07332C' :
-                                d > 80.0 ? '#135943' :
-                                    d > 70.0 ? '#0A8838' :
-                                        d > 60.0 ? '#43CD2A' :
-                                            d > 50.0 ? '#A3F32F' :
-                                                d > 40.0 ? '#D5FA79' :
-                                                    d > 30.0 ? '#F7FF82' :
-                                                        d > 20.0 ? '#F4D629' :
-                                                            d > 10.0 ? '#FCA029' :
-                                                                d > 0.0 ? '#B2381C' :
-
-                                                                    '#8c240c';
-
-                    }
-                            legend.onAdd = function (map) {
-
-                                var div = L.DomUtil.create('div', 'info legend'),
-                                    grades = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-                                    labels = ['<strong></strong>']
-                                title = ["% AU"];
-
-                                // loop through our density intervals and generate a label with a colored square for each interval
-                                for (var i = 0; i < grades.length; i++) {
-                                    div.innerHTML +=
-                                        '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                                        grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' % ');
-                                }
-
-                                return div;
-                            };
-
-                            legend.addTo(map);
-                            prov.bringToFront();
-                    $('.loading').removeClass('active');
-
-
-
-                });
-            })
-
-
-    $('#newLayer').on("click",function(event) {
-
-        $('.loading').addClass('active');
-        var elemento = document.getElementById("base").value
-        if (elemento == "") {
-            alert("Elije una base de datos!")
-            return false
-        }
-        var elemento2 = document.getElementById("var").value
-        if (elemento2 == "") {
-            alert("Elije un mes!")
-            return false
-        }
-        var elemento5 = document.getElementById("variable").value
-        if (elemento1 == "") {
-            alert("Elije una variable!")
-            return false
-        }
-        var elemento1 = document.getElementById("year").value
-        if (elemento1 == "") {
-            alert("Elije un año!")
-            return false
-        }
-        var elemento3 = document.getElementById("tp").value
-        if (elemento3 == "") {
-            alert("Elije un día!")
-            return false
-        }
-
-        layerGroup.clearLayers();
-        layerGroupdos.clearLayers();
-        map.removeControl(legend);
-
-                    var base2 = ('{{year}}'+'{{mes}}'+'{{dia}}');
-
-                 url_to_geotiff_file = ("{{ url_for('static',filename='AU-PN/" + base2 + ".tif')}}")
-
-                fetch(url_to_geotiff_file)
-                .then(response => response.arrayBuffer())
-                    .then(arrayBuffer => {
-                        parseGeoraster(arrayBuffer).then(georaster => {
-                            const min = georaster.mins[0];
-                            const max = georaster.maxs[0];
-                            const range = georaster.ranges[0];
-
-                            var scale = chroma.scale(['#B2381C', '#FCA029', '#F4D629', '#F7FF82', '#D5FA79', '#A3F32F', '#43CD2A', '#0A8838', '#135943', '#07332C', '#2B2387']);
-
-                            var layer = new GeoRasterLayer({
-                                georaster: georaster,
-                                opacity: 0.9,
-                                pixelValuesToColorFn: function (pixelValues) {
-                                    var pixelValue = pixelValues[0]; // there's just one band in this raster
-
-
-                                    if ((isNaN(pixelValue))) return null;
-                                    // scale to 0 - 1 used by chroma
-                                    // var scaledPixelValue = (pixelValue - min) / range;
-                                    var scaledPixelValue = (pixelValue - 0) / 100;
-
-                                    var color = scale(scaledPixelValue).hex();
-
-                                    return color;
-                                },
-
-                                resolution: 256
-                            });
-
-                            layer.addTo(layerGroup);
-                            map.addLayer(layerGroup);
-
-                            function getColor(d) {
-                                return d > 95.0 ? '#08306b' :
-                                    d > 90.0 ? '#07332C' :
-                                        d > 80.0 ? '#135943' :
-                                            d > 70.0 ? '#0A8838' :
-                                                d > 60.0 ? '#43CD2A' :
-                                                    d > 50.0 ? '#A3F32F' :
-                                                        d > 40.0 ? '#D5FA79' :
-                                                            d > 30.0 ? '#F7FF82' :
-                                                                d > 20.0 ? '#F4D629' :
-                                                                    d > 10.0 ? '#FCA029' :
-                                                                        d > 0.0 ? '#B2381C' :
-
-                                                                            '#8c240c';
-
-                            }
-
-                            legend.onAdd = function (map) {
-
-                                var div = L.DomUtil.create('div', 'info legend'),
-                                    grades = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-                                    labels = ['<strong></strong>']
-                                title = ["% AU"];
-
-                                // loop through our density intervals and generate a label with a colored square for each interval
-                                for (var i = 0; i < grades.length; i++) {
-                                    div.innerHTML +=
-                                        '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                                        grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' % ');
-                                }
-
-                                return div;
-                            };
-
-                            legend.addTo(map);
-                            prov.bringToFront();
-                            $('.loading').removeClass('active');
-
-
-                        });
-                    });
-
-            
-            });
-
-
-
 
     // 2) crear una funcion que permita ejecutar el cambio dinamico
     var options_01 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
@@ -550,6 +409,534 @@ map.on('click', function(e) {
     console.log(long)
     var marker =new L.Marker([lat,long]).addTo(layerGroup)
     layerGroup.addTo(map)});
+
+            var base2 = ('{{carpeta}}'+'{{year}}'+'{{mes}}'+'{{dia}}');
+        var variab='{{variab}}'
+        var url_to_geotiff_file = ("static/"+base2+".tif")
+        if (variab=="Humedad del suelo (NASAPOWER)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(["#B2381C", "#FCA029", "#F4D629", "#F7FF82", "#D5FA79", "#A3F32F", "#43CD2A", "#0A8838", "#135943", "#07332C", "#2B2387"]);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - 0) / 100;
+
+                                var color = getColor(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+                    function getColor(d) {
+                        return d > 95.0 ? '#08306b' :
+                            d > 90.0 ? '#07332C' :
+                                d > 80.0 ? '#135943' :
+                                    d > 70.0 ? '#0A8838' :
+                                        d > 60.0 ? '#43CD2A' :
+                                            d > 50.0 ? '#A3F32F' :
+                                                d > 40.0 ? '#D5FA79' :
+                                                    d > 30.0 ? '#F7FF82' :
+                                                        d > 20.0 ? '#F4D629' :
+                                                            d > 10.0 ? '#FCA029' :
+                                                                d > 0.0 ? '#B2381C' :
+
+                                                                    '#8c240c';
+
+                    }
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                        '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                                        grades[i] + (grades[i + 1] ? ' %' + '<br>' : ' % ');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
+            if (variab=="Temperatura mínima absoluta(NASAPOWER)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#651cb2', '#0d50ad', '#4d8bc5','#fff']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - (-15)) / 30;
+
+                                var color = getColortmin(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+                    function getColortmin(d) {
+                        return d > 10.0 ? '#e39d41' :
+                        d > 9.0 ? '#e1ac4a' :
+                        d > 8.0 ? '#ffcb70' :
+                        d > 7.0 ? '#deb266' :
+                            d > 6.0 ? '#e8c787' :
+                                    d > 5.0 ? '#e7d0a8' :
+                                        d > 4.0 ? '#e1d8c1' :
+                                            d > 3.0 ? '#fff' :
+                                                d > 2.0 ? '#cbe2ef' :
+                                                    d > 1.0 ? '#abcfe5' :
+                                                        d > 0.0 ? '#8bbdda' :
+                                                            d > -1.0 ? '#6babd0' :
+                                                                d > -2.0 ? '#4b99c6' :
+                                                                    d > -3.0 ? '#2b87bc' :
+                                                                        d > -4.0 ? '#0b75b2' :
+                                                                            d > -5.0 ? '#056eab' :
+                                                                                d > -6.0 ? '#046aa6' :
+                                                                                    d > -7.0 ? '#0467a0':
+                                                                                        d > -8.0 ? '#04639a' :
+                                                                                            d > -9.0 ? '#045f94' :
+                                                                                                d > -10.0 ? '#035c8f' :
+                                                                                                    d > -11.0 ? '#9d6fcc' :
+                                                                                                        d > -12.0 ? '#9b5de1' :
+                                                                                                            d > -13.0 ? '#7a31c7' :
+                                                                                                     d > -14.0 ? '#651cb2' :
+                                                                                                    '#530e9b';
+
+                    }
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [-15,-13,-11,-9,-7,-5,-3,-1,0,1,3,5,7,10],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         '<i style="background:' + getColortmin(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' ºC' + '<br>' : ' ºC' + '<br>');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
+            if (variab=="Temperatura máxima absoluta(NASAPOWER)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#651cb2', '#0d50ad', '#4d8bc5','#fff']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - (-15)) / 30;
+
+                                var color = getColortmax(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+                    function getColortmax(d) {
+                        return d > 35.0+5.0 ? '#35070c' :
+                d > 34.0+5.0 ? '#42060e' :
+                    d > 33.0+5.0 ? '#4f040f' :
+                        d > 32.0+5.0 ? '#5c0211' :
+                            d > 31.0+5.0 ? '#690112' :
+                                d > 30.0+5.0 ? '#740014' :
+                                    d > 29.0+5.0 ? '#7b0015' :
+                                        d > 28.0+5.0 ? '#830016' :
+                                            d > 27.0+5.0 ? '#8b0017' :
+                                                d > 26.0+5.0 ? '#960018' :
+                                                    d > 25.0+5.0 ? '#a3001a' :
+                                                        d > 24.0+5.0 ? '#b0001c' :
+                                                            d > 23.0+5.0 ? '#bd001e' :
+                                                                d > 22.0+5.0 ? '#ca0020' :
+                                                                    d > 21.0+5.0 ? '#ce0f22' :
+                                                                        d > 20.0+5.0 ? '#d72c25' :
+                                                                            d > 19.0+5.0 ? '#da3326' :
+                                                                                d > 18.0+5.0 ? '#dc3a27' :
+                                                                                    d > 17.0+5.0 ? '#de4128' :
+                                                                                        d > 16.0+5.0 ? '#e04829' :
+                                                                                            d > 15.0+5.0 ? '#e24f2a' :
+                                                                                                d > 14.0+5.0 ? '#e65a2b' :
+                                                                                                    d > 13.0+5.0 ? '#ea672d' :
+                                                                                                        d > 12.0+5.0 ? '#ee742f' :
+                                                                                                            d > 11.0+5.0 ? '#f18031' :
+                                                                                                                    d > 10.+5.0 ? '#e39d41' :
+                        d > 9.0+5.0 ? '#e1ac4a' :
+                        d > 8.0+5.0 ? '#ffcb70' :
+                        d > 7.0+5.0 ? '#deb266' :
+                            d > 6.0+5.0 ? '#e8c787' :
+                                    d > 5.0+5.0 ? '#e7d0a8' :
+                                        d > 4.0+5.0 ? '#e1d8c1' :
+                                            d > 3.0+5.0 ? '#fff' :
+                                                d > 2.0+5.0 ? '#cbe2ef' :
+                                                    d > 1.0+5.0 ? '#0b75b2' :
+                                                        d > 0.0+5.0 ? '#04639a' :
+                                                            d > -1.0+5.0 ? '#035c8f' :
+                                                                d > -2.0+5.0 ? '#9b5de1' :
+                                                                    d > -5.0+5.0 ? '#651cb2' :
+                                                                        '#530e9b';
+
+                    }
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         '<i style="background:' + getColortmax(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' ºC' + '<br>' : ' ºC' + '<br>');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
+
+            if (variab=="Número de días con t mayor a 30 (NASAPOWER)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#651cb2', '#0d50ad', '#4d8bc5','#fff']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - (-15)) / 30;
+
+                                var color = getColortmas30(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+
+                    function getColortmas30(d) {
+                        return  d > 14.0 ? '#35070c' :
+                                    d > 13.0 ? '#4f040f':
+                                        d > 12.0 ? '#740014' :
+                                            d > 11.0 ? '#960018' :
+                                                d > 10.0 ? '#a3001a' :
+                                                    d > 9.0 ? '#da3326' :
+                                                        d > 8.0 ? '#de4128' :
+                                                            d > 7.0 ? '#e24f2a' :
+                                                                d > 6.0 ? '#ee742f' :
+                                                                    d > 5.0 ? '#f18031' :
+                                                                        d > 4.0 ? '#e1ac4a' :
+                                                                            d > 3.0 ? '#deb266' :
+                                                                                d > 2.0 ? '#deb266' :
+                                                                                    d > 1.0 ? '#e8c787' :
+                                                                                         d > 0.0 ? '#e1d8c1' :
+                                                                                             d < 1.0 ? '#ffffff' :
+                                                    '#e84a4a';
+
+                    }
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         '<i style="background:' + getColortmas30(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' Días' + '<br>' : ' o + Días' + '<br>');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
+            if (variab=="Número de días con t menor a 3 (NASAPOWER)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#651cb2', '#0d50ad', '#4d8bc5','#fff']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - (-15)) / 30;
+
+                                var color = getColortmen3(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+
+                    function getColortmen3(d) {
+                        return  d > 14.0 ? '#38138d' :
+                                    d > 13.0 ? '#43189e':
+                                        d > 12.0 ? '#4719a4' :
+                                            d > 11.0 ? '#4b2bb0' :
+                                                d > 10.0 ? '#4b39b7' :
+                                                    d > 9.0 ? '#4d54c4' :
+                                                        d > 8.0 ? '#4b6dce' :
+                                                            d > 7.0 ? '#436fc8' :
+                                                                d > 6.0 ? '#3b71c3' :
+                                                                    d > 5.0 ? '#3273bd' :
+                                                                        d > 4.0 ? '#197aac' :
+                                                                            d > 3.0 ? '#2987b2' :
+                                                                                d > 2.0 ? '#4b9bc0' :
+                                                                                    d > 1.0 ? '#6dafce' :
+                                                                                         d > 0.0 ? '#83c0dc' :
+                                                                                             d < 1.0 ? '#ffffff' :
+                                                    '#e84a4a';
+
+                    }
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         '<i style="background:' + getColortmen3(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' Días' + '<br>' : ' o + Días' + '<br>');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
+            if (variab=="Número de días con pp (NASAPOWER)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#651cb2', '#0d50ad', '#4d8bc5','#fff']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - (-15)) / 30;
+
+                                var color = getColordiasconpp(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+
+                    function getColordiasconpp(d) {
+                        return  d > 14.0 ? '#38138d' :
+                                    d > 13.0 ? '#43189e':
+                                        d > 12.0 ? '#4719a4' :
+                                            d > 11.0 ? '#4b2bb0' :
+                                                d > 10.0 ? '#4b39b7' :
+                                                    d > 9.0 ? '#4d54c4' :
+                                                        d > 8.0 ? '#4b6dce' :
+                                                            d > 7.0 ? '#436fc8' :
+                                                                d > 6.0 ? '#3b71c3' :
+                                                                    d > 5.0 ? '#3273bd' :
+                                                                        d > 4.0 ? '#197aac' :
+                                                                            d > 3.0 ? '#2987b2' :
+                                                                                d > 2.0 ? '#4b9bc0' :
+                                                                                    d > 1.0 ? '#6dafce' :
+                                                                                         d > 0.0 ? '#83c0dc' :
+                                                                                             d < 1.0 ? '#ffffff' :
+                                                    '#e84a4a';
+
+                    }
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         '<i style="background:' + getColordiasconpp(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' Días' + '<br>' : ' o + Días' + '<br>');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
 
 </script>
 
