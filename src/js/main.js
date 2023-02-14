@@ -1084,7 +1084,7 @@ $('#newLayer').on("click",function(event) {
     if (($("#var option:selected").text())=="Temperatura media" ){
         $.ajax({
 
-            url: "static/capas/" + base2 +".geojson",
+            url: "capas/" + base2 +".geojson",
 
             success: function (data) {
 

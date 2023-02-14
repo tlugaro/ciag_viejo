@@ -7,7 +7,8 @@ $(document).ready(function () {
     $('#varast').on('click', function () {
         event.preventDefault();
         $.ajax({
-            url: "{{ url_for('static',filename='/capas/Variables astronómicas_puntos.geojson')}}",
+            url: "static/capas/Variables astronómicas_puntos.geojson",
+            dataType: 'json',
 
             success: function (data) {
 
@@ -49,7 +50,8 @@ $(document).ready(function () {
             },
         });
         $.ajax({
-        url: "{{ url_for('static',filename='/capas/Variables astronómicas.geojson')}}",
+        url: "static/capas/Variables astronómicas.geojson",
+            dataType: 'json',
 
             success: function (data) {
 
@@ -1044,8 +1046,8 @@ $('#downloaderLayer').on("click",function(event) {
     }
     var based = ($("#bd option:selected").text()) +"_"+ ($("#var option:selected").text()) +"_"+($("#tp option:selected").text());
     const down  = document.createElement('a');
-    down.href= "{{ url_for('static',filename='/capas/" + based +".geojson')}}";
-    down.download= based+".geojson')}}";
+    down.href= "static/capas/" + based +".geojson";
+    down.download= based+".geojson";
     document.body.appendChild(down);
     down.click();
 
@@ -1084,9 +1086,11 @@ $('#newLayer').on("click",function(event) {
     if (($("#var option:selected").text())=="Temperatura media" ){
         $.ajax({
 
-            url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
-
+            url: "static/capas/" + base2 +".geojson",
+            dataType: 'json',
+            dataType: 'json',
             success: function (data) {
+
 
                 var geojson = new L.geoJson((data), {
                         style: style1,
@@ -1150,7 +1154,8 @@ $('#newLayer').on("click",function(event) {
     else if (($("#var option:selected").text())=="Temperatura máxima") {
         $.ajax({
 
-            url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+            url: "static/capas/" + base2 +".geojson",
+            dataType: 'json',
 
             success: function (data) {
 
@@ -1216,7 +1221,8 @@ $('#newLayer').on("click",function(event) {
     else if (($("#var option:selected").text())=="Temperatura mínima"){
         $.ajax({
 
-            url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+            url: "static/capas/" + base2 +".geojson",
+            dataType: 'json',
 
             success: function (data) {
 
@@ -1281,7 +1287,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Abril")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1345,7 +1352,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Verano"||($("#var option:selected").text())=="Precipitación" && ($("#tp option:selected").text())== "Otoño" ||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Primavera"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Invierno")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1409,7 +1417,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if ((($("#var option:selected").text())=="Precipitación") && (($("#tp option:selected").text())=="Media anual"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Cálido"||($("#var option:selected").text())=="Precipitación" &&($("#tp option:selected").text())=="Semestre Frío")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1474,7 +1483,8 @@ $('#newLayer').on("click",function(event) {
     //deficits anual
     else if ((($("#var option:selected").text())=="Déficits (BHOA)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1539,7 +1549,8 @@ $('#newLayer').on("click",function(event) {
         //deficits mensual
     else if ((($("#var option:selected").text())=="Déficits (BHOA)") && (($("#tp option:selected").text())!="Media anual")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1604,7 +1615,8 @@ $('#newLayer').on("click",function(event) {
     //excesos anual
     else if ((($("#var option:selected").text())=="Excesos (BHOA)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1669,7 +1681,8 @@ $('#newLayer').on("click",function(event) {
     //excesos mensual
     else if ((($("#var option:selected").text())=="Excesos (BHOA)") && (($("#tp option:selected").text())!="Media anual")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1735,7 +1748,8 @@ $('#newLayer').on("click",function(event) {
     //Evapotranspiración Potencial (Penman Fao)
     else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1801,7 +1815,8 @@ $('#newLayer').on("click",function(event) {
     //Evapotranspiración Potencial (Penman Fao) mensual
     else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1865,7 +1880,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Radiación global"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1931,7 +1947,8 @@ $('#newLayer').on("click",function(event) {
 
     else if ((($("#var option:selected").text())=="Evapotranspiración real (BHOA)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -1996,7 +2013,8 @@ $('#newLayer').on("click",function(event) {
 
     //Evapotranspiración real mensual
     else if ((($("#var option:selected").text())=="Evapotranspiración real (BHOA)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración real (BHOA)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2060,7 +2078,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Radiación global"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2124,7 +2143,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Agua útil (BHOA)"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2188,7 +2208,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Déficit de presión de vapor" ){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2252,7 +2273,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Tensión de Vapor"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2316,7 +2338,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Humedad Relativa"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/" + base2 +".geojson')}}",
+        url: "static/capas/" + base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2380,7 +2403,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Heliofanía efectiva"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/"+ base2 +".geojson')}}",
+        url: "static/capas/"+ base2 +".geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2440,7 +2464,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Radiación astronómica"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/Variables astronómicas.geojson')}}",
+        url: "static/capas/Variables astronómicas.geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2481,7 +2506,8 @@ $('#newLayer').on("click",function(event) {
 
     else if (($("#var option:selected").text())=="Heliofanía astronómica"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/Variables astronómicas.geojson')}}",
+        url: "static/capas/Variables astronómicas.geojson",
+        dataType: 'json',
 
         success: function (data) {
 
@@ -2521,7 +2547,8 @@ $('#newLayer').on("click",function(event) {
     }
     else if (($("#var option:selected").text())=="Radiación astronómica"){$.ajax({
 
-        url: "{{ url_for('static',filename='/capas/Variables astronómicas.geojson')}}",
+        url: "static/capas/Variables astronómicas.geojson",
+        dataType: 'json',
 
         success: function (data) {
 

@@ -22,7 +22,6 @@ from osgeo import gdal, ogr
 import time
 from cla import publicKey, privateKey
 app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
 
 @app.route('/')
 @app.route('/index')
