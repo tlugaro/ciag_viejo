@@ -21,6 +21,8 @@ from datetime import datetime
 from osgeo import gdal, ogr
 import time
 from cla import publicKey, privateKey
+import warnings
+warnings.filterwarnings("ignore")
 app = Flask(__name__)
 
 @app.route('/')
@@ -55,37 +57,72 @@ def marcha_anual():
     return render_template('Marcha_anual_maps.html')
     cod_est = request.values.get("cod_est")
     print(cod_est)
+
 @app.route('/seriestemporalesobs', methods=["GET", "POST"])
 def seriestemporalesobs():
-
+    ultimo = []
+    media_anual = []
+    nombre= []
+    # percentil 50 con linea , 20 y 80 (sombreados sin linea) --> SELECT PERCENTILE_CONT(0.5) -- linea de año actual (sin puntear)
     conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
     if request.method == 'POST':
-        var = request.form.get('variable')
+        output = request.get_json()
+        nombre = str(output["nombre"])
+        variable = str(output["variable"])
+        codest = str(output["codest"])
+        year = str(output["year"])
+        if variable=="au":
 
-        year = request.form.get('year')
-        mes = request.form.get('cosa')
-        dia=request.form.get('options')
-        codest=request.form.get('codest')
 
-        resultados_media = pd.read_sql(
-            'with suma as (select loc,year, mes , sum("ep") as ep'
-            'FROM bhoa."BHOA_SMN_historicos" where loc= '+codest+' group by year, mes, loc) '
-            'select mes, avg("ep") as epmediaanual,  FROM suma  group by mes order by  mes',
-            conexion)
-        df = pd.DataFrame(resultados_media)
-        resultados_year = pd.read_sql(
-            'select  mes, sum("ep") as ep '
-            'FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' and year= '+year+' group by  mes, loc) ',  conexion)
-        df = pd.DataFrame(resultados_year)
+            resultados_media = pd.read_sql(
+                'select loc mes , avg("au") as au  FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' group by  mes, loc order by mes ',
+                conexion)
+            df = pd.DataFrame(resultados_media)
+            unidad = "%"
+            media_anual = df["au"].values.tolist()
+            print(media_anual)
+            resultados_year = pd.read_sql(
+                'select  mes, avg("au") as au FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' and year= ' + year + ' group by  mes order by mes ',conexion)
+            df = pd.DataFrame(resultados_year)
+            ultimo = df["au"].values.tolist()
+
+            datos = {"med": media_anual, "nombre": nombre, "ultimo": ultimo, "yeear": year, "unidad": unidad}
+
+            return (datos)
+        else:
+
+            resultados_media = pd.read_sql(
+                'with suma as (select loc,year, mes , sum("'+variable+'") as '+variable+' FROM bhoa."BHOA_SMN_historicos" where loc= '+codest+' group by year, mes, loc) '
+                'select mes, avg('+variable+') as '+variable+'  FROM suma  group by mes order by  mes',
+                conexion)
+            df = pd.DataFrame(resultados_media)
+            unidad="mm"
+            media_anual=df[variable].values.tolist()
+            print(media_anual)
+            resultados_year = pd.read_sql(
+                'select  mes,  sum("'+variable+'") as '+variable+'  FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' and year= '+year+' group by  mes order by mes ',  conexion)
+            df = pd.DataFrame(resultados_year)
+            ultimo= df[variable].values.tolist()
+
+            datos={"med":media_anual, "nombre":nombre,"ultimo": ultimo, "yeear": year, "unidad":unidad}
+
+            return  (datos)
     now = datetime.now()
     date = str(now.day) + "-" + str(now.month) + "-" + str(now.year)
+    #print(df)
+    #print(df2)
 
-    return render_template('seriestemporalesobs.html', year=now.year, mes=now.month, dia=now.day, fecha=date)
+
+    meses=[1,2,3,4,5,6,7,8,9,10,11,12]
+    d=[]
 
 
+    return render_template('seriestemporalesobs.html', nombre=nombre,meses=meses, promedio=media_anual,ult=ultimo)
+
+conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
 @app.route('/humedadsuelonp', methods=["GET", "POST"])
 def mapa():
-    conexion = psycopg2.connect(host="10.147.17.191", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+
     if request.method == 'POST':
         var = request.form.get('variable')
 
@@ -99,6 +136,7 @@ def mapa():
 
         dat = str(year) + "-" + str(mes) + "-" + (str(dia))
         if var=="Humedad del suelo (NASAPOWER)":
+            print("conectado")
             resultados = pd.read_sql(
                 'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
                     year) + ' and extract(month from (fecha))=' + str(mes) + ' and extract(day from (fecha))=' + str(
@@ -196,8 +234,7 @@ def mapa():
             return render_template('humedadsuelonp.html',year=year,mes=mes,dia=dia, fecha=date,variab=var, carpeta=carpeta)
         elif var == "Temperatura mínima absoluta(NASAPOWER)":
             resultados = pd.read_sql(
-                'select "lat" as lat, "lon" as lon,  min(t_min) as tmin FROM power_nasa.datos_historicos where t_min >-80 and year =' + str(
-                    year) + ' and mes=' + str(mes) +' group by "lat", "lon" UNION ALL select "lat" as lat, "lon" as lon,  min(t_min) as tmin FROM power_nasa.datos_diarios  where t_min >-60 and year =' + str(
+                'select "lat" as lat, "lon" as lon,  min(t_min) as tmin FROM power_nasa.union_datos_historicos_diarios where t_min >-80 and year =' + str(
                     year) + ' and mes=' + str(mes) +' group by "lat", "lon" ', conexion)
 
             df = pd.DataFrame(resultados)
@@ -247,8 +284,7 @@ def mapa():
             return render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
         elif var == "Temperatura máxima absoluta(NASAPOWER)":
             resultados = pd.read_sql(
-                'select "lat" as lat, "lon" as lon,  max(t_max) as tmax FROM power_nasa.datos_historicos where t_max > -89 and year =' + str(
-                    year) + ' and mes=' + str(mes) +' group by "lat", "lon" UNION ALL select "lat" as lat, "lon" as lon,  max(t_max) as tmax FROM power_nasa.datos_diarios where t_max > -89 and year =' + str(
+                'select "lat" as lat, "lon" as lon,  max(t_max) as tmax FROM power_nasa.union_datos_historicos_diarios where t_max > -89 and year =' + str(
                     year) + ' and mes=' + str(mes) +' group by "lat", "lon" ', conexion)
 
             df = pd.DataFrame(resultados)
@@ -298,12 +334,9 @@ def mapa():
             return render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
         elif var == "Número de días con pp (NASAPOWER)":
             resultados = pd.read_sql(
-                'with tabla1 as(select lat, lon,case when precip<-1 then 0 when precip>4 then 1 end cuenta FROM power_nasa.datos_diarios where precip>-60 and year =' + str(
+                'with tabla1 as(select lat, lon,case when precip<-1 then 0 when precip>4 then 1 end cuenta FROM power_nasa.union_datos_historicos_diarios where precip>-60 and year =' + str(
                     year) + ' and mes=' + str(
-                    mes) + ') select lat, lon,  sum(cuenta) as pp FROM tabla1 group by lat, lon UNION ALL '
-                           '(with tabla1 as(select lat, lon,case when precip<-1 then 0 when precip>4 then 1 end cuenta FROM power_nasa.datos_historicos where precip >-60 and year =' + str(
-                    year) + ' and mes=' + str(
-                    mes) + ') select lat, lon,  sum(cuenta) as pp FROM tabla1 group by lat, lon) ', conexion)
+                    mes) + ') select lat, lon,  sum(cuenta) as pp FROM tabla1 group by lat, lon', conexion)
 
             df = pd.DataFrame(resultados)
             print(df)
@@ -352,10 +385,8 @@ def mapa():
             return  render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
         elif var == "Número de días con t mayor a 30 (NASAPOWER)":
             resultados = pd.read_sql(
-                'with tabla1 as(select lat, lon,case when t_max<29 then 0 when t_max>29 then 1 end cuenta FROM power_nasa.datos_diarios where t_max >-60 and year =' + str(
-                    year) + ' and mes=' + str(mes) + ') select lat, lon,  sum(cuenta) as tmax FROM tabla1 group by lat, lon UNION ALL '
-                                                      '(with tabla1 as(select lat, lon,case when t_max<29 then 0 when t_max>29 then 1 end cuenta FROM power_nasa.datos_historicos where t_max >-60 and year =' + str(
-                    year) + ' and mes=' + str(mes) + ') select lat, lon,  sum(cuenta) as tmax FROM tabla1 group by lat, lon)', conexion)
+                'with tabla1 as(select lat, lon,case when t_max<29 then 0 when t_max>29 then 1 end cuenta FROM power_nasa.union_datos_historicos_diarios where t_max >-60 and year =' + str(
+                    year) + ' and mes=' + str(mes) + ') select lat, lon,  sum(cuenta) as tmax FROM tabla1 group by lat, lon', conexion)
 
             df = pd.DataFrame(resultados)
             print(df)
@@ -404,10 +435,8 @@ def mapa():
             return  render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
         elif var == "Número de días con t menor a 3 (NASAPOWER)":
             resultados = pd.read_sql(
-                'with tabla1 as(select lat, lon,case when t_min>3 then 0 when t_min<4 then 1 end cuenta FROM power_nasa.datos_diarios where t_min >-60 and year =' + str(
-                    year) + ' and mes=' + str(mes) + ') select lat, lon,  sum(cuenta) as tmin FROM tabla1 group by lat, lon UNION ALL '
-                                                     '(with tabla1 as(select lat, lon,case when t_min>3 then 0 when t_min<4 then 1 end cuenta FROM power_nasa.datos_historicos where t_min >-60 and year =' + str(
-                    year) + ' and mes=' + str(mes) + ') select lat, lon,  sum(cuenta) as tmin FROM tabla1 group by lat, lon) ', conexion)
+                'with tabla1 as(select lat, lon,case when t_min>3 then 0 when t_min<4 then 1 end cuenta FROM power_nasa.union_datos_historicos_diarios where t_min >-60 and year =' + str(
+                    year) + ' and mes=' + str(mes) + ') select lat, lon,  sum(cuenta) as tmin FROM tabla1 group by lat, lon', conexion)
 
             df = pd.DataFrame(resultados)
             print(df)
@@ -693,29 +722,3 @@ def seriesTemporalesSateliales():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
-
-
-"""
-python --> consultas
-python --> crear capas
-si yo creo las capas en el servidor pero no por consultas 
-python --> crea las ultimas 10¿? y remplaza las que ya estan, por si hay algun error.
-
-cargar la ultima capa
-if not disponible:
-    cargar anteultimacapa
-if not disponible
-    cargar anteanteultimacapa
-
-para lo que lo puedo usar python es para las cosas temporales, tiene mas sentido.
-
-import aspose.words as aw
-
-doc = aw.Document()
-builder = aw.DocumentBuilder(doc)
-
-shape = builder.insert_image("Input.tiff")
-shape.image_data.save("Output.png")
-
-    """

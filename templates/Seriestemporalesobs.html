@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>CIAg - Series temporales</title>
+    <!-- Favicons -->
+  <link href="static/img/icono.ico" rel="icon">
+  <link href="static/img/icono.png"  rel="apple-touch-icon" alt="Ciag">
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="static/css/style_series.css">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- LEAFLET -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js" integrity="sha512-GBlVVqOnLycKN+z49gDABUY6RxEQjOw/GHFbpboxpTxAPJQ78C6pAjT08S/1fT9pWOy9PeyDqipC7cBwrfX2cA==" crossorigin=""></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+    <!--[if lt IE 9]>
+    <script src="https://code.highcharts.com/modules/oldie-polyfills.js"></script>
+    <![endif]-->
+    <script src="https://polyfill.io/v3/polyfill.js?features=default%2Ces2015%2CElement.prototype.dataset%2CXMLHttpRequest"></script>
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+
+</head>
+<style>
+                        .foliumtooltip {
+                            background-color: grey; color: white;
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+
+                    </style>
+
+
+                    <style>
+                        .foliumtooltip {
+                            background-color: grey; color: white;
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                        .legend {
+                            line-height: 20px;
+                            color: #232323;
+                            border-radius: 5px;
+                            background-color: rgba(222,222,222,0.6);
+
+                        }
+                        .legend i {
+                            width: 20px;
+                            height: 18px;
+                            float: left;
+                            margin-right: 8px;
+			    margin-bottom: 2px;
+                            opacity: 0.7;
+                        }
+                        .loading {
+                            position: fixed;
+                            left: -400%;
+                            top: 40%;
+                            width: 20%;
+                            height: 20%;
+                            z-index: 9999;
+                            background: url("{{ url_for('static',filename='/img/pageLoader.gif')}}") 50% 50% no-repeat ;
+                            opacity: 1;
+                        }
+                        .loading.active {
+                            position: fixed;
+                            left: 40%;
+                            top: 40%;
+                            width: 20%;
+                            height: 20%;
+                            z-index: 9999;
+                            background: url("{{ url_for('static',filename='/img/pageLoader.gif')}}") 50% 50% no-repeat ;
+                            opacity: 1;
+                        }
+
+                    </style>
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+
+
+            <div class="sidebar-header">
+                <h2>Series temporales (SMN)</h2>
+            </div>
+
+
+            <ul class="list-unstyled components">
+                    <form id="capas" name= "formulario1" >
+
+                        <div class="form-group" >
+                    <label for="variable" class="subtitle-for">Variable  </label>
+        <select class="form-control" id="variable" name="variable" aria-label=".form-select-sm example" >
+            <option  disabled selected>Elija una variable</option>
+          <option value="au">Agua útil</option>
+            <option value="ep">Evapotranspiración potencial</option>
+            <option value="er">Evapotranspiración Real</option>
+            <option value="pp">Precipitación</option>
+
+        </select>
+      </div>
+            <div class="form-group" >
+        <label for="year">Año  </label>
+        <select class="form-control" id="year" name="year" aria-label=".form-select-sm example" >
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="2019" >2019</option>
+                    <option value="2018" >2018</option>
+                    <option value="2017" >2017</option>
+                    <option value="2016" >2016</option>
+                    <option value="2015" >2015</option>
+                    <option value="2014" >2014</option>
+                    <option value="2013" >2013</option>
+                    <option value="2012" >2012</option>
+                    <option value="2011" >2011</option>
+                    <option value="2010" >2010</option>
+                    <option value="2009" >2009</option>
+                    <option value="2008" >2008</option>
+                    <option value="2007" >2007</option>
+                    <option value="2006" >2006</option>
+                    <option value="2005" >2005</option>
+                    <option value="2004" >2004</option>
+                    <option value="2003" >2003</option>
+                    <option value="2002" >2002</option>
+                    <option value="2001" >2001</option>
+                    <option value="2000" >2000</option>
+                    <option value="1999" >1999</option>
+                    <option value="1998" >1998</option>
+                    <option value="1997" >1997</option>
+                    <option value="1996" >1996</option>
+                    <option value="1995" >1995</option>
+                    <option value="1994" >1994</option>
+                    <option value="1993" >1993</option>
+                    <option value="1992" >1992</option>
+                    <option value="1991" >1991</option>
+                    <option value="1990" >1990</option>
+
+        </select>
+            </div>
+                        </form>
+                <div style="padding-top: 10px"><figure id="highcharts-figure" class="highcharts-figure">
+        <div id="container"></div>
+    </figure></div>
+
+
+
+      <button class="cta-btn" id="volveralinicio"  ><a href="/index">Volver al Inicio</a></button>
+                    </form>
+
+
+
+
+</ul>
+
+            <ul class="list-unstyled CTAs">
+
+                <a href="/index"><img src="static/img/icon.png", class="img-fluid"></a>
+            </ul>
+
+        </nav>
+
+    </div>
+    </div>
+     <!-- Page Content  -->
+        <div id="content">
+            <div>
+                <tbody >
+                <section id="graf">
+                    <script type="text/javascript">
+
+                        var colors = Highcharts.getOptions().colors;
+
+                        var chart= Highcharts.chart('container', {
+                            chart: {
+                                type: 'spline'
+                            },
+                            legend: {
+                                symbolWidth: 40
+                            },
+                            title: {
+                                text:"Hacé click sobre una estación del mapa"
+                            },
+                            lang: {
+
+                                viewFullscreen:"Pantalla completa",
+                                printChart:"Imprimir Gráfico",
+                                downloadPNG: 'Descargar PNG',
+                            },
+
+                            exporting: {
+                                buttons: {
+                                    contextButton: {
+                                        menuItems: ["viewFullscreen","printChart","downloadPNG"]
+                                    }
+                                }
+                            },
+                            subtitle: {
+                                text: 'Datos del SMN'
+                            },
+
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Variable'
+                                },
+                                accessibility: {
+                                    description: 'Agua útil (%)'
+
+                                }
+
+                            },
+
+                            xAxis: {
+                                title: {
+                                    text: 'Meses'
+                                },
+                                accessibility: {
+                                    description: ''
+                                },
+                                categories: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
+                            },
+
+                            tooltip: {
+                                valueSuffix: ''
+                            },
+                            series: [
+                                {
+                                    name: 'Media mensual',
+                                    data: [],
+                                    dashStyle: 'ShortDash',
+                                    color: colors[9]
+                                },{
+                                    name: 'Dato',
+                                    data: [],
+                                    dashStyle: 'Solid',
+                                    color: colors[2]
+                                }
+                            ],
+
+                            responsive: {
+                                rules: [{
+                                    condition: {
+                                        maxWidth: 50
+                                    },
+                                    chartOptions: {
+                                        chart: {
+                                            spacingLeft: 3,
+                                            spacingRight: 3
+                                        },
+                                        legend: {
+                                            itemWidth: 150
+                                        },
+                                        xAxis: {
+                                            categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                            title: 'Meses'
+                                        },
+                                        yAxis: {
+                                            min: 0,
+                                            visible: true,
+                                            title: 'variable'
+
+
+                                        }
+                                    }
+                                }]
+                            }
+                        });
+                    </script>
+                </section>
+                </tbody>
+            </div>
+            </div>
+    <div class="loading"></div>
+    <a href="/index"><img id="IMAGEN_FLOT" alt="CIAg"
+                 src="static/img/icon.png"
+                 style="z-index: 999999">
+    </img></a>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- script tomymaps -->
+    <script type="text/javascript" src="{{ url_for('static',filename='/capas/provincias.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='/capas/estaciones.js')}}"></script>
+
+    <script src="{{ url_for('static',filename='/js/main.js')}}"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</body>
+<script type="text/javascript">
+    var est= new L.geoJson( est, {
+                style: styleprov(),
+                onEachFeature: onEachFeature
+                }).addTo(map)
+    est.bindTooltip(
+    function (layer) {
+        let div = L.DomUtil.create('div');
+        let handleObject = feature => typeof (feature) == 'object' ? JSON.stringify(feature) : feature;
+        let fields = ["nombre"];
+        let table = '<table>' +
+            String(
+                fields.map(
+                    (v, i) =>
+                        `<tr>
+            <td>${handleObject(layer.feature.properties[v])}</td>
+
+        </tr>`).join(''))
+            + '</table>';
+        div.innerHTML = table;
+
+        return div
+    }
+    , {"className": "foliumtooltip", "sticky": true});
+
+new L.Control.Zoom({ position: 'topright' }).addTo(map);
+var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
+                {position:"topright"}
+            ).addTo(map);
+            function onEachFeature(feature, est) {
+                est.on('click', function (e) {
+
+                    name = (feature.properties.nombre);
+                    codest = (feature.properties.codest);
+                    year = document.formulario1.year[document.formulario1.year.selectedIndex].value;
+                    variable = document.formulario1.variable[document.formulario1.variable.selectedIndex].value;
+
+
+                    $.ajax({
+                    url:"/seriestemporalesobs",
+                    type:"POST",
+                    contentType: "application/json", data: JSON.stringify({codest:codest, nombre:name, year:year, variable:variable}), success: function(data) {
+
+
+                            var media = data.med
+                            var unidad= data.unidad
+                            var nombre = data.nombre
+                            var ult= data.ultimo
+                            var year= data.yeear
+
+                            chart.update({
+                                chart: {
+                                type: 'spline'
+                            },
+                                title: {
+                                    text: "Marcha anual de "+ variable +" en "+ nombre
+                                },
+                                yAxis: {
+                                min: 0,
+                                title: {
+                                    text: variable+ " ("+unidad+")"
+                                },
+                                accessibility: {
+                                    description: unidad
+
+                                }},
+                                tooltip: {
+                                valueSuffix: unidad
+                            },
+                                series: [
+                                    {
+                                        name: 'Media mensual',
+                                        data: media,
+                                        dashStyle: 'ShortDash',
+                                        color: "#c24242"
+                                    },{
+                                        name: 'Acumulado mensual '+ year,
+                                        data: ult,
+                                        dashStyle:"Solid",
+                                        color: "#316fab"
+                                    }],
+
+                            });
+                            if (variable=="pp"){chart.update({
+                                chart: {
+                                 type: 'column'
+                                },
+                                title: {
+                                    text: "Marcha anual de "+ variable +" en "+ nombre
+                                },
+                                yAxis: {
+                                min: 0,
+                                title: {
+                                    text: variable+ " ("+unidad+")"
+                                },
+                                accessibility: {
+                                    description: unidad
+
+                                }},
+                                tooltip: {
+                                valueSuffix: unidad
+                            },
+                                series: [
+                                    {
+                                    type: 'spline',
+                                        name: 'Media mensual',
+                                        data: media,
+                                        color: "#c24242"
+                                    },{
+                                        name: 'Acumulado mensual '+ year,
+                                        data: ult,
+                                        color: "#316fab"
+                                    }],
+
+                            });}
+                        }})
+                });
+
+        // do something with the response if needed.
+        // If you want the table to be built only after the backend handles the request and replies, call buildTable() here.
+
+
+                }
+
+</script>
+
+
+</html>
