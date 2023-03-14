@@ -52,12 +52,6 @@ def publi():
 def sietedias():
     return render_template('Siete_Dias.html')
 
-@app.route('/Marcha_anual',methods=["GET", "POST"])
-def marcha_anual():
-    return render_template('Marcha_anual_maps.html')
-    cod_est = request.values.get("cod_est")
-    print(cod_est)
-
 @app.route('/seriestemporalesobs', methods=["GET", "POST"])
 def seriestemporalesobs():
     ultimo = []
@@ -104,6 +98,7 @@ def seriestemporalesobs():
             df = pd.DataFrame(resultados_year)
             ultimo= df[variable].values.tolist()
 
+
             datos={"med":media_anual, "nombre":nombre,"ultimo": ultimo, "yeear": year, "unidad":unidad}
 
             return  (datos)
@@ -119,7 +114,75 @@ def seriestemporalesobs():
 
     return render_template('seriestemporalesobs.html', nombre=nombre,meses=meses, promedio=media_anual,ult=ultimo)
 
-conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+@app.route('/seriestemporalesest', methods=["GET", "POST"])
+def seriestemporalesest():
+    ultimo = []
+    media_anual = []
+    nombre= []
+    # ip desde casa zero tier
+    # conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    # percentil 50 con linea , 20 y 80 (sombreados sin linea) --> SELECT PERCENTILE_CONT(0.5) -- linea de año actual (sin puntear)
+    #desde fac conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    if request.method == 'POST':
+        output = request.get_json()
+        nombre = str(output["nombre"])
+        variable = str(output["variable"])
+        lon = str(output["lon"])
+        year = str(output["year"])
+        lat= str(output["lat"])
+        if variable=="au":
+
+
+            resultados_media = pd.read_sql(
+                'select extract(month from (fecha)) as mes,avg("%AU") as au, "LAT" ,"LONG",(SQRT(POW(69.1 * ("LAT" ::float -  '+lat+'::float), 2) + POW(69.1 * ('+lon+'::float - "LONG"::float) * COS("LAT" ::float / 57.3), 2))) AS "distancia" FROM bhoa.bhoa_power_nasa group by mes, "LAT", "LONG" ORDER BY "distancia", mes LIMIT 12  ',
+                conexion)
+            df = pd.DataFrame(resultados_media)
+            unidad = "%"
+            media_anual = df["au"].values.tolist()
+            media_anual = [round(elem,2) for elem in media_anual]
+            resultados_year = pd.read_sql(
+                'select extract(month from (fecha)) as mes,avg("%AU") as au, "LAT" ,"LONG",(SQRT(POW(69.1 * ("LAT" ::float -  '+lat+'::float), 2) + POW(69.1 * ('+lon+'::float - "LONG"::float) * COS("LAT" ::float / 57.3), 2))) AS "distancia" FROM bhoa.bhoa_power_nasa WHERE extract(year from (fecha))='+str(year)+'   group by mes, "LAT", "LONG" ORDER BY "distancia", mes LIMIT 12  ',conexion)
+            df = pd.DataFrame(resultados_year)
+            ultimo = df["au"].values.tolist()
+            ultimo = [round(elem,2) for elem in ultimo]
+
+            lat = str(round(df["LAT"][1], 1))
+            lon = str(round(df["LONG"][1], 1))
+            datos = {"latitud":lat, "longitud":lon,"med": media_anual, "nombre": nombre, "ultimo": ultimo, "yeear": year, "unidad": unidad}
+
+            return (datos)
+        else:
+
+            resultados_media = pd.read_sql(
+                'with suma as (select loc,year, mes , sum("'+variable+'") as '+variable+' FROM bhoa."BHOA_SMN_historicos" where loc= '+codest+' group by year, mes, loc) '
+                'select mes, avg('+variable+') as '+variable+'  FROM suma  group by mes order by  mes',
+                conexion)
+            df = pd.DataFrame(resultados_media)
+            unidad="mm"
+            media_anual=df[variable].values.tolist()
+
+            resultados_year = pd.read_sql(
+                'select extract(month from (fecha)) as mes,avg("%AU") as au, "LAT" ,"LONG",(SQRT(POW(69.1 * ("LAT" ::float -  '+lat+'::float), 2) + POW(69.1 * ('+lon+'::float - "LONG"::float) * COS("LAT" ::float / 57.3), 2))) AS "distancia" FROM bhoa.bhoa_power_nasa group by mes, "LAT", "LONG" ORDER BY "distancia", mes LIMIT 12  ',  conexion)
+            df = pd.DataFrame(resultados_year)
+            ultimo= df[variable].values.tolist()
+
+
+            datos={"med":media_anual, "nombre":nombre,"ultimo": ultimo, "yeear": year, "unidad":unidad}
+
+            return  (datos)
+    now = datetime.now()
+    date = str(now.day) + "-" + str(now.month) + "-" + str(now.year)
+    #print(df)
+    #print(df2)
+
+
+    meses=[1,2,3,4,5,6,7,8,9,10,11,12]
+    d=[]
+
+
+    return render_template('seriestemporalesest.html', nombre=nombre,meses=meses, promedio=media_anual,ult=ultimo)
+
 @app.route('/humedadsuelonp', methods=["GET", "POST"])
 def mapa():
 
