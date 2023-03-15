@@ -69,14 +69,14 @@ def seriestemporalesobs():
 
 
             resultados_media = pd.read_sql(
-                'select loc mes , avg("au") as au  FROM bhoa."bhoa_smn" where loc= ' + codest + ' group by  mes, loc order by mes ',
+                'select loc mes , avg("au") as au  FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' group by  mes, loc order by mes ',
                 conexion)
             df = pd.DataFrame(resultados_media)
             unidad = "%"
             media_anual = df["au"].values.tolist()
             print(media_anual)
             resultados_year = pd.read_sql(
-                'select  mes, avg("au") as au FROM bhoa."bhoa_smn" where loc= ' + codest + ' and year= ' + year + ' group by  mes order by mes ',conexion)
+                'select  mes, avg("au") as au FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' and year= ' + year + ' group by  mes order by mes ',conexion)
             df = pd.DataFrame(resultados_year)
             ultimo = df["au"].values.tolist()
 
@@ -86,7 +86,7 @@ def seriestemporalesobs():
         else:
 
             resultados_media = pd.read_sql(
-                'with suma as (select loc,year, mes , sum("'+variable+'") as '+variable+' FROM bhoa."bhoa_smn" where loc= '+codest+' group by year, mes, loc) '
+                'with suma as (select loc,year, mes , sum("'+variable+'") as '+variable+' FROM bhoa."BHOA_SMN_historicos" where loc= '+codest+' group by year, mes, loc) '
                 'select mes, avg('+variable+') as '+variable+'  FROM suma  group by mes order by  mes',
                 conexion)
             df = pd.DataFrame(resultados_media)
@@ -94,7 +94,7 @@ def seriestemporalesobs():
             media_anual=df[variable].values.tolist()
             print(media_anual)
             resultados_year = pd.read_sql(
-                'select  mes,  sum("'+variable+'") as '+variable+'  FROM bhoa."bhoa_smn" where loc= ' + codest + ' and year= '+year+' group by  mes order by mes ',  conexion)
+                'select  mes,  sum("'+variable+'") as '+variable+'  FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' and year= '+year+' group by  mes order by mes ',  conexion)
             df = pd.DataFrame(resultados_year)
             ultimo= df[variable].values.tolist()
 
@@ -123,7 +123,7 @@ def seriestemporalesest():
     # conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
     # percentil 50 con linea , 20 y 80 (sombreados sin linea) --> SELECT PERCENTILE_CONT(0.5) -- linea de año actual (sin puntear)
     #desde fac conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
-    conexion = psycopg2.connect(host="10.147.17.191", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
     if request.method == 'POST':
         output = request.get_json()
         nombre = str(output["nombre"])
@@ -194,7 +194,7 @@ def mapa():
         mes = request.form.get('cosa')
         dia=request.form.get('options')
         # ip desde casa zero tier
-        #conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
+        conexion = psycopg2.connect(host= "10.1.5.144",dbname="ciag", user="tomy", password="tomy1234", port="5432")
         # compu facultad
 
 
