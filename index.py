@@ -742,10 +742,10 @@ def home_page():
     nombres = df['name'].tolist()
     valores = df['values.avg']
 
-    wind= "Sensor no responde" if str(valores[11])=="nan" else str(valores[11][0])+ " km/h"
+    wind= "S/D" if str(valores[11])=="nan" else str(valores[11][0])+ " km/h"
 
 
-    radiacion =str(round(valores[0][0],1)) + " " + str(unidades[0])
+    radiacion =str(round(valores[0][0],1)) + " "
     temp_suelo = str(round(valores[1][0],1)) + " " + str(unidades[1])
     temp_air =str(round(valores[6][0],1)) + " " + str(unidades[6])
     humedad = str(round(valores[7][0],1)) + " " + str(unidades[7])

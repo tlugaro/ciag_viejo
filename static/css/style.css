@@ -27,7 +27,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family:  "Open Sans", sans-serif;
   color: #545454;
 }
-
+h8{
+    font-size: 24px;
+  font-family:  "Open Sans", sans-serif;
+  font-weight: bold;
+  color: #545454;
+}
 #main {
   margin-top: 90px;
 }
@@ -81,9 +86,11 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s;
   z-index: 997;
   transition: all 0.5s;
-  padding: 10px 0 10px 0;
-  background: rgba(65,114,97, 0.64);
+  padding: 0 0 0 0;
+
+  background: rgba(255, 255, 255, 1);
 }
+
 #header2 {
   transition: all 0.5s;
   z-index: 997;
@@ -111,7 +118,7 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   font-size: 24px;
   margin: 0;
-  line-height: 1;
+  line-height: 0;
   font-weight: 700;
   letter-spacing: 1px;
   font-family: "Poppins", sans-serif;
@@ -163,6 +170,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar {
   padding: 0;
+  background: rgba(65,114,97, 1);
 }
 
 .navbar ul {
@@ -181,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 15px 16px;
   margin-left: 1px;
   font-family: "Raleway", sans-serif;
   font-size: 16px;
@@ -268,7 +276,8 @@ h1, h2, h3, h4, h5, h6 {
 * Mobile Navigation 
 */
 .mobile-nav-toggle {
-  color: #fff;
+  color: #325b2e;
+  background: #ffffff;
   font-size: 28px;
   cursor: pointer;
   display: none;
@@ -984,6 +993,13 @@ section {
   .portfolio .member {
     margin-bottom: 110px;
   }
+
+  h8{
+    font-size: 17px;
+  font-family:  "Open Sans", sans-serif;
+  font-weight: bold;
+  color: #545454;
+}
 }
 .portfolio .icon-box {
   padding: 30px;

@@ -31,7 +31,7 @@
 }
 
 .highcharts-data-table table {
-    font-family: Verdana, sans-serif;
+    font-family:  "Open Sans", sans-serif;
     border-collapse: collapse;
     border: 1px solid #EBEBEB;
     margin: 10px auto;
@@ -57,6 +57,7 @@
 .highcharts-data-table tr:hover {
   background: #f1f7ff;
 }
+
 </style>
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -68,61 +69,139 @@
 </head>
 <body>
 
+   <!-- ======= Header ======= -->
+  <header id="header2" class="fixed-top header">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <div class="logo">
+          <a href="https://www.agro.uba.ar/" target="_blank"><img src="static/img/agro.png" class="img-fluid" alt="fauba"></a>
+
+          <a href="/index"><img src="static/img/ciag_navbar.png"class="img-fluid" alt="CIAg"></a>
+
+          <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index"><img src="/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a  href="/index#hero">Inicio</a></li>
+
+          <li class="dropdown"><a href="/index#services"><span>Productos</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+                <li><a href="/Pasado">Pasado (Atlas Agroclimático)</a></li>
+
+                <li><a href="/Presente">Presente (Monitoreo Agrometeorológico)</a></li>
+                <li><a  href="/Futuro">Futuro (Pronósticos y Proyecciones)</a></li>
+            </ul>
+
+      <li class="dropdown"><a href="/emafauba"><span>EMA-FAUBA</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+                <li><a href="/emafauba">Datos de la Estación Meteorológica Automática <br> de la Facultad de Agronomía</a></li>
+            </ul>
+      <li><a class="nav-link scrollto" href="/index#edu">Educación</a></li>
+      <li><a class="nav-link scrollto" href="/index#publi">Publicaciones</a></li>
+          <li><a class="nav-link scrollto" href="/index#cta">Nosotros</a></li>
+          <li><a class="nav-link scrollto" href="/index#contact">Contacto</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+
 
 <section id="edu" class="about">
       <div class="container">
-        <h1> Estación Meteorológica Automática (EMA-FAUBA)</h1>
-<h3> Última actualización:  {{date}} a las {{hora}}:00 hs. </h3>
+        <h1 > Estación Meteorológica Automática (EMA-FAUBA)</h1>
+<h5> Última actualización:  {{date}} a las {{hora}}:00 hs. </h5>
 <div class="col-xl-11 d-flex align-items-stretch">
             <div class="icon-boxes d-flex flex-column justify-content-center">
               <div class="row">
-                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-brightness-high"></i>
-                  <p style="font-size: 24px;text-align: justify">{{rad}}</p>
-                  <h4 style="font-size: 10px;">Radiación</h4>
-
-                </div>
 
                 <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-moisture"></i>
-                  <h4>Humedad</h4>
-                  <p style="text-align: justify">{{hum}}</p>
-                </div>
-                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-thermometer-half"></i>
-                  <h4>Temperatura del aire</h4>
-                  <p style="text-align: justify">{{temp2}}</p>
-                </div>
-                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-thermometer"></i>
-                  <h4>Temperatura del suelo (10 cm de profundidad)</h4>
-                  <p style="text-align: justify; font-size: 15px;">{{temp}}</p>
-                </div>
-                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-wind"></i>
-                  <h4>Viento</h4>
-                  <p style="text-align: justify">{{wind}}</p>
-                </div>
-                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-cloud-rain"></i>
-                  <h4>Precipitación acumulada (últimas 24 horas)</h4>
-                  <p style="text-align: justify">{{pp}} mm</p>
-                </div>
-                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-thermometer-sun"></i>
-                  <h4>Temperatura máxima (últimas 24 horas)</h4>
-                  <p style="text-align: justify">{{tmax}} ºC</p>
-                </div>
-                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <i class="bi bi-thermometer-snow"></i>
-                  <h4>Temperatura mínima (últimas 24 horas)</h4>
-                  <p style="text-align: justify">{{tmin}} ºC</p>
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Temperatura del aire</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;" ><i class="bi bi-thermometer-half"></i></td>
+                  <td style="padding: 24px;"><h8 >{{temp2}}</h8></td></tr>
+                  </table>
                 </div>
 
+                  <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Humedad Relativa</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;"><i class="bi bi-moisture"></i></td>
+                  <td style="padding: 24px;"><h8 >{{hum}}</h8></td></tr>
+                  </table>
+                </div>
+
+                   <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Precipitación (últ. 24 hs)</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;"><i class="bi bi-cloud-rain"></i></td>
+                  <td style="padding: 24px;"><h8 >{{pp}} mm</h8></td></tr>
+                  </table>
+                </div>
+
+                  <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Velocidad del Viento</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;"><i class="bi bi-wind"></i></td>
+                  <td style="padding: 24px;"><h8 >{{wind}}</h8></td></tr>
+                  </table>
+                </div>
+
+                   <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Temperatura mínima</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;"><i class="bi bi-thermometer-snow"></i></td>
+                  <td style="padding: 24px;"><h8 >{{tmin}} ºC</h8></td></tr>
+                  </table>
+                </div>
+
+                   <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Temperatura máxima</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;"><i class="bi bi-thermometer-sun"></i></td>
+                  <td style="padding: 24px;"><h8 >{{tmax}} ºC</h8></td></tr>
+                  </table>
+                </div>
+
+                  <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Temperatura del suelo</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;"><i class="bi bi-thermometer-half"></i></td>
+                  <td style="padding: 24px;"><h8 >{{temp}}</h8></td></tr>
+                  </table>
+                </div>
+
+                <div class="col-md-3 icon-box" data-aos="fade-up" data-aos-delay="100">
+                  <table>
+                    <tr>
+                  <p style="font-weight: Bold;">Radiación Global</p></tr>
+                  <tr >
+                  <td style="vertical-align: top;"><i class="bi bi-brightness-high"></i></td>
+                  <td style="padding: 24px;"><h8 >{{rad}}W/m<sup>2</sup></h8></td></tr>
+                  </table>
+                </div>
 
               </div>
             </div>
-</div>
+        </div>
       </div>
 </section>
 
@@ -141,13 +220,13 @@
      Highcharts.setOptions({
     chart: {
         style: {
-            fontFamily: 'serif'
+            fontFamily:  "Open Sans"
         }
     }
 });
-Highcharts.chart('container', {
+Highcharts.chart('container',  {useHTML: true,
   title: {
-    text: 'Últimas 48 horas'
+    text: 'Últimas 48 hs'
   },
   xAxis: {
     categories: horas,
@@ -172,26 +251,28 @@ Highcharts.chart('container', {
     yAxis: [{
 
             title: {
-                    text: 'Temperatura ºC'
+                    text: 'Temperatura (ºC)'
                 },
 
                 accessibility: {
-                    description: 'Temperatura ºC'
+                    description: 'Temperatura (ºC)'
 
                 },
 
             },{
-
             title: {
-                    text: 'Radiación (W/m2)'
+                useHTML: true,
+                    text: 'Radiación (W/m<sup>2</sup>)'
                 },
 
                 accessibility: {
-                    description: 'Radiación (W/m2)'
+                                useHTML: true,
+                    description: 'Radiación (W/m<sup>2</sup>)'
 
                 },
                 min: 0,
                 opposite: true
+
             },{
 
             title: {
@@ -223,47 +304,69 @@ Highcharts.chart('container', {
     type: 'spline',
     name: 'Temperatura',
     data: mtmed,
-      color:'#6edb7f',
-      tooltip: {
+      color:'#e06828',
+      marker: {
+            radius: 1
+        },
+      tooltip: { useHTML: true,
                 valueSuffix: 'ºC',}
-    },{
-    type: 'spline',
-    name: 'Temperatura del suelo',
-    data: mtsuelo,
-      color:'#dbcf6e',
-      tooltip: {
-                valueSuffix: 'ºC',}
-    },{
-    type: 'spline',
-    name: 'Punto de rocío',
-    data: puntoroc,
-      color:'#495f9b',
-      tooltip: {
-                valueSuffix: 'ºC',}
-    },{
-    type: 'spline',
-    name: 'Radiación',
-    data: mrad,
-      yAxis: 1,
-      color:'#b06edb',
-      tooltip: {
-                valueSuffix: 'W/m2',}
     },{
     type: 'spline',
     name: 'Humedad',
       yAxis: 2,
     data: mhum,
-      color: '#77b1ff',
+      color: '#74d3ef',
+      marker: {
+            radius: 1
+        },
       tooltip: {
+
                 valueSuffix: '%',}
   },{
     type: 'column',
     name: 'Precipitación',
     yAxis: 3,
     data: mpp,
+      marker: {
+            radius: 1
+        },
       tooltip: {
                 valueSuffix: 'mm',}
-  }]
+  },{
+    type: 'spline',
+    name: 'Temperatura del suelo',
+    data: mtsuelo,
+      visible: false,
+      color:'#795322',
+      marker: {
+            radius: 1
+        },
+      tooltip: {
+                valueSuffix: 'ºC',}
+    },{
+    type: 'spline',
+    name: 'Punto de rocío',
+    data: puntoroc,
+      visible: false,
+      color:'#495f9b',
+      marker: {
+            radius: 1
+        },
+      tooltip: {
+                valueSuffix: 'ºC',}
+    },{
+    type: 'spline',
+    name: 'Radiación',
+    data: mrad,
+      visible: false,
+      yAxis: 1,
+      color:'#eed745',
+      marker: {
+            radius: 1
+        },
+      tooltip: { useHTML: true,
+                valueSuffix:'W/m<sup>2</sup>'}
+    }]
 });
 </script>
 
@@ -283,7 +386,7 @@ Highcharts.chart('container', {
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center" ><i class="bi bi-arrow-up-short"></i></a>
 
 </body>
 
