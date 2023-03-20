@@ -58,7 +58,7 @@ def seriestemporalesobs():
     media_anual = []
     nombre= []
     # percentil 50 con linea , 20 y 80 (sombreados sin linea) --> SELECT PERCENTILE_CONT(0.5) -- linea de año actual (sin puntear)
-    conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    conexion = psycopg2.connect(host="10.147.17.191", dbname="ciag", user="tomy", password="tomy1234", port="5432")
     if request.method == 'POST':
         output = request.get_json()
         nombre = str(output["nombre"])
@@ -69,37 +69,54 @@ def seriestemporalesobs():
 
 
             resultados_media = pd.read_sql(
-                'select loc mes , avg("au") as au  FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' group by  mes, loc order by mes ',
+                'with suma as (select  mes , avg("au") as au  FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' group by  year,mes order by mes) '
+                'select mes, percentile_cont(0.05) within group (order by au) as "5", '
+                'percentile_cont(0.20) within group (order by au) as "20",'
+                ' percentile_cont(0.5) within group (order by au) as "50", '
+                'percentile_cont(0.8) within group (order by au) as "80" , '
+                'percentile_cont(0.95) within group (order by au )as "95"  FROM suma  group by mes order by  mes',
                 conexion)
             df = pd.DataFrame(resultados_media)
             unidad = "%"
-            media_anual = df["au"].values.tolist()
-            print(media_anual)
+            perc95 = (round(df["95"], 0)).values.tolist()
+            perc80 = (round(df["80"], 0)).values.tolist()
+            perc50 = (round(df["50"], 0)).values.tolist()
+            perc20 = (round(df["20"], 0)).values.tolist()
+            perc5 = (round(df["5"], 0)).values.tolist()
+
             resultados_year = pd.read_sql(
                 'select  mes, avg("au") as au FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' and year= ' + year + ' group by  mes order by mes ',conexion)
             df = pd.DataFrame(resultados_year)
-            ultimo = df["au"].values.tolist()
+            ultimo = round(df["au"],0).values.tolist()
 
-            datos = {"med": media_anual, "nombre": nombre, "ultimo": ultimo, "yeear": year, "unidad": unidad}
+            datos={"perc20":perc20,"perc5":perc5,"perc80":perc80,"perc95":perc95,"perc50":perc50, "nombre":nombre,"ultimo": ultimo, "yeear": year, "unidad":unidad}
 
             return (datos)
         else:
 
             resultados_media = pd.read_sql(
                 'with suma as (select loc,year, mes , sum("'+variable+'") as '+variable+' FROM bhoa."BHOA_SMN_historicos" where loc= '+codest+' group by year, mes, loc) '
-                'select mes, avg('+variable+') as '+variable+'  FROM suma  group by mes order by  mes',
+                'select mes, percentile_cont(0.05) within group (order by '+variable+') as "5", '
+                'percentile_cont(0.20) within group (order by '+variable+') as "20",'
+                ' percentile_cont(0.5) within group (order by '+variable+') as "50", '
+                'percentile_cont(0.8) within group (order by '+variable+') as "80" , '
+                'percentile_cont(0.95) within group (order by '+variable+') as "95"  FROM suma  group by mes order by  mes',
                 conexion)
             df = pd.DataFrame(resultados_media)
             unidad="mm"
-            media_anual=df[variable].values.tolist()
-            print(media_anual)
+            perc95 = (round(df["95"],2)).values.tolist()
+            perc80 = (round(df["80"],2)).values.tolist()
+            perc50 = (round(df["50"],2)).values.tolist()
+            perc20 = (round(df["20"],2)).values.tolist()
+            perc5=(round(df["5"],2)).values.tolist()
+
             resultados_year = pd.read_sql(
                 'select  mes,  sum("'+variable+'") as '+variable+'  FROM bhoa."BHOA_SMN_historicos" where loc= ' + codest + ' and year= '+year+' group by  mes order by mes ',  conexion)
             df = pd.DataFrame(resultados_year)
-            ultimo= df[variable].values.tolist()
+            ultimo= round(df[variable],2).values.tolist()
 
 
-            datos={"med":media_anual, "nombre":nombre,"ultimo": ultimo, "yeear": year, "unidad":unidad}
+            datos={"perc20":perc20,"perc5":perc5,"perc80":perc80,"perc95":perc95,"perc50":perc50, "nombre":nombre,"ultimo": ultimo, "yeear": year, "unidad":unidad}
 
             return  (datos)
     now = datetime.now()

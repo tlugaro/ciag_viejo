@@ -401,14 +401,7 @@
         document.formulario1.opt.options[0].selected = true;
         document.formulario1.options.options[0].selected = true;
     }
-map.on('click', function(e) {
-    layerGroup.clearLayers();
-    var lat= e.latlng.lat
-    var long= e.latlng.lng
-    console.log(lat)
-    console.log(long)
-    var marker =new L.Marker([lat,long]).addTo(layerGroup)
-    layerGroup.addTo(map)});
+
 
             var base2 = ('{{carpeta}}'+'{{year}}'+'{{mes}}'+'{{dia}}');
         var variab='{{variab}}'

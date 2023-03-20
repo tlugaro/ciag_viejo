@@ -239,9 +239,8 @@
                                 }
                             },
                             subtitle: {
-                                text: 'Datos del SMN'
-                            },
-
+                                text: 'Período de referencia 1991 - 2020'
+                                },
                             yAxis: {
                                 min: 0,
                                 title: {
@@ -269,16 +268,38 @@
                             },
                             series: [
                                 {
-                                    name: 'Media mensual',
+                                    name: 'Mediana',
                                     data: [],
                                     dashStyle: 'ShortDash',
-                                    color: colors[9]
+                                    color: '#C24040',
+                                    zIndex:1
                                 },{
-                                    name: 'Dato',
+                                    name: 'Año',
                                     data: [],
                                     dashStyle: 'Solid',
-                                    color: colors[2]
+                                    color: '#275893',
+                                    zIndex:2,
+                                },
+                                {
+                                    name:'20% - 80%',
+                                    type: 'arearange',
+                                    color: '#E7A9A9',
+                                    lineWidth: 0,
+                                    opacity: 0.5,
+                                    data:[],
+                                     marker: {
+                                enabled: false
+                            }},{
+                                        name:'5% - 95%',
+                                        type: 'arearange',
+                                        color: '#F2CFCF',
+                                        lineWidth: 0,
+                                        opacity: 0.5,
+                                        data:[],
+                                         marker: {
+                                    enabled: false
                                 }
+                            }
                             ],
 
                             responsive: {
@@ -381,46 +402,79 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
                     type:"POST",
                     contentType: "application/json", data: JSON.stringify({codest:codest, nombre:name, year:year, variable:variable}), success: function(data) {
 
-
-                            var media = data.med
+                            var perc5=data.perc5
+                            var perc20=data.perc20
+                            var perc50=data.perc50
+                            var perc80=data.perc80
+                            var perc95=data.perc95
                             var unidad= data.unidad
                             var nombre = data.nombre
                             var ult= data.ultimo
                             var year= data.yeear
+                            var rango2080= [[perc20[0],perc80[0]],[perc20[1],perc80[1]],[perc20[2],perc80[2]],[perc20[3],perc80[3]],[perc20[4],perc80[4]],
+                                        [perc20[5],perc80[5]],[perc20[6],perc80[6]],[perc20[7],perc80[7]],[perc20[8],perc80[8]],[perc20[9],perc80[9]],[perc20[10],perc80[10]],
+                                        [perc20[11],perc80[11]]]
+                            var rango595= [[perc5[0],perc95[0]],[perc5[1],perc95[1]],[perc5[2],perc95[2]],[perc5[3],perc95[3]],[perc5[4],perc95[4]],[perc5[5],perc95[5]],[perc5[6],perc95[6]],[perc5[7],perc95[7]],[perc5[8],perc95[8]],[perc5[9],perc95[9]],[perc5[10],perc95[10]], [perc5[11],perc95[11]]]
+                            if (variable!="pp") {
+                                chart.update({
+                                    chart: {
+                                        type: 'spline'
+                                    },
+                                    title: {
+                                        text: "Marcha anual de " + variable + " en " + nombre
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: variable + " (" + unidad + ")"
+                                        },
+                                        accessibility: {
+                                            description: unidad
 
-                            chart.update({
-                                chart: {
-                                type: 'spline'
-                            },
-                                title: {
-                                    text: "Marcha anual de "+ variable +" en "+ nombre
-                                },
-                                yAxis: {
-                                min: 0,
-                                title: {
-                                    text: variable+ " ("+unidad+")"
-                                },
-                                accessibility: {
-                                    description: unidad
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: unidad
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Mediana',
+                                            data: perc50,
+                                            dashStyle: 'ShortDash',
+                                            color: "#c24242",
+                                            zIndex: 1,
+                                        }, {
+                                            name: year,
+                                            data: ult,
+                                            dashStyle: "Solid",
+                                            color: "#316fab",
+                                            zIndex: 2,
+                                        },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
 
-                                }},
-                                tooltip: {
-                                valueSuffix: unidad
-                            },
-                                series: [
-                                    {
-                                        name: 'Media mensual',
-                                        data: media,
-                                        dashStyle: 'ShortDash',
-                                        color: "#c24242"
-                                    },{
-                                        name: 'Acumulado mensual '+ year,
-                                        data: ult,
-                                        dashStyle:"Solid",
-                                        color: "#316fab"
-                                    }],
-
-                            });
+                                });
+                            }
                             if (variable=="pp"){chart.update({
                                 chart: {
                                  type: 'column'
@@ -443,14 +497,39 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
                                 series: [
                                     {
                                     type: 'spline',
-                                        name: 'Media mensual',
-                                        data: media,
-                                        color: "#c24242"
+                                        name: 'Mediana',
+                                        data: perc50,
+                                        color: "#c24242",
+                                        zindex:1
                                     },{
-                                        name: 'Acumulado mensual '+ year,
+                                    type:'column',
+                                        name:  year,
                                         data: ult,
-                                        color: "#316fab"
-                                    }],
+                                        color: "#316fab",
+                                        zindex:2
+                                    },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
 
                             });}
                         }})
