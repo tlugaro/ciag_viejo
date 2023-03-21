@@ -215,9 +215,12 @@
                         var colors = Highcharts.getOptions().colors;
 
                         var chart= Highcharts.chart('container', {
-                            chart: {
+                            chart: {style: {
+            fontFamily: 'Arial'
+        },
                                 type: 'spline'
                             },
+				
                             legend: {
                                 symbolWidth: 40
                             },
@@ -317,7 +320,7 @@
                                             itemWidth: 150
                                         },
                                         xAxis: {
-                                            categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                            categories: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],
                                             title: 'Meses'
                                         },
                                         yAxis: {
