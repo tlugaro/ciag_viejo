@@ -1,4 +1,5 @@
 /**
+/**
 * Template Name: Squadfree - v4.1.0
 * Template URL: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/
 * Author: BootstrapMade.com
@@ -87,8 +88,7 @@ h8{
   z-index: 997;
   transition: all 0.5s;
   padding: 0 0 0 0;
-
-  background: rgba(255, 255, 255, 1);
+  background: rgba(65,114,97, 0.75);
 }
 
 #header2 {
@@ -170,7 +170,7 @@ h8{
 
 .navbar {
   padding: 0;
-  background: rgba(65,114,97, 1);
+
 }
 
 .navbar ul {
@@ -483,6 +483,14 @@ section {
   color: #417261FF;
   z-index: 2;
 }
+.section-title h3 {
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  margin-bottom: 30px;
+  color: #417261FF;
+  z-index: 2;
+}
 
 .section-title h2::after {
   content: "";
@@ -643,7 +651,16 @@ section {
     text-align: center;
   }
 }
-
+.services .icon-boxs {
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 29px 0 rgba(65,114,97, 0.12);
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  z-index: 1;
+}
 /*--------------------------------------------------------------
 # Services
 --------------------------------------------------------------*/

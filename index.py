@@ -3,8 +3,8 @@ import requests
 import urllib
 import json
 from requests.auth import AuthBase
-from Crypto.Hash import HMAC
-from Crypto.Hash import SHA256
+from Cryptodome.Hash import HMAC
+from Cryptodome.Hash import SHA256
 from datetime import datetime, timedelta
 from dateutil.tz import tzlocal
 from pandas import json_normalize
@@ -58,7 +58,7 @@ def seriestemporalesobs():
     media_anual = []
     nombre= []
     # percentil 50 con linea , 20 y 80 (sombreados sin linea) --> SELECT PERCENTILE_CONT(0.5) -- linea de año actual (sin puntear)
-    conexion = psycopg2.connect(host="10.147.17.191", dbname="ciag", user="tomy", password="tomy1234", port="5432")
+    conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
     if request.method == 'POST':
         output = request.get_json()
         nombre = str(output["nombre"])

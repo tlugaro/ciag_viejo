@@ -301,7 +301,7 @@ Highcharts.chart('container',  {useHTML: true,
             }],
 
   series: [ {
-    type: 'spline',
+    type: 'line',
     name: 'Temperatura',
     data: mtmed,
       color:'#e06828',
@@ -311,7 +311,7 @@ Highcharts.chart('container',  {useHTML: true,
       tooltip: { useHTML: true,
                 valueSuffix: 'ºC',}
     },{
-    type: 'spline',
+    type: 'line',
     name: 'Humedad',
       yAxis: 2,
     data: mhum,
@@ -333,7 +333,7 @@ Highcharts.chart('container',  {useHTML: true,
       tooltip: {
                 valueSuffix: 'mm',}
   },{
-    type: 'spline',
+    type: 'line',
     name: 'Temperatura del suelo',
     data: mtsuelo,
       visible: false,
@@ -344,7 +344,7 @@ Highcharts.chart('container',  {useHTML: true,
       tooltip: {
                 valueSuffix: 'ºC',}
     },{
-    type: 'spline',
+    type: 'line',
     name: 'Punto de rocío',
     data: puntoroc,
       visible: false,
@@ -355,7 +355,7 @@ Highcharts.chart('container',  {useHTML: true,
       tooltip: {
                 valueSuffix: 'ºC',}
     },{
-    type: 'spline',
+    type: 'line',
     name: 'Radiación',
     data: mrad,
       visible: false,
