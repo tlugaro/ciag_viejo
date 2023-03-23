@@ -260,7 +260,7 @@ def mapa():
             return render_template('humedadsuelonp.html', year=year, mes=mes, dia=dia, fecha=date, variab=var,
                                    carpeta=carpeta)
         dat = str(year) + "-" + str(mes) + "-" + (str(dia))
-        if var=="Humedad del suelo (NASAPOWER)" and base=="NASA POWER":
+        if var=="Humedad del suelo (NASAPOWER)":
             
             resultados = pd.read_sql(
                 'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
@@ -810,29 +810,7 @@ def home_page():
 
     return render_template('ema.html',d=d,wind=wind,puntorocio=marchapuntorocio,mrad=marcharad,mhum=marchahum,mpp=ppt,mtsuelo=marchatsuelo,mtmed=marchatmed,tmax=tmax,tmin=tmin, rad=radiacion,pp=pp, temp= temp_suelo, temp2=temp_air, hum=humedad,hora=hour,date=date)
 
-@app.route('/seriesTemporalesSatelitales', methods=["GET", "POST"])
-def seriesTemporalesSateliales():
-    conexion = psycopg2.connect(host="10.1.5.144", dbname="ciag", user="tomy", password="tomy1234", port="5432")
-    if request.method == 'POST':
-        var = request.form.get('variable')
 
-        year = request.form.get('year')
-        mes = request.form.get('cosa')
-        dia=request.form.get('options')
-        lat= request.form.get("lat")
-        lon = request.form.get("lon")
-        # ip desde casa zero tier
-        #conexion = psycopg2.connect(host= "10.147.17.191",dbname="ciag", user="tomy", password="tomy1234", port="5432")
-        # compu facultad
-
-        dat = str(year) + "-" + str(mes) + "-" + (str(dia))
-        if var=="Humedad del suelo (NASAPOWER)":
-            resultados = pd.read_sql(
-                'select fecha, "%AU" as au FROM bhoa."bhoa_power_nasa" where fecha< '+fecha+' and "LAT"= '+lat+' and "LON" = '+lon+' group by fecha', conexion)
-            df = pd.DataFrame(resultados)
-            serie= df["au"].values
-            fechas=df["fecha"].values
-            return render_template('seriestemporalessatelites.html',year=year,mes=mes,dia=dia, fecha=date,variab=var, serie=serie, fechas=fechas)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
