@@ -3,8 +3,8 @@ import requests
 import urllib
 import json
 from requests.auth import AuthBase
-from Cryptodome.Hash import HMAC
-from Cryptodome.Hash import SHA256
+from Crypto.Hash import HMAC
+from Crypto.Hash import SHA256
 from datetime import datetime, timedelta
 from dateutil.tz import tzlocal
 from pandas import json_normalize
@@ -38,7 +38,7 @@ def fut():
     return render_template('Futuro.html')
 @app.route('/Presente')
 def presente():
-    return render_template('Presente.html')
+    return render_template('presente.html')
 @app.route('/Atlasinteractivo')
 def atlas():
     return render_template('Atlas_Interactivo.html')
@@ -150,7 +150,6 @@ def seriestemporalesest():
         lat= str(output["lat"])
         if variable=="au":
 
-
             resultados_media = pd.read_sql(
                 'select extract(month from (fecha)) as mes,avg("%AU") as au, "LAT" ,"LONG",(SQRT(POW(69.1 * ("LAT" ::float -  '+lat+'::float), 2) + POW(69.1 * ('+lon+'::float - "LONG"::float) * COS("LAT" ::float / 57.3), 2))) AS "distancia" FROM bhoa.bhoa_power_nasa group by mes, "LAT", "LONG" ORDER BY "distancia", mes LIMIT 12  ',
                 conexion)
@@ -206,7 +205,7 @@ def mapa():
 
     if request.method == 'POST':
         var = request.form.get('variable')
-
+        base= request.form.get('base')
         year = request.form.get('year')
         mes = request.form.get('cosa')
         dia=request.form.get('options')
@@ -214,21 +213,16 @@ def mapa():
         conexion = psycopg2.connect(host= "10.1.5.144",dbname="ciag", user="tomy", password="tomy1234", port="5432")
         # compu facultad
 
+        if base== "SMN":
+            df = pd.read_sql(
+                'select   avg("au") as au, lat,lon  FROM bhoa."BHOA_SMN_historicos" where year='+year+' and  mes=' + str(mes) + ' and dia='+ str(dia) +' group by  loc)', conexion)
 
-        dat = str(year) + "-" + str(mes) + "-" + (str(dia))
-        if var=="Humedad del suelo (NASAPOWER)":
-            print("conectado")
-            resultados = pd.read_sql(
-                'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
-                    year) + ' and extract(month from (fecha))=' + str(mes) + ' and extract(day from (fecha))=' + str(
-                    dia) + ' group by "LAT", "LONG"', conexion)
-            df = pd.DataFrame(resultados)
             gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
             gdf = gdf.set_crs('epsg:4326')
-            gdf.to_file('puntos_powernasa.shp')
-            capa = "puntos_powernasa.shp"
+            gdf.to_file('/var/www/ciag_github/puntos_smn.shp')
+            capa = "/var/www/ciag_github/puntos_smn.shp"
             pts = ogr.Open(capa, 0)
-            dem = gdal.Open("grilla.tif")
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
             gt = dem.GetGeoTransform()
             ulx = gt[0]
             uly = gt[3]
@@ -247,21 +241,71 @@ def mapa():
             # interpolacion del punto mas cercano "nearest"
             # interpolación linear "linear"
 
-            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
-                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = gdal.Grid("/var/www/ciag_github/nearestsmn.tif", capa, zfield=campo,
+                           algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = None
+
+            gdal.UseExceptions()
+            rasin = "/var/www/ciag_github/nearestsmn.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/AU-SMN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearestsmn_resampleada.tif"
+            # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
+            # dsRes = gdal.Warp(resampleada, rasin,xRes=0.164, yRes=0.164 )
+            # recorto con shape de Arg
+
+            dsClip = gdal.Warp(rasout, rasin, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            date = (dia + "-" + mes + "-" + year)
+            carpeta = "AU-SMN/"
+            return render_template('humedadsuelonp.html', year=year, mes=mes, dia=dia, fecha=date, variab=var,
+                                   carpeta=carpeta)
+        dat = str(year) + "-" + str(mes) + "-" + (str(dia))
+        if var=="Humedad del suelo (NASAPOWER)" and base=="NASA POWER":
+            
+            resultados = pd.read_sql(
+                'select "LAT" as lat, "LONG" as lon,  avg("%AU") as au FROM bhoa."bhoa_power_nasa" where extract(year from (fecha))=' + str(
+                    year) + ' and extract(month from (fecha))=' + str(mes) + ' and extract(day from (fecha))=' + str(
+                    dia) + ' group by "LAT", "LONG"', conexion)
+            df = pd.DataFrame(resultados)
+            gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
+            gdf = gdf.set_crs('epsg:4326')
+            gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+            capa = "/var/www/ciag_github/puntos_powernasa.shp"
+            pts = ogr.Open(capa, 0)
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
+            gt = dem.GetGeoTransform()
+            ulx = gt[0]
+            uly = gt[3]
+            res = gt[1]
+            xsize = dem.RasterXSize
+            ysize = dem.RasterYSize
+            lrx = ulx + xsize * res
+            lry = uly - ysize * res
+            dem = None
+
+            # Interpolacion del punto mas cerca
+            campo = "au"
+            pts = layer = None
+
+            # interpolación idw "invdist:power=3"
+            # interpolacion del punto mas cercano "nearest"
+            # interpolación linear "linear"
+
+            nn = gdal.Grid("/var/www/ciag_github/nearest.tif", capa, zfield=campo,
+                    algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
             nn = None
 
 
             gdal.UseExceptions()
-            rasin = "nearest.tif"
-            shpin = "arg.shp"
-            rasout = "./static/AU-PN/" + str(year) + str(mes) + str(dia) + ".tif"
-            resampleada = "nearest_resampleada.tif"
+            rasin = "/var/www/ciag_github/nearest.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/AU-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearest_resampleada.tif"
             # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
-            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
-                              resampleAlg="bilinear")
+            #dsRes = gdal.Warp(resampleada, rasin,xRes=0.164, yRes=0.164 )
             # recorto con shape de Arg
-            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            
+            dsClip = gdal.Warp(rasout,rasin,cutlineDSName=shpin, cropToCutline=True,dstNodata=np.nan)
             date=(dia+"-"+mes+"-"+year)
             carpeta= "AU-PN/"
             return render_template('humedadsuelonp.html',year=year,mes=mes,dia=dia, fecha=date,variab=var, carpeta=carpeta)
@@ -273,10 +317,10 @@ def mapa():
             df = pd.DataFrame(resultados)
             gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
             gdf = gdf.set_crs('epsg:4326')
-            gdf.to_file('puntos_powernasa.shp')
-            capa = "puntos_powernasa.shp"
+            gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+            capa = "/var/www/ciag_github/puntos_powernasa.shp"
             pts = ogr.Open(capa, 0)
-            dem = gdal.Open("grilla.tif")
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
             gt = dem.GetGeoTransform()
             ulx = gt[0]
             uly = gt[3]
@@ -295,21 +339,20 @@ def mapa():
             # interpolacion del punto mas cercano "nearest"
             # interpolación linear "linear"
 
-            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
-                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = gdal.Grid("/var/www/ciag_github/nearest.tif", capa, zfield=campo,
+                           algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
             nn = None
 
 
             gdal.UseExceptions()
-            rasin = "nearest.tif"
-            shpin = "arg.shp"
-            rasout = "./static/ppmes-PN/" + str(year) + str(mes) + str(dia) + ".tif"
-            resampleada = "nearest_resampleada.tif"
+            rasin = "/var/www/ciag_github/nearest.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/ppmes-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearest_resampleada.tif"
             # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
-            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
-                              resampleAlg="bilinear")
+            #dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,resampleAlg="bilinear")
             # recorto con shape de Arg
-            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            dsClip = gdal.Warp(rasout,rasin,cutlineDSName=shpin, cropToCutline=True,dstNodata=np.nan)
             date=(dia+"-"+mes+"-"+year)
             carpeta= "ppmes-PN/"
             return render_template('humedadsuelonp.html',year=year,mes=mes,dia=dia, fecha=date,variab=var, carpeta=carpeta)
@@ -322,10 +365,10 @@ def mapa():
             print(df)
             gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
             gdf = gdf.set_crs('epsg:4326')
-            gdf.to_file('puntos_powernasa.shp')
-            capa = "puntos_powernasa.shp"
+            gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+            capa = "/var/www/ciag_github/puntos_powernasa.shp"
             pts = ogr.Open(capa, 0)
-            dem = gdal.Open("grilla.tif")
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
             gt = dem.GetGeoTransform()
             ulx = gt[0]
             uly = gt[3]
@@ -345,21 +388,19 @@ def mapa():
             # interpolacion del punto mas cercano "nearest"
             # interpolación linear "linear"
 
-            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
-                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = gdal.Grid("/var/www/ciag_github/nearest.tif", capa, zfield=campo,
+                           algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
             nn = None
 
-
             gdal.UseExceptions()
-            rasin = "nearest.tif"
-            shpin = "arg.shp"
-            rasout = "./static/tmin-PN/" + str(year) + str(mes) + str(dia)+ ".tif"
-            resampleada = "nearest_resampleada.tif"
+            rasin = "/var/www/ciag_github/nearest.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/tmin-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearest_resampleada.tif"
             # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
-            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
-                              resampleAlg="bilinear")
+            # dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,resampleAlg="bilinear")
             # recorto con shape de Arg
-            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            dsClip = gdal.Warp(rasout, rasin, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
             date = ( mes + "/" + year)
 
             return render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
@@ -372,10 +413,10 @@ def mapa():
             print(df)
             gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
             gdf = gdf.set_crs('epsg:4326')
-            gdf.to_file('puntos_powernasa.shp')
-            capa = "puntos_powernasa.shp"
+            gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+            capa = "/var/www/ciag_github/puntos_powernasa.shp"
             pts = ogr.Open(capa, 0)
-            dem = gdal.Open("grilla.tif")
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
             gt = dem.GetGeoTransform()
             ulx = gt[0]
             uly = gt[3]
@@ -395,21 +436,19 @@ def mapa():
             # interpolacion del punto mas cercano "nearest"
             # interpolación linear "linear"
 
-            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
-                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = gdal.Grid("/var/www/ciag_github/nearest.tif", capa, zfield=campo,
+                           algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
             nn = None
 
-
             gdal.UseExceptions()
-            rasin = "nearest.tif"
-            shpin = "arg.shp"
-            rasout = "./static/tmax-PN/" + str(year) + str(mes) + str(dia)+ ".tif"
-            resampleada = "nearest_resampleada.tif"
+            rasin = "/var/www/ciag_github/nearest.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/tmax-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearest_resampleada.tif"
             # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
-            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
-                              resampleAlg="bilinear")
+            # dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,resampleAlg="bilinear")
             # recorto con shape de Arg
-            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            dsClip = gdal.Warp(rasout, rasin, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
             date = ( mes + "/" + year)
 
             return render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
@@ -423,10 +462,10 @@ def mapa():
             print(df)
             gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
             gdf = gdf.set_crs('epsg:4326')
-            gdf.to_file('puntos_powernasa.shp')
-            capa = "puntos_powernasa.shp"
+            gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+            capa = "/var/www/ciag_github/puntos_powernasa.shp"
             pts = ogr.Open(capa, 0)
-            dem = gdal.Open("grilla.tif")
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
             gt = dem.GetGeoTransform()
             ulx = gt[0]
             uly = gt[3]
@@ -446,21 +485,19 @@ def mapa():
             # interpolacion del punto mas cercano "nearest"
             # interpolación linear "linear"
 
-            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
-                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = gdal.Grid("/var/www/ciag_github/nearest.tif", capa, zfield=campo,
+                           algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
             nn = None
 
-
             gdal.UseExceptions()
-            rasin = "nearest.tif"
-            shpin = "arg.shp"
-            rasout = "./static/diaspp-PN/" + str(year) + str(mes) + str(dia) + ".tif"
-            resampleada = "nearest_resampleada.tif"
+            rasin = "/var/www/ciag_github/nearest.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/diaspp-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearest_resampleada.tif"
             # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
-            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
-                              resampleAlg="near")
+            # dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,resampleAlg="bilinear")
             # recorto con shape de Arg
-            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            dsClip = gdal.Warp(rasout, rasin, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
             date = (mes + "/" + year)
 
             return  render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
@@ -473,10 +510,10 @@ def mapa():
             print(df)
             gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
             gdf = gdf.set_crs('epsg:4326')
-            gdf.to_file('puntos_powernasa.shp')
-            capa = "puntos_powernasa.shp"
+            gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+            capa = "/var/www/ciag_github/puntos_powernasa.shp"
             pts = ogr.Open(capa, 0)
-            dem = gdal.Open("grilla.tif")
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
             gt = dem.GetGeoTransform()
             ulx = gt[0]
             uly = gt[3]
@@ -496,21 +533,19 @@ def mapa():
             # interpolacion del punto mas cercano "nearest"
             # interpolación linear "linear"
 
-            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
-                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = gdal.Grid("/var/www/ciag_github/nearest.tif", capa, zfield=campo,
+                           algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
             nn = None
 
-
             gdal.UseExceptions()
-            rasin = "nearest.tif"
-            shpin = "arg.shp"
-            rasout = "./static/tmas30-PN/" + str(year) + str(mes) + str(dia) + ".tif"
-            resampleada = "nearest_resampleada.tif"
+            rasin = "/var/www/ciag_github/nearest.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/tmas30-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearest_resampleada.tif"
             # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
-            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
-                              resampleAlg="near")
+            # dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,resampleAlg="bilinear")
             # recorto con shape de Arg
-            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            dsClip = gdal.Warp(rasout, rasin, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
             date = (mes + "/" + year)
 
             return  render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
@@ -523,10 +558,10 @@ def mapa():
             print(df)
             gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
             gdf = gdf.set_crs('epsg:4326')
-            gdf.to_file('puntos_powernasa.shp')
-            capa = "puntos_powernasa.shp"
+            gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+            capa = "/var/www/ciag_github/puntos_powernasa.shp"
             pts = ogr.Open(capa, 0)
-            dem = gdal.Open("grilla.tif")
+            dem = gdal.Open("/var/www/ciag_github/grilla.tif")
             gt = dem.GetGeoTransform()
             ulx = gt[0]
             uly = gt[3]
@@ -546,21 +581,19 @@ def mapa():
             # interpolacion del punto mas cercano "nearest"
             # interpolación linear "linear"
 
-            nn = gdal.Grid("nearest.tif", capa, zfield=campo,
-                           algorithm="nearest", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
+            nn = gdal.Grid("/var/www/ciag_github/nearest.tif", capa, zfield=campo,
+                           algorithm="linear", outputBounds=[ulx, uly, lrx, lry], width=xsize, height=ysize)
             nn = None
 
-
             gdal.UseExceptions()
-            rasin = "nearest.tif"
-            shpin = "arg.shp"
-            rasout = "./static/tmen3-PN/" + str(year) + str(mes) + str(dia) + ".tif"
-            resampleada = "nearest_resampleada.tif"
+            rasin = "/var/www/ciag_github/nearest.tif"
+            shpin = "/var/www/ciag_github/arg.shp"
+            rasout = "/var/www/ciag_github/static/tmen3-PN/" + str(year) + str(mes) + str(dia) + ".tif"
+            resampleada = "/var/www/ciag_github/nearest_resampleada.tif"
             # Resampleo con un 0 mas estaba antes pero pesaaban 20 megas, ahora pesan 0,2 megas
-            dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,
-                              resampleAlg="near")
+            # dsRes = gdal.Warp(resampleada, rasin, xRes=0.064, yRes=0.064,resampleAlg="bilinear")
             # recorto con shape de Arg
-            dsClip = gdal.Warp(rasout, resampleada, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
+            dsClip = gdal.Warp(rasout, rasin, cutlineDSName=shpin, cropToCutline=True, dstNodata=np.nan)
             date = (mes + "/" + year)
 
             return  render_template('humedadsuelonp.html', year=year, mes=mes,dia=dia,variab=var, fecha=date, carpeta=carpeta)
@@ -591,10 +624,10 @@ def mapaS():
         df = pd.DataFrame(resultados)
         gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
         gdf = gdf.set_crs('epsg:4326')
-        gdf.to_file('puntos_powernasa.shp')
-        capa = "puntos_powernasa.shp"
+        gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+        capa = "/var/www/ciag_github/puntos_powernasa.shp"
         pts = ogr.Open(capa, 0)
-        dem = gdal.Open("grilla.tif")
+        dem = gdal.Open("/var/www/ciag_github/grilla.tif")
         gt = dem.GetGeoTransform()
         ulx = gt[0]
         uly = gt[3]
@@ -652,10 +685,10 @@ def mapaS():
     df = pd.DataFrame(resultados)
     gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.lon, df.lat))
     gdf = gdf.set_crs('epsg:4326')
-    gdf.to_file('puntos_powernasa.shp')
-    capa = "puntos_powernasa.shp"
+    gdf.to_file('/var/www/ciag_github/puntos_powernasa.shp')
+    capa = "/var/www/ciag_github/puntos_powernasa.shp"
     pts = ogr.Open(capa, 0)
-    dem = gdal.Open("grilla.tif")
+    dem = gdal.Open("/var/www/ciag_github/grilla.tif")
     gt = dem.GetGeoTransform()
     ulx = gt[0]
     uly = gt[3]
