@@ -375,13 +375,17 @@ function style3(feature3) {
 //EP media anual
 
 function getColorep(d) {
-    return d > 1900.0 ? '#006408' :
+    return d > 2300.0 ? '#001e03' :
+        d > 2200.0 ? '#002c05' :
+            d > 2100.0 ? '#013b07' :
+                d > 2000.0 ? '#015208' :
+    d > 1900.0 ? '#006408' :
         d > 1800.0 ? '#2E8C36' :
             d > 1700.0 ? '#43934A' :
                 d > 1600.0 ? '#5AA360' :
                     d > 1500.0 ? '#B4E1B8' :
                         d > 1400.0 ? '#B4E1B8' :
-                            d > 1300.0 ? '#C0C786' :
+                            d > 1300.0 ? '#c4eccb' :
                                 d > 1200.0 ? '#DAE0AA' :
                                     d > 1100.0 ? '#FFDF9B' :
                                         d > 1000.0 ? '#DFBB6E' :
@@ -561,71 +565,110 @@ function styleexc(feature2) {
 }
 //EP media mensual
 function getColorepmen(d) {
-    return d > 230.0 ? '#00441b' :
-        d > 220.0 ? '#0e612c' :
-            d > 210.0 ? '#1d7f3e' :
-                d > 200.0 ? '#279049' :
-                    d > 190.0 ? '#2f994f' :
-                        d > 180.0 ? '#37a155' :
-                            d > 170.0 ? '#3fa95c' :
-                                d > 160.0 ? '#4eb264' :
-                                    d > 150.0 ? '#60ba6c' :
-                                        d > 140.0 ? '#71c375' :
-                                            d > 130.0 ? '#7cc87c' :
-                                                d > 120.0 ? '#85cc84' :
-                                                    d > 110.0 ? '#8ed08b' :
-                                                        d > 100.0 ? '#97d492' :
-                                                            d > 90.0 ? '#a0d99a' :
-                                                                d > 80.0 ? '#a9db97' :
-                                                                    d > 70.0 ? '#b3dd91' :
-                                                                        d > 60.0 ? '#bcdf8c' :
-                                                                            d > 50.0 ? '#c6e187' :
-                                                                                d > 40.0 ? '#d0e381' :
-                                                                                    d > 30.0 ? '#d9e57c' :
-                                                                                        d > 20.0 ? '#e3e777' :
-                                                                                            d > 10.0 ? '#ece972' :
-                                                                                                d > 1.0 ? '#f6ea6c' :
-                                                                                                    '#ffec67';
+    return d > 230.0 ? '#001e03' :
+        d > 220.0 ? '#002c05' :
+            d > 210.0 ? '#013b07' :
+                d > 200.0 ? '#015208' :
+                     d>190.0 ? '#006408' :
+        d > 180.0 ? '#2E8C36' :
+            d > 170.0 ? '#43934A' :
+                d > 160.0 ? '#5AA360' :
+                    d > 150.0 ? '#B4E1B8' :
+                        d > 140.0 ? '#B4E1B8' :
+                            d > 130.0 ? '#c4eccb' :
+                                d > 120.0 ? '#DAE0AA' :
+                                    d > 110.0 ? '#FFDF9B' :
+                                        d > 100.0 ? '#DFBB6E' :
+                                            d > 90.0 ? '#E7C796' :
+                                                d > 80.0  ? '#C8A877' :
+                                                    d > 70.0 ? '#C09C70' :
+                                                        d > 60.0 ? '#B08552' :
+                                                            d > 50.0 ? '#987049' :
+                                                                d > 40.0 ? '#7E552D' :
+                                                                    d > 30.0 ? '#89521C' :
+                                                                        d > 20.0 ? '#7A3D00' :
+                                                                            d > 10.0 ? '#623001' :
+                                                                                d > 1.0 ? '#412202' :
+                                                                                    '#281400';
+
+
 
 }
+
 
 function styleepmen(feature2) {
     return {
         weight: 1,
         opacity: 0.8,
-        color: '#fff',
+        color: getColorepmen(feature2.properties.DN),
         dashArray: '1',
         fillOpacity: 0.8,
         fillColor: getColorepmen(feature2.properties.DN)
     };
 }
-// ETR MENSUAL
-//EP media mensual
-function getColorermen(d) {
-    return d > 140.0 ? '#00441b' :
-        d > 130.0 ? '#0e612c' :
-            d > 120.0 ? '#1d7f3e' :
-                        d > 110.0 ? '#37a155' :
-                                d > 100.0 ? '#4eb264' :
-                                        d > 90.0 ? '#71c375' :
-                                                d > 80.0 ? '#85cc84' :
-                                                        d > 70.0 ? '#97d492' :
-                                                                d > 60.0 ? '#a9db97' :
-                                                                        d > 50.0 ? '#bcdf8c' :
-                                                                            d > 40.0 ? '#c6e187' :
-                                                                                d > 30.0 ? '#d0e381' :
-                                                                                        d > 20.0 ? '#e3e777' :
-                                                                                            d > 10.0 ? '#ece972' :
-                                                                                                d > 1.0 ? '#f6ea6c' :
-                                                                                                    '#ffec67';
+// ETR ANUAL
+function getColoreranul(d) {
+     return d > 1400.0 ? '#001e03' :
+                d > 1300.0 ? '#013b07' :
+                     d > 1200.0 ? '#006408' :
+                        d > 1100.0 ? '#43934A' :
+                            d > 1000.0 ? '#5AA360' :
+                                d > 900.0 ? '#B4E1B8' :
+                                    d > 800.0 ? '#c4eccb' :
+                                        d > 700.0 ? '#FFDF9B' :
+                                            d > 600.0 ? '#E7C796' :
+                                                d > 500.0 ? '#C09C70' :
+                                                    d > 400.0 ? '#987049' :
+                                                        d > 300.0 ? '#7E552D' :
+                                                            d > 200.0 ? '#89521C' :
+                                                                d > 100.0 ? '#623001' :
+                                                                    d > 1.0 ? '#412202' :
+                                                                        '#281400';
+
+
 
 }
+
+
+function styleeranul(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColoreranul(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColoreranul(feature2.properties.DN)
+    };
+}
+//EP media mensual
+function getColorermen(d) {
+     return d > 140.0 ? '#001e03' :
+                d > 130.0 ? '#013b07' :
+                     d > 120.0 ? '#006408' :
+                        d > 110.0 ? '#43934A' :
+                            d > 100.0 ? '#5AA360' :
+                                d > 90.0 ? '#B4E1B8' :
+                                    d > 80.0 ? '#c4eccb' :
+                                        d > 70.0 ? '#FFDF9B' :
+                                            d > 60.0 ? '#E7C796' :
+                                                d > 50.0 ? '#C09C70' :
+                                                    d > 40.0 ? '#987049' :
+                                                        d > 30.0 ? '#7E552D' :
+                                                            d > 20.0 ? '#89521C' :
+                                                                d > 10.0 ? '#623001' :
+                                                                    d > 1.0 ? '#412202' :
+                                                                        '#281400';
+
+
+
+}
+
 
 function styleermen(feature2) {
     return {
         weight: 1.5,
         opacity: 0.8,
-        color: '#fff',
+        color:  getColorermen(feature2.properties.DN),
         dashArray: '1',
         fillOpacity: 0.8,
         fillColor: getColorermen(feature2.properties.DN)
@@ -804,22 +847,23 @@ function stylepptrim(feature2) {
 }
 
 //Agua util
-function getColoraguautil(d) {
-    return d > 95.0 ? '#08306b' :
-        d > 90.0 ? '#07332C' :
-            d > 80.0 ? '#135943' :
-                d > 70.0 ? '#0A8838' :
-                    d > 60.0 ? '#3da82a' :
-                        d > 50.0 ? '#A3F32F' :
-                            d > 40.0 ? '#D5FA79' :
-                                d > 30.0 ? '#F7FF82' :
-                                    d > 20.0 ? '#F4D629' :
-                                        d > 10.0 ? '#FCA029' :
-                                            d > 0.0 ? '#B2381C' :
+function getColoraguautil(d)
+   {
+                        return d > 95.0 ? '#08306b' :
+                            d > 90.0 ? '#07332C' :
+                                d > 80.0 ? '#135943' :
+                                    d > 70.0 ? '#0A8838' :
+                                        d > 60.0 ? '#43CD2A' :
+                                            d > 50.0 ? '#A3F32F' :
+                                                d > 40.0 ? '#D5FA79' :
+                                                    d > 30.0 ? '#F7FF82' :
+                                                        d > 20.0 ? '#F4D629' :
+                                                            d > 10.0 ? '#FCA029' :
+                                                                d > 0.0 ? '#B2381C' :
 
-                                                '#8c240c';
+                                                                    '#8c240c';
 
-}
+                    }
 function styleaguautil(feature2) {
     return {
         weight: 1.9,
@@ -1745,8 +1789,8 @@ $('#newLayer').on("click",function(event) {
     });
     }
 
-    //Evapotranspiración Potencial (Penman Fao)
-    else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
+    //Evapotranspiración potencial (Penman FAO)
+    else if ((($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
         dataType: 'json',
@@ -1812,8 +1856,8 @@ $('#newLayer').on("click",function(event) {
     });
     }
 
-    //Evapotranspiración Potencial (Penman Fao) mensual
-    else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
+    //Evapotranspiración potencial (Penman FAO) mensual
+    else if ((($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
         dataType: 'json',
@@ -1953,7 +1997,7 @@ $('#newLayer').on("click",function(event) {
         success: function (data) {
 
             var geojson = new L.geoJson((data), {
-                    style: styleep,
+                    style: styleeranul,
                     onEachFeature: onEachFeature
 
                 }
@@ -1995,7 +2039,7 @@ $('#newLayer').on("click",function(event) {
                 // loop through our density intervals and generate a label with a colored square for each interval
                 for (var i = 0; i < grades.length; i++) {
                     div.innerHTML +=
-                        '<i style="background:' + getColorep(grades[i]) + '"></i> ' +
+                        '<i style="background:' + getColoreranul(grades[i]) + '"></i> ' +
                         grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' mm ');
                 }
 

@@ -133,8 +133,8 @@
                         <div class="form-group" >
                     <label for="variable" class="subtitle-for">Variable  </label>
         <select class="form-control" id="variable" name="variable" aria-label=".form-select-sm example" >
-            <option  disabled selected>Elija una variable</option>
-          <option value="au">Agua útil</option>
+            <option  value="">Elija una variable</option>
+          <option value="au">Almacenaje</option>
             <option value="ep">Evapotranspiración potencial</option>
             <option value="er">Evapotranspiración Real</option>
             <option value="pp">Precipitación</option>
@@ -181,8 +181,7 @@
 
         </select>
             </div>
-                        </form>
-                <div style="padding-top: 10px"><figure id="highcharts-figure" class="highcharts-figure">
+                <div style="padding-top: 40px"><figure id="highcharts-figure" class="highcharts-figure">
         <div id="container"></div>
     </figure></div>
 
@@ -218,7 +217,7 @@
                             chart: {style: {
             fontFamily: 'Arial'
         },
-                                type: 'spline'
+                                type: 'line'
                             },
 				
                             legend: {
@@ -256,16 +255,26 @@
 
                             },
 
-                            xAxis: {
+                            xAxis: [{
                                 title: {
                                     text: 'Meses'
                                 },
                                 accessibility: {
-                                    description: ''
-                                },
-                                categories: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
-                            },
+                    description: 'Variable'
+                },
+                                categories: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],
 
+
+                            },
+                            {
+                            categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365],
+                                max:365,
+                                lineWidth: 0,
+                                opposite: true,
+                                labels: {
+    enabled: false
+  },
+                            }],
                             tooltip: {
                                 valueSuffix: ''
                             },
@@ -388,19 +397,246 @@
     }
     , {"className": "foliumtooltip", "sticky": true});
 
-new L.Control.Zoom({ position: 'topright' }).addTo(map);
-var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
-                {position:"topright"}
-            ).addTo(map);
+var codest =0
+var name= "Elija una estación"
+
+
             function onEachFeature(feature, est) {
                 est.on('click', function (e) {
+                    $('.loading').addClass('active');
 
-                    name = (feature.properties.nombre);
-                    codest = (feature.properties.codest);
+        var elemento2 = document.getElementById("variable").value
+        if (elemento2 == "") {
+            $('.loading').removeClass('active');
+            alert("Elija una variable!")
+            return false
+        }
+                    var name = (feature.properties.nombre);
+                    var codest=(feature.properties.codest);
+                    localStorage.setItem("name", (feature.properties.nombre));
+
+                    localStorage.setItem("codest", (feature.properties.codest));
+
+                    year = document.formulario1.year[document.formulario1.year.selectedIndex].value;
+                    variable = document.formulario1.variable[document.formulario1.variable.selectedIndex].value;
+                    varname = document.formulario1.variable[document.formulario1.variable.selectedIndex].text;
+
+
+                    $.ajax({
+                    url:"/seriestemporalesobs",
+                    type:"POST",
+                    contentType: "application/json", data: JSON.stringify({codest:codest, nombre:name, year:year, variable:variable}), success: function(data) {
+                        $('.loading').removeClass('active');
+
+                            var perc5=data.perc5
+                            var perc20=data.perc20
+                            var perc50=data.perc50
+                            var perc80=data.perc80
+                            var perc95=data.perc95
+                            var unidad= data.unidad
+                            var nombre = data.nombre
+                            var ult= data.ultimo
+                            var year= data.yeear
+                            var rango2080= [[perc20[0],perc80[0]],[perc20[1],perc80[1]],[perc20[2],perc80[2]],[perc20[3],perc80[3]],[perc20[4],perc80[4]],
+                                        [perc20[5],perc80[5]],[perc20[6],perc80[6]],[perc20[7],perc80[7]],[perc20[8],perc80[8]],[perc20[9],perc80[9]],[perc20[10],perc80[10]],
+                                        [perc20[11],perc80[11]]]
+                            var rango595= [[perc5[0],perc95[0]],[perc5[1],perc95[1]],[perc5[2],perc95[2]],[perc5[3],perc95[3]],[perc5[4],perc95[4]],[perc5[5],perc95[5]],[perc5[6],perc95[6]],[perc5[7],perc95[7]],[perc5[8],perc95[8]],[perc5[9],perc95[9]],[perc5[10],perc95[10]], [perc5[11],perc95[11]]]
+                            if (variable!="pp") {
+                                chart.update({
+                                    chart: {
+                                        type: 'line'
+                                    },
+                                    title: {
+                                        text: "Marcha anual de " + varname + " en " + nombre
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: varname + " (" + unidad + ")"
+                                        },
+                                        accessibility: {
+                                            description: unidad
+
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: unidad
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Mediana',
+                                            data: perc50,
+                                            dashStyle: 'ShortDash',
+                                            color: "#c24242",
+                                            zIndex: 1,
+                                        }, {
+                                            name: year,
+                                            data: ult,
+                                            type:'line',
+                                            dashStyle: "Solid",
+                                            color: "#316fab",
+                                            zIndex: 2,xAxis: 0,
+                                            lineWidth: 3,
+                                        },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
+
+                                });
+                            }
+                            if (variable=="au") {
+                                chart.update({
+                                    chart: {
+                                        type: 'line'
+                                    },
+                                    title: {
+                                        text: "Marcha anual de " + varname + " en " + nombre
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: varname + " (" + unidad + ")"
+                                        },
+                                        accessibility: {
+                                            description: unidad
+
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: unidad
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Mediana',
+                                            data: perc50,
+                                            dashStyle: 'ShortDash',
+                                            color: "#c24242",
+                                            zIndex: 1,
+                                        }, {
+                                            name: year,
+                                            data: ult,
+                                            type:'line',
+                                            dashStyle: "Solid",
+                                            color: "#316fab",
+                                            zIndex: 2,
+
+                                            xAxis: 1,
+                                        },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
+
+                                });
+                            }
+
+                            if (variable=="pp"){chart.update({
+                                chart: {
+                                 type: 'column'
+                                },
+                                title: {
+                                    text: "Marcha anual de "+ varname +" en "+ nombre
+                                },
+                                yAxis: {
+                                min: 0,
+                                title: {
+                                    text: varname+ " ("+unidad+")"
+                                },
+                                accessibility: {
+                                    description: unidad
+
+                                }},
+                                tooltip: {
+                                valueSuffix: unidad
+                            },
+                                series: [
+                                    {
+                                    type: 'spline',
+                                        name: 'Mediana',
+                                        data: perc50,
+                                        color: "#c24242",
+                                        zindex:1
+                                    },{
+                                    type:'column',
+                                        name:  year,
+                                        data: ult,
+                                        color: "#316fab",
+                                        zindex:2,xAxis: 0,
+                                            lineWidth: 3,
+                                    },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
+
+                            });}
+                        }});
+                });
+
+        // do something with the response if needed.
+        // If you want the table to be built only after the backend handles the request and replies, call buildTable() here.
+             document.getElementById("variable").onchange = function(){
                     year = document.formulario1.year[document.formulario1.year.selectedIndex].value;
                     variable = document.formulario1.variable[document.formulario1.variable.selectedIndex].value;
 
+                    name = localStorage.getItem("name");
 
+                    codest=localStorage.getItem("codest");
                     $.ajax({
                     url:"/seriestemporalesobs",
                     type:"POST",
@@ -422,15 +658,78 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
                             if (variable!="pp") {
                                 chart.update({
                                     chart: {
-                                        type: 'spline'
+                                        type: 'line'
                                     },
                                     title: {
-                                        text: "Marcha anual de " + variable + " en " + nombre
+                                        text: "Marcha anual de " + varname + " en " + nombre
                                     },
                                     yAxis: {
                                         min: 0,
                                         title: {
-                                            text: variable + " (" + unidad + ")"
+                                            text: varname + " (" + unidad + ")"
+                                        },
+                                        accessibility: {
+                                            description: unidad
+
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: unidad
+                                    },
+                                    series: [
+                                        {
+                                            type: 'spline',
+                                            name: 'Mediana',
+                                            data: perc50,
+                                            dashStyle: 'ShortDash',
+                                            color: "#c24242",
+                                            zIndex: 1,
+                                        }, {
+                                            type: 'line',
+                                            name: year,
+                                            data: ult,
+                                            dashStyle: "Solid",
+                                            color: "#316fab",
+                                            zIndex: 2,xAxis: 0,
+                                            lineWidth: 3,
+                                        },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
+
+                                });
+                            }
+                            if (variable=="au") {
+                                chart.update({
+                                    chart: {
+                                        type: 'line'
+                                    },
+                                    title: {
+                                        text: "Marcha anual de " + varname + " en " + nombre
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: varname + " (" + unidad + ")"
                                         },
                                         accessibility: {
                                             description: unidad
@@ -450,9 +749,11 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
                                         }, {
                                             name: year,
                                             data: ult,
+                                            type:'line',
                                             dashStyle: "Solid",
                                             color: "#316fab",
                                             zIndex: 2,
+                                            xAxis: 1,
                                         },
                                         {
                                             name: '20% - 80%',
@@ -484,12 +785,12 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
                                  type: 'column'
                                 },
                                 title: {
-                                    text: "Marcha anual de "+ variable +" en "+ nombre
+                                    text: "Marcha anual de "+ varname +" en "+ nombre
                                 },
                                 yAxis: {
                                 min: 0,
                                 title: {
-                                    text: variable+ " ("+unidad+")"
+                                    text: varname+ " ("+unidad+")"
                                 },
                                 accessibility: {
                                     description: unidad
@@ -510,7 +811,8 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
                                         name:  year,
                                         data: ult,
                                         color: "#316fab",
-                                        zindex:2
+                                        zindex:2,xAxis: 0,
+                                            lineWidth: 3,
                                     },
                                         {
                                             name: '20% - 80%',
@@ -536,12 +838,224 @@ var locate_control_e5f44ad5fae447d4ab47540d30978b01 = L.control.locate(
                                         }],
 
                             });}
-                        }})
-                });
+                        }});
 
-        // do something with the response if needed.
-        // If you want the table to be built only after the backend handles the request and replies, call buildTable() here.
+ };document.getElementById("year").onchange = function(){
+                    year = document.formulario1.year[document.formulario1.year.selectedIndex].value;
+                    variable = document.formulario1.variable[document.formulario1.variable.selectedIndex].value;
+                    varname = document.formulario1.variable[document.formulario1.variable.selectedIndex].text;
 
+                    name = localStorage.getItem("name");
+
+                    codest=localStorage.getItem("codest");
+                    $.ajax({
+                    url:"/seriestemporalesobs",
+                    type:"POST",
+                    contentType: "application/json", data: JSON.stringify({codest:codest, nombre:name, year:year, variable:variable}), success: function(data) {
+
+                            var perc5=data.perc5
+                            var perc20=data.perc20
+                            var perc50=data.perc50
+                            var perc80=data.perc80
+                            var perc95=data.perc95
+                            var unidad= data.unidad
+                            var nombre = data.nombre
+                            var ult= data.ultimo
+                            var year= data.yeear
+                            var rango2080= [[perc20[0],perc80[0]],[perc20[1],perc80[1]],[perc20[2],perc80[2]],[perc20[3],perc80[3]],[perc20[4],perc80[4]],
+                                        [perc20[5],perc80[5]],[perc20[6],perc80[6]],[perc20[7],perc80[7]],[perc20[8],perc80[8]],[perc20[9],perc80[9]],[perc20[10],perc80[10]],
+                                        [perc20[11],perc80[11]]]
+                            var rango595= [[perc5[0],perc95[0]],[perc5[1],perc95[1]],[perc5[2],perc95[2]],[perc5[3],perc95[3]],[perc5[4],perc95[4]],[perc5[5],perc95[5]],[perc5[6],perc95[6]],[perc5[7],perc95[7]],[perc5[8],perc95[8]],[perc5[9],perc95[9]],[perc5[10],perc95[10]], [perc5[11],perc95[11]]]
+                            if (variable!="pp") {
+                                chart.update({
+                                    chart: {
+                                        type: 'line'
+                                    },
+                                    title: {
+                                        text: "Marcha anual de " + varname + " en " + nombre
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: varname + " (" + unidad + ")"
+                                        },
+                                        accessibility: {
+                                            description: unidad
+
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: unidad
+                                    },
+                                    series: [
+                                        {
+                                            type: 'spline',
+                                            name: 'Mediana',
+                                            data: perc50,
+                                            dashStyle: 'ShortDash',
+                                            color: "#c24242",
+                                            zIndex: 1,
+                                        }, {
+                                        type: 'line',
+                                            name: year,
+                                            data: ult,
+                                            dashStyle: "Solid",
+                                            color: "#316fab",
+                                            zIndex: 2,
+xAxis: 0,
+                                            lineWidth: 3,
+
+                                        },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
+
+                                });
+                            }
+                            if (variable=="au") {
+                                chart.update({
+                                    chart: {
+                                        type: 'line'
+                                    },
+                                    title: {
+                                        text: "Marcha anual de " + varname + " en " + nombre
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: varname + " (" + unidad + ")"
+                                        },
+                                        accessibility: {
+                                            description: unidad
+
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: unidad
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Mediana',
+                                            data: perc50,
+                                            dashStyle: 'ShortDash',
+                                            color: "#c24242",
+                                            zIndex: 1,
+                                        }, {
+                                            name: year,
+                                            data: ult,
+                                            type:'line',
+                                            dashStyle: "Solid",
+                                            color: "#316fab",
+                                            zIndex: 2,
+                                            xAxis: 1,
+                                            lineWidth: 3,
+                                        },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
+
+                                });
+                            }
+                            if (variable=="pp"){chart.update({
+                                chart: {
+                                 type: 'column'
+                                },
+                                title: {
+                                    text: "Marcha anual de "+ varname +" en "+ nombre
+                                },
+                                yAxis: {
+                                min: 0,
+                                title: {
+                                    text: varname+ " ("+unidad+")"
+                                },
+                                accessibility: {
+                                    description: unidad
+
+                                }},
+                                tooltip: {
+                                valueSuffix: unidad
+                            },
+                                series: [
+                                    {
+                                    type: 'spline',
+                                        name: 'Mediana',
+                                        data: perc50,
+                                        color: "#c24242",
+                                        zindex:1
+                                    },{
+                                    type:'column',
+                                        name:  year,
+                                        data: ult,
+                                        color: "#316fab",
+                                        zindex:2,
+                                        xAxis: 0,
+                                            lineWidth: 3,
+                                    },
+                                        {
+                                            name: '20% - 80%',
+                                            type: 'arearange',
+                                            color: '#E7A9A9',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango2080,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        },
+                                        {
+                                            name: '5% - 95%',
+                                            type: 'arearange',
+                                            color: '#F2CFCF',
+                                            lineWidth: 0,
+                                            opacity: 0.5,
+                                            data: rango595,
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }],
+
+                            });}
+                        }});
+
+ };
 
                 }
 

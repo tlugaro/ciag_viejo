@@ -288,10 +288,10 @@ var all = L.layerGroup().addTo(map)
 
 
 
-L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png",
+var ign= L.tileLayer("https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png",
     {"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
 ).addTo(map);
-
+var esri= L.esri.basemapLayer('Imagery',{"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false}).addTo(map);
 
 
 function onEachFeature(feature, layer) {
@@ -802,20 +802,23 @@ function stylepptrim(feature2) {
 }
 
 //Agua util
-function getColoraguautil(d) {
-    return d > 95.0 ? '#08306b' :
-        d > 90.0 ? '#07332C' :
-            d > 80.0 ? '#135943' :
-                d > 70.0 ? '#0A8838' :
-                    d > 60.0 ? '#3da82a' :
-                        d > 50.0 ? '#A3F32F' :
-                            d > 40.0 ? '#D5FA79' :
-                                d > 30.0 ? '#F7FF82' :
-                                    d > 20.0 ? '#F4D629' :
-                                        d > 10.0 ? '#FCA029' :
-                                            d > 0.0 ? '#B2381C' :
+function getColoraguautil(d)
+    {
+                        return d > 95.0 ? '#08306b' :
+                            d > 90.0 ? '#07332C' :
+                                d > 80.0 ? '#135943' :
+                                    d > 70.0 ? '#0A8838' :
+                                        d > 60.0 ? '#43CD2A' :
+                                            d > 50.0 ? '#A3F32F' :
+                                                d > 40.0 ? '#D5FA79' :
+                                                    d > 30.0 ? '#F7FF82' :
+                                                        d > 20.0 ? '#F4D629' :
+                                                            d > 10.0 ? '#FCA029' :
+                                                                d > 0.0 ? '#B2381C' :
 
-                                                '#8c240c';
+                                                                    '#8c240c';
+
+
 
 }
 function styleaguautil(feature2) {
@@ -1015,7 +1018,8 @@ var prov= new L.geoJson( provincias, {
 
 
 var baseMaps = {
-
+"IGN Base":ign,
+    "Satelite":esri
 };
 
 var overlayMaps = {
@@ -1732,8 +1736,8 @@ $('#newLayer').on("click",function(event) {
     });
     }
 
-    //Evapotranspiración Potencial (Penman Fao)
-    else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
+    //Evapotranspiración potencial (Penman FAO)
+    else if ((($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)") && (($("#tp option:selected").text())=="Media anual")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 
@@ -1798,8 +1802,8 @@ $('#newLayer').on("click",function(event) {
     });
     }
 
-    //Evapotranspiración Potencial (Penman Fao) mensual
-    else if ((($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración Potencial (Penman Fao)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
+    //Evapotranspiración potencial (Penman FAO) mensual
+    else if ((($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)") && (($("#tp option:selected").text())=="Enero"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Febrero" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Marzo"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Mayo" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Junio"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Julio" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Agosto"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Septiembre" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Octubre"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" && ($("#tp option:selected").text())== "Noviembre" ||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Diciembre"||($("#var option:selected").text())=="Evapotranspiración potencial (Penman FAO)" &&($("#tp option:selected").text())=="Abril")){$.ajax({
 
         url: "static/capas/" + base2 +".geojson",
 

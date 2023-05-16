@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
 
     <script type="text/javascript" src="{{ url_for('static',filename='/capas/provincias.js')}}"></script>
+    <script src="../static/js/main.js"></script>
 
 
 </head>
@@ -112,8 +113,9 @@
         </div>
 
         <div class="sidebar-header">
-            <h2>Atlas presente</h2>
+            <h2>Variables agrometeorológicas</h2>
             <h4>{{variab}}</h4>
+            <h4>{{base}}</h4>
             <h6>{{fecha}}</h6>
         </div>
 
@@ -124,90 +126,30 @@
                     <label for="variable">Variable  </label>
         <select class="form-control" id="variable" name="variable"  >
             <option  disabled selected>Elija una variable</option>
-          <option value="Humedad del suelo (NASAPOWER)">Humedad del suelo (NASAPOWER)</option>
-            <option value="Temperatura mínima absoluta(NASAPOWER)">Temperatura mínima absoluta(NASAPOWER)</option>
-            <option value="Temperatura máxima absoluta(NASAPOWER)">Temperatura máxima absoluta(NASAPOWER)</option>
-            <option value="Número de días con t menor a 3 (NASAPOWER)">Número de días con t<3ºC (NASAPOWER)</option>
-            <option value="Número de días con t mayor a 30 (NASAPOWER)">Número de días con t>30ºC (NASAPOWER)</option>
-            <option value="Número de días con pp (NASAPOWER)">Número de días con pp (NASAPOWER)</option>
-            <option value="Número de días con pp (NASAPOWER)">Precipitación acumulada del mes (NASAPOWER)</option>
+          <option value="Humedad del suelo">Humedad del suelo</option>
+            <option value="Temperatura mínima absoluta (Últimos 30 días)">Temperatura mínima absoluta (Últimos 30 días)</option>
+            <option value="Temperatura máxima absoluta (Últimos 30 días)">Temperatura máxima absoluta (Últimos 30 días)</option>
+            <option value="Número de días con T menor a 3 (Últimos 30 días)">Número de días con T menor a 3 (Últimos 30 días)</option>
+            <option value="Número de días con T mayor a 30 (Últimos 30 días)">Número de días con T mayor a 30 (Últimos 30 días)</option>
+            <option value="Número de días con pp (Últimos 30 días)">Número de días con pp (Últimos 30 días)</option>
+            <option value="Precipitación acumulada (Últimos 30 días)">Precipitación acumulada (Últimos 30 días)</option>
+            <option value="Precipitación acumulada (Últimos 7 días)">Precipitación acumulada (Últimos 7 días)</option>
 
         </select>
       </div>
-                <div class="form-group" >
-                <label for="var">Año </label>
-                <select class="form-control" id="year" name="year" >
-                    <option value="" disabled selected>Elija un Año</option>
-                    <option value="2023" >2023</option>
-                    <option value="2022" >2022</option>
-                    <option value="2021" >2021</option>
-                    <option value="2020" >2020</option>
-                    <option value="2019" >2019</option>
-                    <option value="2018" >2018</option>
-                    <option value="2017" >2017</option>
-                    <option value="2016" >2016</option>
-                    <option value="2015" >2015</option>
-                    <option value="2014" >2014</option>
-                    <option value="2013" >2013</option>
-                    <option value="2012" >2012</option>
-                    <option value="2011" >2011</option>
-                    <option value="2010" >2010</option>
-                    <option value="2009" >2009</option>
-                    <option value="2008" >2008</option>
-                    <option value="2007" >2007</option>
-                    <option value="2006" >2006</option>
-                    <option value="2005" >2005</option>
-                    <option value="2004" >2004</option>
-                    <option value="2003" >2003</option>
-                    <option value="2002" >2002</option>
-                    <option value="2001" >2001</option>
-                    <option value="2000" >2000</option>
-                    <option value="1999" >1999</option>
-                    <option value="1998" >1998</option>
-                    <option value="1997" >1997</option>
-                    <option value="1996" >1996</option>
-                    <option value="1995" >1995</option>
-                    <option value="1994" >1994</option>
-                    <option value="1993" >1993</option>
-                    <option value="1992" >1992</option>
-                    <option value="1991" >1991</option>
-                    <option value="1990" >1990</option>
-
-                </select>
-            </div>
-                <div class="form-group" >
-                    <label for="var">Mes </label>
-                    <select class="form-control" id="var" name="cosa" onchange="cambia()" >
-                        <option value="" disabled selected>Elija una variable</option>
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-                        <option value="03">03</option>
-                        <option value="04">04</option>
-                        <option value="05">05</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="tp">Día</label>
-                    <select class="form-control" id="tp" name="options">
-                        <option value="" disabled selected>Elija un día</option>
-                    </select>
-                </div>
                 <div class="form-group">
                     <label for="base">Fuente de Datos</label>
-                    <select class="form-control" id="base" name="opt" >
+                    <select class="form-control" id="base" name="opt" onchange="cambiarfechalimite()"  >
                         <option value="" disabled selected>Elija una base de datos</option>
-                        <option value="POWERNASA">NASA POWER</option>
+                        <option value="NASA POWER">NASA POWER</option>
                         <option value="SMN">SMN</option>
                     </select>
                 </div>
+                <div class="form-group" style="width:100px">
+
+                <input type="date" id="fechaform" name="fechaform" style=" font-size: 20px;font-family:  'Open Sans', sans-serif; position: relative;left:270%" min="2000-01-01" ></input>
+                    </div>
+
 
 
                 <button  value="Submit" type="submit" class="cta-btn" id="newLayer"  onclick="return newla();"  > Ver Capa</button>
@@ -258,10 +200,31 @@
 <script src="https://unpkg.com/georaster"></script>
 <script src="https://unpkg.com/georaster-layer-for-leaflet/georaster-layer-for-leaflet.browserify.min.js"></script>
 <!-- script tomymaps -->
+<script src="https://unpkg.com/geoblaze"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
 
 <script type="text/javascript" charset="UTF-8" >
+    function cambiarfechalimite(){
+        var elemento = document.getElementById("base").value
+        if (elemento == "NASA POWER") {var date= new Date();
+	date.setDate(date.getDate() - 3);
+    fechaform.max = date.toISOString().split("T")[0];
+    fechaform.value = date.toISOString().split("T")[0];
+
+        }
+        if (elemento == "SMN") {var date= new Date();
+	date.setDate(date.getDate() - 1);
+    fechaform.max = date.toISOString().split("T")[0];
+    fechaform.value = date.toISOString().split("T")[0];
+
+        }}
+
+	var date= new Date();
+	date.setDate(date.getDate() - 1);
+    fechaform.max = date.toISOString().split("T")[0];
+    fechaform.value = date.toISOString().split("T")[0];
     $('#sidebar').addClass('active');
+
     $(document).ready(function () {
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
@@ -280,6 +243,7 @@
         });
     });
     function newla(){
+        $('.loading').addClass('active');
 
 
         var elemento = document.getElementById("base").value
@@ -288,7 +252,7 @@
             alert("Elije una base de datos!")
             return false
         }
-        var elemento2 = document.getElementById("var").value
+        var elemento2 = document.getElementById("variable").value
         if (elemento2 == "") {
             $('.loading').removeClass('active');
             alert("Elije una variable!")
@@ -351,64 +315,12 @@
         {"attribution": "\u003ca href=\"http://www.ciag.com.ar\" target=\"_blank\"\u003eCIAg\u003c/a\u003e | \u003ca href=\"http://www.ign.gob.ar\" target=\"_blank\"\u003eInstituto Geogr\u00e1fico Nacional\u003c/a\u003e + \u003ca href=\"http://www.osm.org/copyright\" target=\"_blank\"\u003eOpenStreetMap\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "z-index":900, "minZoom": 4, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
     ).addTo(map);
 
-    // 2) crear una funcion que permita ejecutar el cambio dinamico
-    var options_01 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-    var options_02 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28");
-    var options_03 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-    var options_04 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
-    var options_05 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-    var options_06 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
-    var options_07 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-    var options_08 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-    var options_09 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
-    var options_10 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-    var options_11 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30");
-    var options_12 = new Array ("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-
-
-
-    function cambia() {
-        var cosa;
-        //Se toma el vamor de la "cosa seleccionada"
-        cosa = document.formulario1.cosa[document.formulario1.cosa.selectedIndex].value;
-        //se chequea si la "cosa" esta definida
-        if (cosa != 0) {
-            //selecionamos las cosas Correctas
-
-            mis_options = eval("options_" + cosa);
-            //se calcula el numero de cosas
-
-            num_options = mis_options.length;
-            //marco el numero de opt en el select
-
-            document.formulario1.options.length = num_options;
-
-            for (i = 0; i < num_options; i++) {
-                document.formulario1.options.options[i].value = mis_options[i];
-                document.formulario1.options.options[i].text = mis_options[i];
-            }
-        } else {
-
-            //ponemos un guion en la unica opt que he dejado
-            document.formulario1.opt.options[0].value = "-";
-            document.formulario1.opt.options[0].text = "-";
-            //si no habia ninguna opt seleccionada, elimino las cosas del select
-            document.formulario1.options.length = 1;
-            //ponemos un guion en la unica opt que he dejado
-            document.formulario1.options.options[0].value = "-";
-            document.formulario1.options.options[0].text = "-";
-        }
-
-        //hacer un reset de las opts
-        document.formulario1.opt.options[0].selected = true;
-        document.formulario1.options.options[0].selected = true;
-    }
-
 
             var base2 = ('{{carpeta}}'+'{{year}}'+'{{mes}}'+'{{dia}}');
         var variab='{{variab}}'
         var url_to_geotiff_file = ("static/"+base2+".tif")
-        if (variab=="Humedad del suelo (NASAPOWER)"){
+
+        if (variab=="Humedad del suelo"){
         fetch(url_to_geotiff_file)
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
@@ -441,6 +353,20 @@
 
                     layer.addTo(layerGroup);
                     map.addLayer(layerGroup);
+
+
+            map.on('click', function(evt) {
+
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} %</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
 
                     function getColor(d) {
                         return d > 95.0 ? '#08306b' :
@@ -486,7 +412,8 @@
             })
 
             }
-            if (variab=="Temperatura mínima absoluta(NASAPOWER)"){
+
+            if (variab=="Temperatura mínima absoluta (Últimos 30 días)"){
         fetch(url_to_geotiff_file)
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
@@ -519,6 +446,19 @@
 
                     layer.addTo(layerGroup);
                     map.addLayer(layerGroup);
+
+            map.on('click', function(evt) {
+
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} °C</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
 
                     function getColortmin(d) {
                         return d > 10.0 ? '#e39d41' :
@@ -577,7 +517,7 @@
             })
 
             }
-            if (variab=="Temperatura máxima absoluta(NASAPOWER)"){
+            if (variab=="Temperatura máxima absoluta (Últimos 30 días)"){
         fetch(url_to_geotiff_file)
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
@@ -610,6 +550,19 @@
 
                     layer.addTo(layerGroup);
                     map.addLayer(layerGroup);
+
+            map.on('click', function(evt) {
+
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} °C</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
 
                     function getColortmax(d) {
                         return d > 35.0+5.0 ? '#35070c' :
@@ -683,7 +636,7 @@
 
             }
 
-            if (variab=="Número de días con t mayor a 30 (NASAPOWER)"){
+            if (variab=="Número de días con T mayor a 30 (Últimos 30 días)"){
         fetch(url_to_geotiff_file)
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
@@ -716,6 +669,19 @@
 
                     layer.addTo(layerGroup);
                     map.addLayer(layerGroup);
+
+            map.on('click', function(evt) {
+
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} días</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
 
 
                     function getColortmas30(d) {
@@ -766,7 +732,7 @@
             })
 
             }
-            if (variab=="Número de días con t menor a 3 (NASAPOWER)"){
+            if (variab=="Número de días con T menor a 3 (Últimos 30 días)"){
         fetch(url_to_geotiff_file)
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
@@ -800,6 +766,18 @@
                     layer.addTo(layerGroup);
                     map.addLayer(layerGroup);
 
+            map.on('click', function(evt) {
+
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} días</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
 
                     function getColortmen3(d) {
                         return  d > 14.0 ? '#38138d' :
@@ -849,7 +827,219 @@
             })
 
             }
-            if (variab=="Número de días con pp (NASAPOWER)"){
+            if (variab=="Precipitación acumulada (Últimos 30 días)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#651cb2', '#0d50ad', '#4d8bc5','#fff']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - (-15)) / 30;
+
+                                var color = getColorppmensual(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+
+
+            map.on('click', function(evt) {
+
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} mm</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
+
+
+
+            function getColorppmensual(d) {
+    return d > 230.0? '#08314C' :
+        d > 220.0 ? '#0D4266' :
+            d > 200.0 ? '#0D4B75' :
+                d > 180.0  ? '#1B689C' :
+                    d > 160.0  ? '#2276AF' :
+                        d > 140.0  ? '#4084B2' :
+                            d > 120.0  ? '#649EC6' :
+                                d > 100.0  ? '#CAE7FC' :
+                                    d > 80.0  ? '#FFEC9D' :
+                                        d > 60.0  ? '#D7AB68' :
+                                            d > 40.0  ? '#AF6E2E' :
+                                                d > 20.0  ? '#A55809' :
+                                                    d > 0.0 ?'#814609':
+                                                        '#683806';
+
+
+}
+function styleppmens(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: getColorppmensual(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: getColorppmensual(feature2.properties.DN)
+    };
+}
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [0,20,40,60,80,100,120,140,160,180,200,220,240],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         '<i style="background:' + getColorppmensual(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' o + mm' + '<br>');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
+if (variab=="Precipitación acumulada (Últimos 7 días)"){
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    const min = georaster.mins[0];
+                    const max = georaster.maxs[0];
+                    const range = georaster.ranges[0];
+
+                        var scale = chroma.scale(['#651cb2', '#0d50ad', '#4d8bc5','#fff']);
+
+                        var layer = new GeoRasterLayer({
+                            georaster: georaster,
+                            opacity: 0.9,
+                            pixelValuesToColorFn: function (pixelValues) {
+                                var pixelValue = pixelValues[0]; // there's just one band in this raster
+
+
+                                if ((isNaN(pixelValue))) return null;
+                                // scale to 0 - 1 used by chroma
+                                // var scaledPixelValue = (pixelValue - min) / range;
+                                var scaledPixelValue = (pixelValue - (-15)) / 30;
+
+                                var color = GetColorPPsiete(pixelValue);
+
+                                return color;
+                            },
+
+                            resolution: 256
+                        });
+
+                    layer.addTo(layerGroup);
+                    map.addLayer(layerGroup);
+
+
+
+            map.on('click', function(evt) {
+
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} mm</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
+
+
+
+            function GetColorPPsiete(d) {
+    return d > 100.0? '#08314C' :
+        d > 90.0 ? '#0D4266' :
+            d > 80.0 ? '#0D4B75' :
+                d > 70.0  ? '#1B689C' :
+                        d > 60.0  ? '#4084B2' :
+                            d > 50.0  ? '#649EC6' :
+                                d > 40.0  ? '#CAE7FC' :
+                                    d > 30.0  ? '#FFEC9D' :
+                                        d > 20.0  ? '#D7AB68' :
+                                                d > 10.0  ? '#A55809' :
+                                                    d > 0.0 ?'#814609':
+                                                        '#683806';
+
+
+}
+function styleppmens(feature2) {
+    return {
+        weight: 1.5,
+        opacity: 0.8,
+        color: GetColorPPsiete(feature2.properties.DN),
+        dashArray: '1',
+        fillOpacity: 0.8,
+        fillColor: GetColorPPsiete(feature2.properties.DN)
+    };
+}
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = [0,10,20,30,40,50,60,70,80,90,100],
+                                    labels = ['<strong></strong>']
+                                title = ["% AU"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         '<i style="background:' + GetColorPPsiete(grades[i]) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? ' mm' + '<br>' : ' o + mm' + '<br>');
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+                            prov.bringToFront();
+                    $('.loading').removeClass('active');
+
+
+
+                });
+
+            })
+
+            }
+            if (variab=="Número de días con pp (Últimos 30 días)"){
         fetch(url_to_geotiff_file)
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
@@ -882,7 +1072,18 @@
 
                     layer.addTo(layerGroup);
                     map.addLayer(layerGroup);
+                     map.on('click', function(evt) {
 
+              var latlng = map.mouseEventToLatLng(evt.originalEvent);
+              var v= (geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+              if(v !== null && !isNaN(v)){
+              numb = Math.round(v);
+              let html = (`<span class="popupText">${numb} días</span>`);
+                    let popup = L.popup()
+                        .setLatLng(latlng)
+                        .setContent(html)
+                        .openOn(map);}
+            });
 
                     function getColordiasconpp(d) {
                         return  d > 14.0 ? '#38138d' :
